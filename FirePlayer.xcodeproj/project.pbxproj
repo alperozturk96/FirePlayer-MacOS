@@ -1,0 +1,396 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */; };
+		92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */; };
+		92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BFB2ACA841E00FB3CA9 /* Track.swift */; };
+		92AC0BFE2ACA841F00FB3CA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92AC0BFD2ACA841F00FB3CA9 /* Assets.xcassets */; };
+		92AC0C012ACA841F00FB3CA9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92AC0C002ACA841F00FB3CA9 /* Preview Assets.xcassets */; };
+		92BB996F2AD5528000A13648 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB996E2AD5528000A13648 /* AudioPlayer.swift */; };
+		92BB99712AD552D800A13648 /* FileAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99702AD552D800A13648 /* FileAnalyzer.swift */; };
+		92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99732AD5535100A13648 /* FolderAnalyzer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePlayerApp.swift; sourceTree = "<group>"; };
+		92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		92AC0BFB2ACA841E00FB3CA9 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		92AC0BFD2ACA841F00FB3CA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		92AC0C002ACA841F00FB3CA9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		92AC0C022ACA841F00FB3CA9 /* FirePlayer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirePlayer.entitlements; sourceTree = "<group>"; };
+		92BB996E2AD5528000A13648 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		92BB99702AD552D800A13648 /* FileAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileAnalyzer.swift; sourceTree = "<group>"; };
+		92BB99732AD5535100A13648 /* FolderAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderAnalyzer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92AC0BF12ACA841E00FB3CA9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92AC0BEB2ACA841E00FB3CA9 = {
+			isa = PBXGroup;
+			children = (
+				92AC0BF62ACA841E00FB3CA9 /* FirePlayer */,
+				92AC0BF52ACA841E00FB3CA9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		92AC0BF52ACA841E00FB3CA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92AC0BF62ACA841E00FB3CA9 /* FirePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0C082ACA845500FB3CA9 /* App */,
+				92AC0C0A2ACA846200FB3CA9 /* Model */,
+				92AC0C092ACA845B00FB3CA9 /* Views */,
+				92BB996D2AD5526800A13648 /* Service */,
+				92AC0BFD2ACA841F00FB3CA9 /* Assets.xcassets */,
+				92AC0C022ACA841F00FB3CA9 /* FirePlayer.entitlements */,
+				92AC0BFF2ACA841F00FB3CA9 /* Preview Content */,
+			);
+			path = FirePlayer;
+			sourceTree = "<group>";
+		};
+		92AC0BFF2ACA841F00FB3CA9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0C002ACA841F00FB3CA9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		92AC0C082ACA845500FB3CA9 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		92AC0C092ACA845B00FB3CA9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		92AC0C0A2ACA846200FB3CA9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0BFB2ACA841E00FB3CA9 /* Track.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		92BB996D2AD5526800A13648 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				92BB996E2AD5528000A13648 /* AudioPlayer.swift */,
+				92BB99702AD552D800A13648 /* FileAnalyzer.swift */,
+				92BB99732AD5535100A13648 /* FolderAnalyzer.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		92AC0BF32ACA841E00FB3CA9 /* FirePlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92AC0C052ACA841F00FB3CA9 /* Build configuration list for PBXNativeTarget "FirePlayer" */;
+			buildPhases = (
+				92AC0BF02ACA841E00FB3CA9 /* Sources */,
+				92AC0BF12ACA841E00FB3CA9 /* Frameworks */,
+				92AC0BF22ACA841E00FB3CA9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FirePlayer;
+			productName = FirePlayer;
+			productReference = 92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92AC0BEC2ACA841E00FB3CA9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					92AC0BF32ACA841E00FB3CA9 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 92AC0BEF2ACA841E00FB3CA9 /* Build configuration list for PBXProject "FirePlayer" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 92AC0BEB2ACA841E00FB3CA9;
+			productRefGroup = 92AC0BF52ACA841E00FB3CA9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92AC0BF32ACA841E00FB3CA9 /* FirePlayer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		92AC0BF22ACA841E00FB3CA9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92AC0C012ACA841F00FB3CA9 /* Preview Assets.xcassets in Resources */,
+				92AC0BFE2ACA841F00FB3CA9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92AC0BF02ACA841E00FB3CA9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */,
+				92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */,
+				92BB99712AD552D800A13648 /* FileAnalyzer.swift in Sources */,
+				92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */,
+				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
+				92BB996F2AD5528000A13648 /* AudioPlayer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92AC0C032ACA841F00FB3CA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		92AC0C042ACA841F00FB3CA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		92AC0C062ACA841F00FB3CA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FirePlayer/FirePlayer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FirePlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = 38ST782M8X;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "alper-ozturk.FirePlayer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		92AC0C072ACA841F00FB3CA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FirePlayer/FirePlayer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FirePlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = 38ST782M8X;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "alper-ozturk.FirePlayer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92AC0BEF2ACA841E00FB3CA9 /* Build configuration list for PBXProject "FirePlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92AC0C032ACA841F00FB3CA9 /* Debug */,
+				92AC0C042ACA841F00FB3CA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92AC0C052ACA841F00FB3CA9 /* Build configuration list for PBXNativeTarget "FirePlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92AC0C062ACA841F00FB3CA9 /* Debug */,
+				92AC0C072ACA841F00FB3CA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92AC0BEC2ACA841E00FB3CA9 /* Project object */;
+}
