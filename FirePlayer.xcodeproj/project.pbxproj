@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		922BA2212B06102400AC94A3 /* SeekbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2202B06102400AC94A3 /* SeekbarView.swift */; };
 		92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */; };
 		92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */; };
 		92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BFB2ACA841E00FB3CA9 /* Track.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		922BA2202B06102400AC94A3 /* SeekbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeekbarView.swift; sourceTree = "<group>"; };
 		92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePlayerApp.swift; sourceTree = "<group>"; };
 		92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -41,6 +43,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		922BA21E2B06101100AC94A3 /* Seekbar */ = {
+			isa = PBXGroup;
+			children = (
+				922BA2202B06102400AC94A3 /* SeekbarView.swift */,
+			);
+			path = Seekbar;
+			sourceTree = "<group>";
+		};
+		922BA21F2B06101500AC94A3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		92AC0BEB2ACA841E00FB3CA9 = {
 			isa = PBXGroup;
 			children = (
@@ -90,7 +108,8 @@
 		92AC0C092ACA845B00FB3CA9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */,
+				922BA21F2B06101500AC94A3 /* Home */,
+				922BA21E2B06101100AC94A3 /* Seekbar */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -189,6 +208,7 @@
 				92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */,
 				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
 				92BB996F2AD5528000A13648 /* AudioPlayer.swift in Sources */,
+				922BA2212B06102400AC94A3 /* SeekbarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

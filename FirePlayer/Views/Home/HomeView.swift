@@ -29,6 +29,9 @@ struct HomeView: View {
             }
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
+            .overlay(alignment: .bottom) {
+                SeekbarView()
+            }
             .toolbar {
                 ToolbarItem {
                     Button(action: scanFolder) {
