@@ -12,9 +12,9 @@ import SwiftData
 struct HomeView: View {
     private let userService = UserService()
     
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Track.title) private var tracks: [Track]
+    @State private var searchTimer: Timer?
     
+    @State private var tracks = [Track]()
     @State private var filteredTracks = [Track]()
     @State private var showSortOptions = false
     @State private var url: URL?
@@ -23,7 +23,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredTracks) { item in
+                ForEach(filteredTracks, id: \.id) { item in
                     Button(action: {
                         // FIXME Increase song switch performance, selected song seek to not working
                         url = item.path
@@ -33,7 +33,6 @@ struct HomeView: View {
                     })
                     .buttonStyle(.borderless)
                 }
-                .onDelete(perform: deleteItems)
             }
             .onAppear {
                 scanSavedFolderURL()
@@ -46,10 +45,13 @@ struct HomeView: View {
                 }
             }
             .onChange(of: searchText) {
-                if searchText.isEmpty {
-                    filteredTracks = tracks
-                } else {
-                    filteredTracks = tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+                searchTimer?.invalidate()
+                searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                    if searchText.isEmpty {
+                        filteredTracks = tracks.sortByTitleAZ()
+                    } else {
+                        filteredTracks = tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }.sortByTitleAZ()
+                    }
                 }
             }
             .confirmationDialog("Sort", isPresented: $showSortOptions) {
@@ -110,24 +112,14 @@ extension HomeView {
                 let length = metadata["approximate duration in seconds"] as? Double ?? 0.0
                 
                 let track = Track(title: title, artist: artist, album: album, length: length, path: url)
-                
-                modelContext.insert(track)
+                tracks.append(track)
             }
         }
         
-        filteredTracks = tracks
-    }
-    
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(filteredTracks[index])
-            }
-        }
+        filteredTracks = tracks.sortByTitleAZ()
     }
 }
 
 #Preview {
     HomeView()
-        .modelContainer(for: Track.self, inMemory: true)
 }
