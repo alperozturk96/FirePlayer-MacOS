@@ -9,13 +9,20 @@ import SwiftUI
 
 struct SeekbarView: View {
     
-    @State private var isPlaying = false
+    @Binding var current: Double
+    @Binding var duration: Double
+    @Binding var isPlaying: Bool
     
     var body: some View {
         HStack {
+            Slider(value: Binding(
+                get: { self.current },
+                set: { newValue in
+                    let clampedValue = min(max(newValue, 0), self.duration)
+                    self.current = clampedValue
+                }
+            ))
             
-            // TODO add seekbar progress here
-           
             Spacer()
             
             ImageButton(icon: "arrowshape.backward.circle.fill") {
@@ -52,5 +59,5 @@ extension SeekbarView {
 }
 
 #Preview {
-    SeekbarView()
+    SeekbarView(current: .constant(12.2), duration: .constant(3.42), isPlaying: .constant(false))
 }

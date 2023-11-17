@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import AVFoundation
 import SwiftData
 
 struct HomeView: View {
+    @StateObject private var audioPlayer = AudioPlayer()
     @Environment(\.modelContext) private var modelContext
     @Query private var songs: [Track]
     @State private var searchText = ""
@@ -18,7 +20,7 @@ struct HomeView: View {
             List {
                 ForEach(filteredSongs) { item in
                     Button(action: {
-                        AudioPlayer.shared.play(url: item.path)
+                        audioPlayer.play(url: item.path)
                     }, label: {
                         Text(item.title)
                             .font(.title)
@@ -30,7 +32,29 @@ struct HomeView: View {
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
-                SeekbarView()
+                SeekbarView(
+                    current: Binding(
+                        get: { audioPlayer.player.currentDuration ?? 0 },
+                        set: { newValue in
+                            let cmTime = CMTime(seconds: newValue, preferredTimescale: 1)
+
+                            audioPlayer.player.seek(to: cmTime)
+                        }
+                    ),
+                    duration: Binding(
+                        get: { audioPlayer.player.duration ?? 0 },
+                        set: { newValue in
+                            // Handle setting the duration of the player if needed
+                        }
+                    ),
+                    isPlaying: Binding(
+                        get: { audioPlayer.player.isPlaying },
+                        set: { newValue in
+                            // Handle setting the duration of the player if needed
+                        }
+                    )
+                )
+                
             }
             .toolbar {
                 ToolbarItem {
