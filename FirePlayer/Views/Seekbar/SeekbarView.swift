@@ -6,33 +6,41 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct SeekbarView: View {
     
-    @Binding var current: Double
-    @Binding var duration: Double
-    @Binding var isPlaying: Bool
+    var url: URL
+    
+    @State private var player = AVPlayer()
+    @State private var currentTime: Double = 0
+    @State private var totalTime: Double = 0
     
     var body: some View {
         HStack {
             Slider(value: Binding(
-                get: { self.current },
+                get: { currentTime },
                 set: { newValue in
-                    let clampedValue = min(max(newValue, 0), self.duration)
-                    self.current = clampedValue
+                    seek(to: newValue)
                 }
-            ))
+            ), in: 0...totalTime, onEditingChanged: { editingChanged in
+                if !editingChanged {
+                    seek(to: currentTime)
+                }
+            })
             
             Spacer()
             
+            // TODO add prev song
             ImageButton(icon: "arrowshape.backward.circle.fill") {
                 
             }
             
-            ImageButton(icon: isPlaying ? "pause.circle.fill" : "play.circle.fill") {
-                
+            ImageButton(icon: player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
+                player.toggle()
             }
             
+            // TODO add next song
             ImageButton(icon: "arrowshape.forward.circle.fill") {
                 
             }
@@ -41,12 +49,54 @@ struct SeekbarView: View {
                 .frame(width: 15)
             
         }
+        .onAppear {
+            play(url: url)
+        }
+        .onChange(of: url) {
+            play(url: url)
+        }
         .frame(maxWidth: .infinity)
         .frame(height: 50)
         .background(Color.gray.opacity(0.3))
     }
 }
 
+// MARK: - Private Methods
+extension SeekbarView {
+    private func play(url: URL) {
+        Task {
+            print("Path: ", url)
+            
+            let playerItem = AVPlayerItem(url: url)
+            player.replaceCurrentItem(with: playerItem)
+            player.volume = 1
+            player.play()
+            
+            await updateDuration()
+            updateCurrentTime()
+        }
+    }
+    
+    private func updateDuration() async {
+        guard let duration = try? await player.currentItem?.asset.load(.duration) else { return }
+        currentTime = 0
+        totalTime = CMTimeGetSeconds(duration)
+    }
+    
+    private func updateCurrentTime() {
+        let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+            currentTime = CMTimeGetSeconds(player.currentTime())
+        })
+    }
+    
+    private func seek(to time: Double) {
+        let timeCM = CMTime(seconds: time, preferredTimescale: 1)
+        player.seek(to: timeCM)
+    }
+}
+
+// MARK: - ChildViews
 extension SeekbarView {
     private func ImageButton(icon: String, action: @escaping () -> ()) -> some View {
         Button {
@@ -56,8 +106,4 @@ extension SeekbarView {
                 .frame(width: 35, height: 35)
         }
     }
-}
-
-#Preview {
-    SeekbarView(current: .constant(12.2), duration: .constant(3.42), isPlaying: .constant(false))
 }

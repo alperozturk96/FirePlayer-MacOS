@@ -10,9 +10,9 @@ import AVFoundation
 import SwiftData
 
 struct HomeView: View {
-    @StateObject private var audioPlayer = AudioPlayer()
     @Environment(\.modelContext) private var modelContext
     @Query private var songs: [Track]
+    @State private var url: URL?
     @State private var searchText = ""
     
     var body: some View {
@@ -20,7 +20,8 @@ struct HomeView: View {
             List {
                 ForEach(filteredSongs) { item in
                     Button(action: {
-                        audioPlayer.play(url: item.path)
+                        // FIXME Increase song switch performance
+                        url = item.path
                     }, label: {
                         Text(item.title)
                             .font(.title)
@@ -32,29 +33,9 @@ struct HomeView: View {
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
-                SeekbarView(
-                    current: Binding(
-                        get: { audioPlayer.player.currentDuration ?? 0 },
-                        set: { newValue in
-                            let cmTime = CMTime(seconds: newValue, preferredTimescale: 1)
-
-                            audioPlayer.player.seek(to: cmTime)
-                        }
-                    ),
-                    duration: Binding(
-                        get: { audioPlayer.player.duration ?? 0 },
-                        set: { newValue in
-                            // Handle setting the duration of the player if needed
-                        }
-                    ),
-                    isPlaying: Binding(
-                        get: { audioPlayer.player.isPlaying },
-                        set: { newValue in
-                            // Handle setting the duration of the player if needed
-                        }
-                    )
-                )
-                
+                if let url {
+                    SeekbarView(url: url)
+                }
             }
             .toolbar {
                 ToolbarItem {
@@ -74,6 +55,7 @@ struct HomeView: View {
         }
     }
     
+    // FIXME Without for each app launch folder scan not working
     private func scanFolder() {
         let folderAnalyzer = FolderAnalyzer()
         folderAnalyzer.browse { folderUrl in
