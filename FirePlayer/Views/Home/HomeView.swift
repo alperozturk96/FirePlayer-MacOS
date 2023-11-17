@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import AVFoundation
-import SwiftData
 
 struct HomeView: View {
     private let userService = UserService()
