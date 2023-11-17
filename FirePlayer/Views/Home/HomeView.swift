@@ -10,15 +10,16 @@ import AVFoundation
 import SwiftData
 
 struct HomeView: View {
+    private let userService = UserService()
     @Environment(\.modelContext) private var modelContext
-    @Query private var songs: [Track]
+    @Query private var tracks: [Track]
     @State private var url: URL?
     @State private var searchText = ""
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredSongs) { item in
+                ForEach(filteredTracks) { item in
                     Button(action: {
                         // FIXME Increase song switch performance
                         url = item.path
@@ -29,6 +30,9 @@ struct HomeView: View {
                     .buttonStyle(.borderless)
                 }
                 .onDelete(perform: deleteItems)
+            }
+            .onAppear {
+                scanSavedFolderURL()
             }
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
@@ -47,36 +51,51 @@ struct HomeView: View {
         }
     }
     
-    private var filteredSongs: [Track] {
+    private var filteredTracks: [Track] {
         if searchText.isEmpty {
-            return songs
+            return tracks
         } else {
-            return songs.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+            return tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
         }
     }
+}
+
+// MARK: - Private Methods
+extension HomeView {
+    private func scanSavedFolderURL() {
+        guard let url = userService.readFolderURL() else {
+            return
+        }
+        
+        addTracksFromGiven(folderURL: url)
+    }
     
-    // FIXME Without for each app launch folder scan not working
     private func scanFolder() {
         let folderAnalyzer = FolderAnalyzer()
-        folderAnalyzer.browse { folderUrl in
-            guard let urls = try? FileManager.default.contentsOfDirectory(at: folderUrl, includingPropertiesForKeys: nil, options: []) else {
-                return
-            }
+        folderAnalyzer.browse { url in
+            addTracksFromGiven(folderURL: url)
+            userService.saveFolderURL(url: url)
+        }
+    }
+
+    private func addTracksFromGiven(folderURL: URL) {
+        guard let urls = try? FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: []) else {
+            return
+        }
+        
+        let trackMetaDataAnalyzer = TrackMetaDataAnalyzer()
+        
+        for url in urls {
+            let title = url.lastPathComponent
             
-            let fileAnalyzer = FileAnalyzer()
-            
-            for url in urls {
-                let title = url.lastPathComponent
+            if let metadata = trackMetaDataAnalyzer.getMetadata(url: url) {
+                let artist = metadata["artist"] as? String ?? "Unknown"
+                let album = metadata["album"] as? String ?? "Unknown"
+                let length = metadata["approximate duration in seconds"] as? Double ?? 0.0
                 
-                if let metadata = fileAnalyzer.getMetadata(url: url) {
-                    let artist = metadata["artist"] as? String ?? "Unknown"
-                    let album = metadata["album"] as? String ?? "Unknown"
-                    let length = metadata["approximate duration in seconds"] as? Double ?? 0.0
-                    
-                    let track = Track(title: title, artist: artist, album: album, length: length, path: url)
-                    
-                    modelContext.insert(track)
-                }
+                let track = Track(title: title, artist: artist, album: album, length: length, path: url)
+                
+                modelContext.insert(track)
             }
         }
     }
@@ -84,7 +103,7 @@ struct HomeView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(songs[index])
+                modelContext.delete(filteredTracks[index])
             }
         }
     }

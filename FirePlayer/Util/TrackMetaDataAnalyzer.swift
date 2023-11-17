@@ -1,5 +1,5 @@
 //
-//  FileAnalyzer.swift
+//  TrackMetaDataAnalyzer.swift
 //  FirePlayer
 //
 //  Created by Alper Ozturk on 10.10.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-struct FileAnalyzer {
+struct TrackMetaDataAnalyzer {
     
     func getMetadata(url: URL) -> NSDictionary? {
         var fileID: AudioFileID? = nil
