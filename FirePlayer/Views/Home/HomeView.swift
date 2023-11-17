@@ -11,8 +11,12 @@ import SwiftData
 
 struct HomeView: View {
     private let userService = UserService()
+    
     @Environment(\.modelContext) private var modelContext
-    @Query private var tracks: [Track]
+    @Query(sort: \Track.title) private var tracks: [Track]
+    
+    @State private var filteredTracks = [Track]()
+    @State private var showSortOptions = false
     @State private var url: URL?
     @State private var searchText = ""
     
@@ -21,7 +25,7 @@ struct HomeView: View {
             List {
                 ForEach(filteredTracks) { item in
                     Button(action: {
-                        // FIXME Increase song switch performance
+                        // FIXME Increase song switch performance, selected song seek to not working
                         url = item.path
                     }, label: {
                         Text(item.title)
@@ -41,21 +45,33 @@ struct HomeView: View {
                     SeekbarView(url: url)
                 }
             }
+            .onChange(of: searchText) {
+                if searchText.isEmpty {
+                    filteredTracks = tracks
+                } else {
+                    filteredTracks = tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+                }
+            }
+            .confirmationDialog("Sort", isPresented: $showSortOptions) {
+                Button("Sort By Title AZ") {
+                    filteredTracks = filteredTracks.sortByTitleAZ()
+                }
+                Button("Sort By Title ZA") {
+                    filteredTracks = filteredTracks.sortByTitleZA()
+                }
+            }
             .toolbar {
+                ToolbarItem {
+                    Button(action: { showSortOptions = true }) {
+                        Label("Sort", systemImage: "line.3.horizontal")
+                    }
+                }
                 ToolbarItem {
                     Button(action: scanFolder) {
                         Label("Scan", systemImage: "folder.fill.badge.plus")
                     }
                 }
             }
-        }
-    }
-    
-    private var filteredTracks: [Track] {
-        if searchText.isEmpty {
-            return tracks
-        } else {
-            return tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }
@@ -77,7 +93,7 @@ extension HomeView {
             userService.saveFolderURL(url: url)
         }
     }
-
+    
     private func addTracksFromGiven(folderURL: URL) {
         guard let urls = try? FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: []) else {
             return
@@ -98,6 +114,8 @@ extension HomeView {
                 modelContext.insert(track)
             }
         }
+        
+        filteredTracks = tracks
     }
     
     private func deleteItems(offsets: IndexSet) {
