@@ -11,7 +11,6 @@ struct HomeView: View {
     private let userService = UserService()
     
     @State private var searchTimer: Timer?
-    
     @State private var tracks = [Track]()
     @State private var filteredTracks = [Track]()
     @State private var filterOption = FilterOptions.title
@@ -25,6 +24,7 @@ struct HomeView: View {
             List {
                 ForEach(Array(filteredTracks.enumerated()), id: \.offset) { index, item in
                     Button(action: {
+                        // TODO Highlight selected track
                         selectedIndex = index
                     }, label: {
                         Text(item.title)
@@ -127,20 +127,22 @@ extension HomeView {
         
         let trackMetaDataAnalyzer = TrackMetaDataAnalyzer()
         
-        for url in urls {
+        for url in urls.supportedUrls {
             let title = url.lastPathComponent
             
+            var track = Track(title: title, artist: "", album: "", length: 0.0, path: url, pathExtension: url.pathExtension)
+
             if let metadata = trackMetaDataAnalyzer.getMetadata(url: url) {
-                let artist = metadata["artist"] as? String ?? "Unknown"
-                let album = metadata["album"] as? String ?? "Unknown"
-                let length = metadata["approximate duration in seconds"] as? Double ?? 0.0
-                
-                let track = Track(title: title, artist: artist, album: album, length: length, path: url)
-                tracks.append(track)
+                track.artist = metadata["artist"] as? String ?? "Unknown"
+                track.album = metadata["album"] as? String ?? "Unknown"
+                track.length = metadata["approximate duration in seconds"] as? Double ?? 0.0
             }
+            
+            tracks.append(track)
         }
         
         filteredTracks = tracks.sortByTitleAZ()
+        print("Total Track Counts: ", filteredTracks.count)
     }
 }
 

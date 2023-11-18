@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Array where Element == Track {
+extension [Track] {
     func sortByTitleAZ() -> [Track] {
         return self.sorted { $0.title < $1.title }
     }

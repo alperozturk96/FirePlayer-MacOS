@@ -121,17 +121,6 @@
           }
         }
       }
-    },
-    "Search song" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search Track"
-          }
-        }
-      }
     }
   },
   "version" : "1.0"
