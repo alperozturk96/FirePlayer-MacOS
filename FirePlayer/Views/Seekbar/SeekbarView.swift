@@ -50,11 +50,10 @@ struct SeekbarView: View {
         }
         .onAppear {
             play()
+            addPlayerObserver()
         }
-        .onChange(of: player.isPlaying) {
-            if !player.isPlaying {
-                selectedTrackIndex = tracks.randomIndex
-            }
+        .onDisappear {
+            removeObservers()
         }
         .onChange(of: selectedTrackIndex) {
             play()
@@ -67,10 +66,24 @@ struct SeekbarView: View {
 
 // MARK: - Private Methods
 extension SeekbarView {
+    private func addPlayerObserver() {
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: nil) { _ in
+                selectedTrackIndex = tracks.randomIndex
+            }
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     private func play() {
         Task {
             guard let selectedTrackIndex else { return }
             let url = tracks.getSelectedTrack(index: selectedTrackIndex)
+            
             print("Path: ", url)
             
             let playerItem = AVPlayerItem(url: url)

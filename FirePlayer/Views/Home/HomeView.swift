@@ -37,7 +37,7 @@ struct HomeView: View {
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
-                if let selectedIndex {
+                if selectedIndex != nil {
                     SeekbarView(selectedTrackIndex: $selectedIndex, tracks: filteredTracks)
                 }
             }
