@@ -36,8 +36,8 @@ struct HomeView: View {
             .onAppear {
                 scanSavedFolderURL()
             }
-            .navigationTitle("FirePlayer")
-            .searchable(text: $searchText, prompt: "Search song")
+            .navigationTitle("home_navigation_bar_title")
+            .searchable(text: $searchText, prompt: "home_searchable_prompt")
             .overlay(alignment: .bottom) {
                 if selectedIndex != nil {
                     SeekbarView(selectedTrackIndex: $selectedIndex, tracks: filteredTracks)
@@ -46,39 +46,39 @@ struct HomeView: View {
             .onChange(of: searchText) {
                search()
             }
-            .confirmationDialog("Filter", isPresented: $showFilterOptions) {
-                Button("Filter By Title") {
+            .confirmationDialog("home_filter_confirmation_dialog_title", isPresented: $showFilterOptions) {
+                Button("home_filter_dialog_filter_by_title_title") {
                     filterOption = .title
                 }
-                Button("Filter By Artist") {
+                Button("home_filter_dialog_filter_by_artist_title") {
                     filterOption = .artist
                 }
-                Button("Filter By Album") {
+                Button("home_filter_dialog_filter_by_album_title") {
                     filterOption = .album
                 }
             }
-            .confirmationDialog("Sort", isPresented: $showSortOptions) {
-                Button("Sort By Title AZ") {
+            .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
+                Button("home_sort_dialog_sort_by_title_a_z_title") {
                     filteredTracks = filteredTracks.sortByTitleAZ()
                 }
-                Button("Sort By Title ZA") {
+                Button("home_sort_dialog_sort_by_title_z_a_title") {
                     filteredTracks = filteredTracks.sortByTitleZA()
                 }
             }
             .toolbar {
                 ToolbarItem {
                     Button(action: { showFilterOptions = true }) {
-                        Label("Filter", systemImage: "ellipsis.viewfinder")
+                        Label("home_toolbar_filter_title", systemImage: "ellipsis.viewfinder")
                     }
                 }
                 ToolbarItem {
                     Button(action: { showSortOptions = true }) {
-                        Label("Sort", systemImage: "line.3.horizontal")
+                        Label("home_toolbar_sort_title", systemImage: "line.3.horizontal")
                     }
                 }
                 ToolbarItem {
                     Button(action: scanFolder) {
-                        Label("Scan", systemImage: "folder.fill.badge.plus")
+                        Label("home_toolbar_scan_title", systemImage: "folder.fill.badge.plus")
                     }
                 }
             }

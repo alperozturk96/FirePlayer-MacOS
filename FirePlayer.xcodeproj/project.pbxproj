@@ -11,6 +11,8 @@
 		922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2232B07A9EB00AC94A3 /* UserService.swift */; };
 		922BA2272B07B7A400AC94A3 /* TrackExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2262B07B7A400AC94A3 /* TrackExtensions.swift */; };
 		922BA2292B08E98F00AC94A3 /* FilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2282B08E98F00AC94A3 /* FilterOptions.swift */; };
+		922BA22B2B08EFEB00AC94A3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 922BA22A2B08EFEB00AC94A3 /* Localizable.xcstrings */; };
+		922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA22C2B08F07A00AC94A3 /* StringExtensions.swift */; };
 		92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */; };
 		92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */; };
 		92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BFB2ACA841E00FB3CA9 /* Track.swift */; };
@@ -26,6 +28,8 @@
 		922BA2232B07A9EB00AC94A3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		922BA2262B07B7A400AC94A3 /* TrackExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackExtensions.swift; sourceTree = "<group>"; };
 		922BA2282B08E98F00AC94A3 /* FilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptions.swift; sourceTree = "<group>"; };
+		922BA22A2B08EFEB00AC94A3 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		922BA22C2B08F07A00AC94A3 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePlayerApp.swift; sourceTree = "<group>"; };
 		92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -70,6 +74,7 @@
 			children = (
 				92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */,
 				922BA2262B07B7A400AC94A3 /* TrackExtensions.swift */,
+				922BA22C2B08F07A00AC94A3 /* StringExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -111,6 +116,7 @@
 				92AC0BFD2ACA841F00FB3CA9 /* Assets.xcassets */,
 				92AC0C022ACA841F00FB3CA9 /* FirePlayer.entitlements */,
 				92AC0BFF2ACA841F00FB3CA9 /* Preview Content */,
+				922BA22A2B08EFEB00AC94A3 /* Localizable.xcstrings */,
 			);
 			path = FirePlayer;
 			sourceTree = "<group>";
@@ -217,6 +223,7 @@
 			files = (
 				92AC0C012ACA841F00FB3CA9 /* Preview Assets.xcassets in Resources */,
 				92AC0BFE2ACA841F00FB3CA9 /* Assets.xcassets in Resources */,
+				922BA22B2B08EFEB00AC94A3 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +240,7 @@
 				92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */,
 				922BA2292B08E98F00AC94A3 /* FilterOptions.swift in Sources */,
 				922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */,
+				922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */,
 				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
 				92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */,
 				922BA2272B07B7A400AC94A3 /* TrackExtensions.swift in Sources */,
