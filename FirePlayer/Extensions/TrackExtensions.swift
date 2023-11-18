@@ -20,6 +20,18 @@ extension Array where Element == Track {
         self[index].path
     }
     
+    func filterByTitle(title: String) -> [Track] {
+        self.filter { $0.title.localizedCaseInsensitiveContains(title) }
+    }
+    
+    func filterByArtist(artist: String) -> [Track] {
+        self.filter { $0.artist.localizedCaseInsensitiveContains(artist) }
+    }
+    
+    func filterByAlbum(album: String) -> [Track] {
+        self.filter { $0.album.localizedCaseInsensitiveContains(album) }
+    }
+    
     var randomIndex: Int {
         Int.random(in: 0..<self.count)
     }

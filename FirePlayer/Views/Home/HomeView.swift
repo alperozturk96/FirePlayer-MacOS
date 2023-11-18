@@ -14,7 +14,9 @@ struct HomeView: View {
     
     @State private var tracks = [Track]()
     @State private var filteredTracks = [Track]()
+    @State private var filterOption = FilterOptions.title
     @State private var showSortOptions = false
+    @State private var showFilterOptions = false
     @State private var selectedIndex: Int?
     @State private var searchText = ""
     
@@ -34,7 +36,7 @@ struct HomeView: View {
             .onAppear {
                 scanSavedFolderURL()
             }
-            .navigationTitle("Home")
+            .navigationTitle("FirePlayer")
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
                 if selectedIndex != nil {
@@ -42,13 +44,17 @@ struct HomeView: View {
                 }
             }
             .onChange(of: searchText) {
-                searchTimer?.invalidate()
-                searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                    if searchText.isEmpty {
-                        filteredTracks = tracks.sortByTitleAZ()
-                    } else {
-                        filteredTracks = tracks.filter { $0.title.localizedCaseInsensitiveContains(searchText) }.sortByTitleAZ()
-                    }
+               search()
+            }
+            .confirmationDialog("Filter", isPresented: $showFilterOptions) {
+                Button("Filter By Title") {
+                    filterOption = .title
+                }
+                Button("Filter By Artist") {
+                    filterOption = .artist
+                }
+                Button("Filter By Album") {
+                    filterOption = .album
                 }
             }
             .confirmationDialog("Sort", isPresented: $showSortOptions) {
@@ -60,6 +66,11 @@ struct HomeView: View {
                 }
             }
             .toolbar {
+                ToolbarItem {
+                    Button(action: { showFilterOptions = true }) {
+                        Label("Filter", systemImage: "ellipsis.viewfinder")
+                    }
+                }
                 ToolbarItem {
                     Button(action: { showSortOptions = true }) {
                         Label("Sort", systemImage: "line.3.horizontal")
@@ -77,6 +88,22 @@ struct HomeView: View {
 
 // MARK: - Private Methods
 extension HomeView {
+    private func search() {
+        searchTimer?.invalidate()
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            if searchText.isEmpty {
+                filteredTracks = tracks.sortByTitleAZ()
+            } else {
+                let result = switch filterOption {
+                    case .title: tracks.filterByTitle(title: searchText)
+                    case .artist: tracks.filterByArtist(artist: searchText)
+                    case .album: tracks.filterByAlbum(album: searchText)
+                }
+                filteredTracks = result.sortByTitleAZ()
+            }
+        }
+    }
+    
     private func scanSavedFolderURL() {
         guard let url = userService.readFolderURL() else {
             return
