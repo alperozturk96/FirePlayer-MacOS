@@ -10,7 +10,8 @@ import AVFoundation
 
 struct SeekbarView: View {
     
-    var url: URL
+    var selectedTrackIndex: Int
+    var tracks: [Track]
     
     @State private var player = AVPlayer()
     @State private var currentTime: Double = 0
@@ -47,13 +48,12 @@ struct SeekbarView: View {
             
             Spacer()
                 .frame(width: 15)
-            
         }
         .onAppear {
-            play(url: url)
+            play()
         }
-        .onChange(of: url) {
-            play(url: url)
+        .onChange(of: selectedTrackIndex) {
+            play()
         }
         .frame(maxWidth: .infinity)
         .frame(height: 50)
@@ -63,8 +63,9 @@ struct SeekbarView: View {
 
 // MARK: - Private Methods
 extension SeekbarView {
-    private func play(url: URL) {
+    private func play() {
         Task {
+            let url = tracks.getSelectedTrack(index: selectedTrackIndex)
             print("Path: ", url)
             
             let playerItem = AVPlayerItem(url: url)

@@ -15,4 +15,8 @@ extension Array where Element == Track {
     func sortByTitleZA() -> [Track] {
         return self.sorted { $0.title > $1.title }
     }
+    
+    func getSelectedTrack(index: Int) -> URL {
+        self[index].path
+    }
 }

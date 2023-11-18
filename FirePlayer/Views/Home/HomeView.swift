@@ -15,16 +15,15 @@ struct HomeView: View {
     @State private var tracks = [Track]()
     @State private var filteredTracks = [Track]()
     @State private var showSortOptions = false
-    @State private var url: URL?
+    @State private var selectedIndex: Int?
     @State private var searchText = ""
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredTracks, id: \.id) { item in
+                ForEach(Array(filteredTracks.enumerated()), id: \.offset) { index, item in
                     Button(action: {
-                        // FIXME Increase song switch performance, selected song seek to not working
-                        url = item.path
+                        selectedIndex = index
                     }, label: {
                         Text(item.title)
                             .font(.title)
@@ -38,8 +37,8 @@ struct HomeView: View {
             .navigationTitle("Home")
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
-                if let url {
-                    SeekbarView(url: url)
+                if let selectedIndex {
+                    SeekbarView(selectedTrackIndex: selectedIndex, tracks: filteredTracks)
                 }
             }
             .onChange(of: searchText) {
