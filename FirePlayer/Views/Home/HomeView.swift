@@ -38,7 +38,7 @@ struct HomeView: View {
             .searchable(text: $searchText, prompt: "Search song")
             .overlay(alignment: .bottom) {
                 if let selectedIndex {
-                    SeekbarView(selectedTrackIndex: selectedIndex, tracks: filteredTracks)
+                    SeekbarView(selectedTrackIndex: $selectedIndex, tracks: filteredTracks)
                 }
             }
             .onChange(of: searchText) {

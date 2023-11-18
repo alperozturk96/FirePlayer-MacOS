@@ -19,4 +19,8 @@ extension Array where Element == Track {
     func getSelectedTrack(index: Int) -> URL {
         self[index].path
     }
+    
+    var randomIndex: Int {
+        Int.random(in: 0..<self.count)
+    }
 }

@@ -10,7 +10,7 @@ import AVFoundation
 
 struct SeekbarView: View {
     
-    var selectedTrackIndex: Int
+    @Binding var selectedTrackIndex: Int?
     var tracks: [Track]
     
     @State private var player = AVPlayer()
@@ -32,7 +32,7 @@ struct SeekbarView: View {
             
             Spacer()
             
-            // TODO add prev song
+            // TODO add prev songs
             ImageButton(icon: "arrowshape.backward.circle.fill") {
                 
             }
@@ -41,9 +41,8 @@ struct SeekbarView: View {
                 player.toggle()
             }
             
-            // TODO add next song
             ImageButton(icon: "arrowshape.forward.circle.fill") {
-                
+                selectedTrackIndex = tracks.randomIndex
             }
             
             Spacer()
@@ -51,6 +50,11 @@ struct SeekbarView: View {
         }
         .onAppear {
             play()
+        }
+        .onChange(of: player.isPlaying) {
+            if !player.isPlaying {
+                selectedTrackIndex = tracks.randomIndex
+            }
         }
         .onChange(of: selectedTrackIndex) {
             play()
@@ -65,6 +69,7 @@ struct SeekbarView: View {
 extension SeekbarView {
     private func play() {
         Task {
+            guard let selectedTrackIndex else { return }
             let url = tracks.getSelectedTrack(index: selectedTrackIndex)
             print("Path: ", url)
             
