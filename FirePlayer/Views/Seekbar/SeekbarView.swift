@@ -13,6 +13,8 @@ struct SeekbarView: View {
     @Binding var selectedTrackIndex: Int?
     var tracks: [Track]
     
+    @State private var playerItemObserver: Any?
+    @State private var prevTrackIndexesStack: [Int] = []
     @State private var player = AVPlayer()
     @State private var currentTime: Double = 0
     @State private var totalTime: Double = 0
@@ -32,9 +34,10 @@ struct SeekbarView: View {
             
             Spacer()
             
-            // TODO add prev songs
             ImageButton(icon: "arrowshape.backward.circle.fill") {
-                
+                if let prevIndex = getPrevSelectedTrackIndex() {
+                    selectedTrackIndex = prevIndex
+                }
             }
             
             ImageButton(icon: player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
@@ -67,21 +70,29 @@ struct SeekbarView: View {
 // MARK: - Private Methods
 extension SeekbarView {
     private func addPlayerObserver() {
-        NotificationCenter.default.addObserver(
+        playerItemObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: player.currentItem,
             queue: nil) { _ in
+                prevTrackIndexesStack.append(selectedTrackIndex ?? 0)
                 selectedTrackIndex = tracks.randomIndex
             }
     }
     
+    private func getPrevSelectedTrackIndex() -> Int? {
+        return prevTrackIndexesStack.popLast()
+    }
+    
     private func removeObservers() {
-        NotificationCenter.default.removeObserver(self)
+        if let observer = playerItemObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
     
     private func play() {
         Task {
             guard let selectedTrackIndex else { return }
+            prevTrackIndexesStack.append(selectedTrackIndex)
             let url = tracks.getSelectedTrack(index: selectedTrackIndex)
             
             print("Path: ", url)
