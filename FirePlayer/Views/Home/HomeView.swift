@@ -22,10 +22,21 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                TrackSection(title: "home_filter_by_title_section_title".localized, data: filteredTracksByTitle, filterOption: .title)
-                TrackSection(title: "home_filter_by_artist_section_title".localized, data: filteredTracksByArtist, filterOption: .artist)
-                TrackSection(title: "home_filter_by_album_section_title".localized, data: filteredTracksByAlbum, filterOption: .album)
+            ScrollViewReader { proxy in
+                List {
+                    Section(header: Text("home_filter_by_title_section_title")) {
+                        TrackList(data: filteredTracksByTitle, filterOption: .title, proxy: proxy)
+                    }
+                    Section(header: Text("home_filter_by_artist_section_title")) {
+                        TrackList(data: filteredTracksByArtist, filterOption: .artist, proxy: proxy)
+                    }
+                    Section(header: Text("home_filter_by_album_section_title")) {
+                        TrackList(data: filteredTracksByAlbum, filterOption: .album, proxy: proxy)
+                    }
+                }
+                .onChange(of: selectedIndex) {
+                    scrollToSelectedTrack(proxy: proxy)
+                }
             }
             .onAppear {
                 scanSavedFolderURL()
@@ -36,7 +47,7 @@ struct HomeView: View {
                 SeekBar
             }
             .onChange(of: searchText) {
-               search()
+                search()
             }
             .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
                 SortConfirmationButtons
@@ -59,20 +70,16 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
-    private func TrackSection(title: String, data: [Track], filterOption: FilterOptions) -> some View {
-        Section(header: Text(title)) {
-            TrackList(data: data, filterOption: filterOption)
-        }
-    }
-    
-    private func TrackList(data: [Track], filterOption: FilterOptions) -> some View {
+    private func TrackList(data: [Track], filterOption: FilterOptions, proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
                 selectedIndex = index
                 selectedFilterOption = filterOption
+                scrollToSelectedTrack(proxy: proxy)
             }, label: {
                 Text(item.title)
                     .font(.title)
+                    .foregroundStyle(index == selectedIndex ? .yellow.opacity(0.8) : .white)
             })
             .buttonStyle(.borderless)
         }
@@ -111,6 +118,12 @@ extension HomeView {
 
 // MARK: - Private Methods
 extension HomeView {
+    private func scrollToSelectedTrack(proxy: ScrollViewProxy) {
+        withAnimation {
+            proxy.scrollTo(selectedIndex, anchor: .center)
+        }
+    }
+    
     private func search() {
         searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
@@ -151,7 +164,7 @@ extension HomeView {
             let title = url.lastPathComponent
             
             var track = Track(title: title, artist: "", album: "", length: 0.0, path: url, pathExtension: url.pathExtension)
-
+            
             if let metadata = trackMetaDataAnalyzer.getMetadata(url: url) {
                 track.artist = metadata["artist"] as? String ?? "Unknown"
                 track.album = metadata["album"] as? String ?? "Unknown"
