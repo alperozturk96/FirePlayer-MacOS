@@ -69,17 +69,16 @@ struct SeekbarView: View {
 
 // MARK: - Private Methods
 extension SeekbarView {
-    // TODO refactor
     private func addMenuBarObservers() {
-        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.previous.rawValue), object: nil, queue: nil) { _ in
+        receive(event: .previous) {
             playPreviousTrack()
         }
         
-        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.playerToggle.rawValue), object: nil, queue: nil) { _ in
+        receive(event: .playerToggle) {
             player.toggle()
         }
         
-        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.next.rawValue), object: nil, queue: nil) { _ in
+        receive(event: .next) {
             playNextTrack()
         }
     }
