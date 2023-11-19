@@ -24,14 +24,20 @@ struct HomeView: View {
         NavigationStack {
             ScrollViewReader { proxy in
                 List {
-                    Section(header: Text("home_filter_by_title_section_title")) {
-                        TrackList(data: filteredTracksByTitle, filterOption: .title, proxy: proxy)
+                    if !filteredTracksByTitle.isEmpty {
+                        Section(header: Text("home_filter_by_title_section_title")) {
+                            TrackList(data: filteredTracksByTitle, filterOption: .title, proxy: proxy)
+                        }
                     }
-                    Section(header: Text("home_filter_by_artist_section_title")) {
-                        TrackList(data: filteredTracksByArtist, filterOption: .artist, proxy: proxy)
+                    if !filteredTracksByArtist.isEmpty {
+                        Section(header: Text("home_filter_by_artist_section_title")) {
+                            TrackList(data: filteredTracksByArtist, filterOption: .artist, proxy: proxy)
+                        }
                     }
-                    Section(header: Text("home_filter_by_album_section_title")) {
-                        TrackList(data: filteredTracksByAlbum, filterOption: .album, proxy: proxy)
+                    if !filteredTracksByAlbum.isEmpty {
+                        Section(header: Text("home_filter_by_album_section_title")) {
+                            TrackList(data: filteredTracksByAlbum, filterOption: .album, proxy: proxy)
+                        }
                     }
                 }
                 .onChange(of: selectedIndex) {
@@ -77,6 +83,7 @@ extension HomeView {
                 selectedFilterOption = filterOption
                 scrollToSelectedTrack(proxy: proxy)
             }, label: {
+                // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
                     .font(.title)
                     .foregroundStyle(index == selectedIndex ? .yellow.opacity(0.8) : .white)

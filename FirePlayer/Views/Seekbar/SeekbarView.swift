@@ -58,6 +58,7 @@ struct SeekbarView: View {
         .onDisappear {
             removeObservers()
         }
+        .focusable()
         .onChange(of: selectedTrackIndex) {
             play()
         }
