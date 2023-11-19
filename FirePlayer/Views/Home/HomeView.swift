@@ -12,9 +12,7 @@ struct HomeView: View {
     
     @State private var searchTimer: Timer?
     @State private var tracks = [Track]()
-    @State private var filteredTracksByArtist = [Track]()
-    @State private var filteredTracksByAlbum = [Track]()
-    @State private var filteredTracksByTitle = [Track]()
+    @State private var filteredTracks = [Track]()
     @State private var playMode: PlayMode = .shuffle
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSortOptions = false
@@ -25,20 +23,8 @@ struct HomeView: View {
         NavigationStack {
             ScrollViewReader { proxy in
                 List {
-                    if !filteredTracksByTitle.isEmpty {
-                        Section(header: Text("home_filter_by_title_section_title")) {
-                            TrackList(data: filteredTracksByTitle, filterOption: .title, proxy: proxy)
-                        }
-                    }
-                    if !filteredTracksByArtist.isEmpty {
-                        Section(header: Text("home_filter_by_artist_section_title")) {
-                            TrackList(data: filteredTracksByArtist, filterOption: .artist, proxy: proxy)
-                        }
-                    }
-                    if !filteredTracksByAlbum.isEmpty {
-                        Section(header: Text("home_filter_by_album_section_title")) {
-                            TrackList(data: filteredTracksByAlbum, filterOption: .album, proxy: proxy)
-                        }
+                    Section(header: Text(header)) {
+                        TrackList(data: filteredTracks, proxy: proxy)
                     }
                 }
                 .onChange(of: selectedTrackIndex) {
@@ -49,17 +35,41 @@ struct HomeView: View {
                 scanSavedFolderURL()
             }
             .navigationTitle("home_navigation_bar_title")
-            .searchable(text: $searchText, prompt: "home_searchable_prompt")
+            .searchable(text: $searchText, prompt: searchPrompt)
             .overlay(alignment: .bottom) {
                 SeekBar
             }
             .onChange(of: searchText) {
                 search()
             }
+            .onChange(of: selectedFilterOption) {
+                search()
+            }
             .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
                 SortConfirmationButtons
             }
             .toolbar {
+                ToolbarItem {
+                    Button(action: {
+                        if selectedFilterOption == .title {
+                            selectedFilterOption = .artist
+                        } else if selectedFilterOption == .artist {
+                            selectedFilterOption = .album
+                        } else {
+                            selectedFilterOption = .title
+                        }
+                    }) {
+                        let systemImage = switch selectedFilterOption {
+                        case .title:
+                            "textformat.alt"
+                        case .artist:
+                            "person.fill"
+                        case .album:
+                            "rectangle.stack.fill"
+                        }
+                        Label("home_toolbar_filter_option_title", systemImage: systemImage)
+                    }
+                }
                 ToolbarItem {
                     Button(action: {
                         playMode = (playMode == .shuffle) ? .sequential : .shuffle
@@ -84,12 +94,10 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
-    private func TrackList(data: [Track], filterOption: FilterOptions, proxy: ScrollViewProxy) -> some View {
+    private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
-                // FIXME selectedTrackIndex is wrong for filtered tracks
                 selectedTrackIndex = index
-                selectedFilterOption = filterOption
                 scrollToSelectedTrack(proxy: proxy)
                 publish(event: .play)
             }, label: {
@@ -99,37 +107,45 @@ extension HomeView {
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
             })
             .buttonStyle(.borderless)
-            .id(selectedTrackIndex)
         }
     }
     
     @ViewBuilder
     private var SortConfirmationButtons: some View {
         Button("home_sort_dialog_sort_by_title_a_z_title") {
-            filteredTracksByTitle = filteredTracksByTitle.sortByTitleAZ()
-            filteredTracksByAlbum = filteredTracksByAlbum.sortByTitleAZ()
-            filteredTracksByArtist = filteredTracksByArtist.sortByTitleAZ()
+            filteredTracks = filteredTracks.sortByTitleAZ()
         }
         Button("home_sort_dialog_sort_by_title_z_a_title") {
-            filteredTracksByTitle = filteredTracksByTitle.sortByTitleZA()
-            filteredTracksByAlbum = filteredTracksByAlbum.sortByTitleZA()
-            filteredTracksByArtist = filteredTracksByArtist.sortByTitleZA()
+            filteredTracks = filteredTracks.sortByTitleZA()
         }
     }
     
     @ViewBuilder
     private var SeekBar: some View {
         if selectedTrackIndex != -1 {
-            let data: [Track] = switch selectedFilterOption {
-            case .title:
-                filteredTracksByTitle
-            case .artist:
-                filteredTracksByArtist
-            case .album:
-                filteredTracksByAlbum
-            }
-            
-            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, tracks: data)
+            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, tracks: filteredTracks)
+        }
+    }
+    
+    var header: String {
+        return switch selectedFilterOption {
+        case .title:
+            "home_filter_by_title_section_title".localized
+        case .artist:
+            "home_filter_by_artist_section_title".localized
+        case .album:
+            "home_filter_by_album_section_title".localized
+        }
+    }
+    
+    var searchPrompt: String {
+        return switch selectedFilterOption {
+        case .title:
+            "home_search_in_title_prompt".localized
+        case .artist:
+            "home_search_in_artists_prompt".localized
+        case .album:
+            "home_search_in_albums_prompt".localized
         }
     }
 }
@@ -146,11 +162,16 @@ extension HomeView {
         searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
             if searchText.isEmpty {
-                filteredTracksByTitle = tracks.sortByTitleAZ()
+                filteredTracks = tracks.sortByTitleAZ()
             } else {
-                filteredTracksByTitle = tracks.filterByTitle(title: searchText).sortByTitleAZ()
-                filteredTracksByArtist = tracks.filterByArtist(artist: searchText).sortByTitleAZ()
-                filteredTracksByAlbum = tracks.filterByAlbum(album: searchText).sortByTitleAZ()
+                filteredTracks = switch selectedFilterOption {
+                case .title:
+                    tracks.filterByTitle(title: searchText).sortByTitleAZ()
+                case .artist:
+                    tracks.filterByArtist(artist: searchText).sortByTitleAZ()
+                case .album:
+                    tracks.filterByAlbum(album: searchText).sortByTitleAZ()
+                }
             }
         }
     }
@@ -191,8 +212,8 @@ extension HomeView {
             tracks.append(track)
         }
         
-        filteredTracksByTitle = tracks.sortByTitleAZ()
-        print("Total Track Counts: ", filteredTracksByTitle.count)
+        filteredTracks = tracks.sortByTitleAZ()
+        print("Total Track Counts: ", filteredTracks.count)
     }
 }
 

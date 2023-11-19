@@ -45,12 +45,35 @@
         }
       }
     },
-    "home_searchable_prompt" : {
+    "home_search_in_albums_prompt" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search Track"
+            "value" : "Search Track In Albums"
+          }
+        }
+      }
+    },
+    "home_search_in_artists_prompt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Track In Artist"
+          }
+        }
+      }
+    },
+    "home_search_in_title_prompt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Track In Titles"
           }
         }
       }
@@ -81,6 +104,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sort By Title Z-A"
+          }
+        }
+      }
+    },
+    "home_toolbar_filter_option_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter Option"
           }
         }
       }
