@@ -1,42 +1,35 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "home_filter_confirmation_dialog_title" : {
+    "home_filter_by_album_section_title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter"
+            "value" : "Filtered By Album"
           }
         }
       }
     },
-    "home_filter_dialog_filter_by_album_title" : {
+    "home_filter_by_artist_section_title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter By Album"
+            "value" : "Filtered By Artist"
           }
         }
       }
     },
-    "home_filter_dialog_filter_by_artist_title" : {
+    "home_filter_by_title_section_title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter By Artist"
-          }
-        }
-      }
-    },
-    "home_filter_dialog_filter_by_title_title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filter By Title"
+            "value" : "Filtered By Title"
           }
         }
       }
@@ -88,16 +81,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sort By Title Z-A"
-          }
-        }
-      }
-    },
-    "home_toolbar_filter_title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filter"
           }
         }
       }
