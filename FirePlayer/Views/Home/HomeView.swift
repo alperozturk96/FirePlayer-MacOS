@@ -87,9 +87,11 @@ extension HomeView {
     private func TrackList(data: [Track], filterOption: FilterOptions, proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
+                // FIXME selectedTrackIndex is wrong for filtered tracks
                 selectedTrackIndex = index
                 selectedFilterOption = filterOption
                 scrollToSelectedTrack(proxy: proxy)
+                publish(event: .play)
             }, label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
@@ -97,6 +99,7 @@ extension HomeView {
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
             })
             .buttonStyle(.borderless)
+            .id(selectedTrackIndex)
         }
     }
     

@@ -80,6 +80,10 @@ extension SeekbarView {
             playPreviousTrack()
         }
         
+        receive(event: .play) {
+            play()
+        }
+        
         receive(event: .playerToggle) {
             player.toggle()
         }

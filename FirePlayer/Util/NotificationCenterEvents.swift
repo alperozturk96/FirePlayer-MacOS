@@ -8,7 +8,7 @@
 import Foundation
 
 enum NotificationCenterEvents: String {
-    case previous, playerToggle, next
+    case previous, playerToggle, next, play
 }
 
 func publish(event: NotificationCenterEvents) {
