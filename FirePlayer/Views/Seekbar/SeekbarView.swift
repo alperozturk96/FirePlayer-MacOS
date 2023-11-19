@@ -35,9 +35,7 @@ struct SeekbarView: View {
             Spacer()
             
             ImageButton(icon: "arrowshape.backward.circle.fill") {
-                if let prevIndex = getPrevSelectedTrackIndex() {
-                    selectedTrackIndex = prevIndex
-                }
+                playPreviousTrack()
             }
             
             ImageButton(icon: player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
@@ -45,7 +43,7 @@ struct SeekbarView: View {
             }
             
             ImageButton(icon: "arrowshape.forward.circle.fill") {
-                selectedTrackIndex = tracks.randomIndex
+                playNextTrack()
             }
             
             Spacer()
@@ -54,6 +52,7 @@ struct SeekbarView: View {
         .onAppear {
             play()
             addPlayerObserver()
+            addMenuBarObservers()
         }
         .onDisappear {
             removeObservers()
@@ -70,6 +69,31 @@ struct SeekbarView: View {
 
 // MARK: - Private Methods
 extension SeekbarView {
+    // TODO refactor
+    private func addMenuBarObservers() {
+        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.previous.rawValue), object: nil, queue: nil) { _ in
+            playPreviousTrack()
+        }
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.playerToggle.rawValue), object: nil, queue: nil) { _ in
+            player.toggle()
+        }
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name(NotificationCenterEvents.next.rawValue), object: nil, queue: nil) { _ in
+            playNextTrack()
+        }
+    }
+    
+    private func playPreviousTrack() {
+        if let prevIndex = getPrevSelectedTrackIndex() {
+            selectedTrackIndex = prevIndex
+        }
+    }
+    
+    private func playNextTrack() {
+        selectedTrackIndex = tracks.randomIndex
+    }
+    
     private func addPlayerObserver() {
         playerItemObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
@@ -88,6 +112,8 @@ extension SeekbarView {
         if let observer = playerItemObserver {
             NotificationCenter.default.removeObserver(observer)
         }
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func play() {
@@ -124,17 +150,5 @@ extension SeekbarView {
     private func seek(to time: Double) {
         let timeCM = CMTime(seconds: time, preferredTimescale: 1)
         player.seek(to: timeCM)
-    }
-}
-
-// MARK: - ChildViews
-extension SeekbarView {
-    private func ImageButton(icon: String, action: @escaping () -> ()) -> some View {
-        Button {
-            action()
-        } label: {
-            Image(systemName: icon)
-                .frame(width: 35, height: 35)
-        }
     }
 }

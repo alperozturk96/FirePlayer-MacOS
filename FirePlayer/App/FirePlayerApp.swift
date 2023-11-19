@@ -10,6 +10,10 @@ import SwiftUI
 @main
 struct FirePlayerApp: App {
     var body: some Scene {
+        MenuBarExtra("MediaControlMenu", systemImage: "music.note.tv.fill") {
+            MediaControlMenu()
+        }
+        
         WindowGroup {
             HomeView()
         }

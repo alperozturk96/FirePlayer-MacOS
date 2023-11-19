@@ -104,6 +104,9 @@
           }
         }
       }
+    },
+    "MediaControlMenu" : {
+
     }
   },
   "version" : "1.0"
