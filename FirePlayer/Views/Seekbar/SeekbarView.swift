@@ -21,6 +21,10 @@ struct SeekbarView: View {
     
     var body: some View {
         HStack {
+            if let currrentDurationRepresentation = player.currrentDurationRepresentation {
+                Text(currrentDurationRepresentation)
+            }
+            
             Slider(value: Binding(
                 get: { currentTime },
                 set: { newValue in
@@ -31,6 +35,10 @@ struct SeekbarView: View {
                     seek(to: currentTime)
                 }
             })
+            
+            if let durationRepresentation = player.durationRepresentation {
+                Text(durationRepresentation)
+            }
             
             Spacer()
             

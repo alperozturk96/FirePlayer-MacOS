@@ -16,4 +16,13 @@ extension AVPlayer {
     var isPlaying: Bool {
         rate != 0 && error == nil
     }
+    
+    var currrentDurationRepresentation: String? {
+        return currentTime().positionalTime
+    }
+    
+    var durationRepresentation: String? {
+        guard let duration = currentItem?.duration else { return nil }
+        return duration.positionalTime
+    }
 }

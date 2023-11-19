@@ -170,12 +170,11 @@ extension HomeView {
         for url in urls.supportedUrls {
             let title = url.lastPathComponent
             
-            var track = Track(title: title, artist: "", album: "", length: 0.0, path: url, pathExtension: url.pathExtension)
+            var track = Track(title: title, artist: "", album: "", path: url, pathExtension: url.pathExtension)
             
             if let metadata = trackMetaDataAnalyzer.getMetadata(url: url) {
                 track.artist = metadata["artist"] as? String ?? "Unknown"
                 track.album = metadata["album"] as? String ?? "Unknown"
-                track.length = metadata["approximate duration in seconds"] as? Double ?? 0.0
             }
             
             tracks.append(track)
