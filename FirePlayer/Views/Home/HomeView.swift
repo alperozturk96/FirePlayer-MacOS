@@ -17,7 +17,7 @@ struct HomeView: View {
     @State private var filteredTracksByTitle = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSortOptions = false
-    @State private var selectedIndex: Int?
+    @State private var selectedTrackIndex: Int?
     @State private var searchText = ""
     
     var body: some View {
@@ -40,7 +40,7 @@ struct HomeView: View {
                         }
                     }
                 }
-                .onChange(of: selectedIndex) {
+                .onChange(of: selectedTrackIndex) {
                     scrollToSelectedTrack(proxy: proxy)
                 }
             }
@@ -79,14 +79,14 @@ extension HomeView {
     private func TrackList(data: [Track], filterOption: FilterOptions, proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
-                selectedIndex = index
+                selectedTrackIndex = index
                 selectedFilterOption = filterOption
                 scrollToSelectedTrack(proxy: proxy)
             }, label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
                     .font(.title)
-                    .foregroundStyle(index == selectedIndex ? .yellow.opacity(0.8) : .white)
+                    .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
             })
             .buttonStyle(.borderless)
         }
@@ -108,7 +108,7 @@ extension HomeView {
     
     @ViewBuilder
     private var SeekBar: some View {
-        if selectedIndex != nil {
+        if selectedTrackIndex != nil {
             let data: [Track] = switch selectedFilterOption {
             case .title:
                 filteredTracksByTitle
@@ -118,7 +118,7 @@ extension HomeView {
                 filteredTracksByAlbum
             }
             
-            SeekbarView(selectedTrackIndex: $selectedIndex, tracks: data)
+            SeekbarView(selectedTrackIndex: $selectedTrackIndex, tracks: data)
         }
     }
 }
@@ -127,7 +127,7 @@ extension HomeView {
 extension HomeView {
     private func scrollToSelectedTrack(proxy: ScrollViewProxy) {
         withAnimation {
-            proxy.scrollTo(selectedIndex, anchor: .center)
+            proxy.scrollTo(selectedTrackIndex, anchor: .center)
         }
     }
     
@@ -137,9 +137,9 @@ extension HomeView {
             if searchText.isEmpty {
                 filteredTracksByTitle = tracks.sortByTitleAZ()
             } else {
-                filteredTracksByAlbum = tracks.filterByAlbum(album: searchText).sortByTitleAZ()
-                filteredTracksByArtist = tracks.filterByArtist(artist: searchText).sortByTitleAZ()
                 filteredTracksByTitle = tracks.filterByTitle(title: searchText).sortByTitleAZ()
+                filteredTracksByArtist = tracks.filterByArtist(artist: searchText).sortByTitleAZ()
+                filteredTracksByAlbum = tracks.filterByAlbum(album: searchText).sortByTitleAZ()
             }
         }
     }
