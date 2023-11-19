@@ -15,9 +15,10 @@ struct HomeView: View {
     @State private var filteredTracksByArtist = [Track]()
     @State private var filteredTracksByAlbum = [Track]()
     @State private var filteredTracksByTitle = [Track]()
+    @State private var playMode: PlayMode = .shuffle
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSortOptions = false
-    @State private var selectedTrackIndex: Int?
+    @State private var selectedTrackIndex: Int = -1
     @State private var searchText = ""
     
     var body: some View {
@@ -59,6 +60,13 @@ struct HomeView: View {
                 SortConfirmationButtons
             }
             .toolbar {
+                ToolbarItem {
+                    Button(action: {
+                        playMode = (playMode == .shuffle) ? .sequential : .shuffle
+                    }) {
+                        Label("home_toolbar_play_mode_title", systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
+                    }
+                }
                 ToolbarItem {
                     Button(action: { showSortOptions = true }) {
                         Label("home_toolbar_sort_title", systemImage: "line.3.horizontal")
@@ -108,7 +116,7 @@ extension HomeView {
     
     @ViewBuilder
     private var SeekBar: some View {
-        if selectedTrackIndex != nil {
+        if selectedTrackIndex != -1 {
             let data: [Track] = switch selectedFilterOption {
             case .title:
                 filteredTracksByTitle
@@ -118,7 +126,7 @@ extension HomeView {
                 filteredTracksByAlbum
             }
             
-            SeekbarView(selectedTrackIndex: $selectedTrackIndex, tracks: data)
+            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, tracks: data)
         }
     }
 }

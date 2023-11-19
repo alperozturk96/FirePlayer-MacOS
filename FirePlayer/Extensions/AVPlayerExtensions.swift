@@ -18,7 +18,11 @@ extension AVPlayer {
     }
     
     var currrentDurationRepresentation: String? {
-        return currentTime().positionalTime
+        if currentTime() < (currentItem?.duration ?? CMTime.zero) {
+            return currentTime().positionalTime
+        } else {
+            return durationRepresentation
+        }
     }
     
     var durationRepresentation: String? {

@@ -85,6 +85,17 @@
         }
       }
     },
+    "home_toolbar_play_mode_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play Mode"
+          }
+        }
+      }
+    },
     "home_toolbar_scan_title" : {
       "localizations" : {
         "en" : {

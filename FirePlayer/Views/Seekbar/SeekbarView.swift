@@ -10,7 +10,8 @@ import AVFoundation
 
 struct SeekbarView: View {
     
-    @Binding var selectedTrackIndex: Int?
+    @Binding var playMode: PlayMode
+    @Binding var selectedTrackIndex: Int
     var tracks: [Track]
     
     @State private var playerItemObserver: Any?
@@ -66,9 +67,6 @@ struct SeekbarView: View {
             removeObservers()
         }
         .focusable()
-        .onChange(of: selectedTrackIndex) {
-            play()
-        }
         .frame(maxWidth: .infinity)
         .frame(height: 50)
         .background(Color.gray.opacity(0.3))
@@ -95,10 +93,22 @@ extension SeekbarView {
         if let prevIndex = getPrevSelectedTrackIndex() {
             selectedTrackIndex = prevIndex
         }
+        
+        play()
     }
     
     private func playNextTrack() {
-        selectedTrackIndex = tracks.randomIndex
+        if playMode == .shuffle {
+            selectedTrackIndex = tracks.randomIndex
+        } else {
+            if selectedTrackIndex < tracks.count {
+                selectedTrackIndex += 1
+            } else {
+                selectedTrackIndex = 0
+            }
+        }
+        
+        play()
     }
     
     private func addPlayerObserver() {
@@ -106,8 +116,8 @@ extension SeekbarView {
             forName: .AVPlayerItemDidPlayToEndTime,
             object: player.currentItem,
             queue: nil) { _ in
-                prevTrackIndexesStack.append(selectedTrackIndex ?? 0)
-                selectedTrackIndex = tracks.randomIndex
+                prevTrackIndexesStack.append(selectedTrackIndex)
+                playNextTrack()
             }
     }
     
@@ -125,7 +135,6 @@ extension SeekbarView {
     
     private func play() {
         Task {
-            guard let selectedTrackIndex else { return }
             prevTrackIndexesStack.append(selectedTrackIndex)
             let url = tracks.getSelectedTrack(index: selectedTrackIndex)
             
