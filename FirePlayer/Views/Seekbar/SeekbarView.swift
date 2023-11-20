@@ -12,7 +12,7 @@ struct SeekbarView: View {
     
     @Binding var playMode: PlayMode
     @Binding var selectedTrackIndex: Int
-    var tracks: [Track]
+    @Binding var filteredTracks: [Track]
     
     @State private var playerItemObserver: Any?
     @State private var prevTrackIndexesStack: [Int] = []
@@ -103,9 +103,9 @@ extension SeekbarView {
     
     private func playNextTrack() {
         if playMode == .shuffle {
-            selectedTrackIndex = tracks.randomIndex
+            selectedTrackIndex = filteredTracks.randomIndex
         } else {
-            if selectedTrackIndex < tracks.count {
+            if selectedTrackIndex < filteredTracks.count {
                 selectedTrackIndex += 1
             } else {
                 selectedTrackIndex = 0
@@ -140,7 +140,7 @@ extension SeekbarView {
     private func play() {
         Task {
             prevTrackIndexesStack.append(selectedTrackIndex)
-            let url = tracks.getSelectedTrack(index: selectedTrackIndex)
+            let url = filteredTracks.getSelectedTrack(index: selectedTrackIndex)
             
             print("Path: ", url)
             

@@ -123,7 +123,7 @@ extension HomeView {
     @ViewBuilder
     private var SeekBar: some View {
         if selectedTrackIndex != -1 {
-            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, tracks: filteredTracks)
+            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, filteredTracks: $filteredTracks)
         }
     }
     
