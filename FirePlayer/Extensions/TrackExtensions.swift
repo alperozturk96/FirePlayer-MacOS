@@ -16,11 +16,6 @@ extension [Track] {
         return self.sorted { $0.title > $1.title }
     }
     
-    // FIXME after search or use some other filtered track sometimes throwing index out of bounds exception
-    func getSelectedTrack(index: Int) -> URL {
-        self[index].path
-    }
-    
     func filterByTitle(title: String) -> [Track] {
         self.filter { $0.title.localizedCaseInsensitiveContains(title) }
     }

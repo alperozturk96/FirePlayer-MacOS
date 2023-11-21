@@ -10,14 +10,18 @@ import SwiftUI
 struct HomeView: View {
     private let userService = UserService()
     
-    @StateObject private var audioPlayerService = AudioPlayerService()
+    @StateObject var audioPlayerService = AudioPlayerService()
+    
+    @State var playerItemObserver: Any?
+    @State var prevTrackIndexesStack: [Int] = []
+    @State var filteredTracks = [Track]()
+    @State var playMode: PlayMode = .shuffle
+    @State var selectedTrackIndex: Int = -1
+    
     @State private var searchTimer: Timer?
     @State private var tracks = [Track]()
-    @State private var filteredTracks = [Track]()
-    @State private var playMode: PlayMode = .shuffle
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSortOptions = false
-    @State private var selectedTrackIndex: Int = -1
     @State private var searchText = ""
     
     var body: some View {
@@ -33,7 +37,12 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-                scanSavedFolderURL()
+                scanPreviouslySelectedFolder()
+                observePlayerStatus()
+                setupPlayerEvents()
+            }
+            .onDisappear {
+                removeObservers()
             }
             .navigationTitle("home_navigation_bar_title")
             .searchable(text: $searchText, prompt: searchPrompt)
@@ -46,47 +55,24 @@ struct HomeView: View {
             .onChange(of: selectedFilterOption) {
                 search()
             }
+            .onChange(of: selectedTrackIndex) {
+                playSelectedTrack()
+            }
             .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
                 SortConfirmationButtons
             }
             .toolbar {
                 ToolbarItem {
-                    Button(action: {
-                        if selectedFilterOption == .title {
-                            selectedFilterOption = .artist
-                        } else if selectedFilterOption == .artist {
-                            selectedFilterOption = .album
-                        } else {
-                            selectedFilterOption = .title
-                        }
-                    }) {
-                        let systemImage = switch selectedFilterOption {
-                        case .title:
-                            "textformat.alt"
-                        case .artist:
-                            "person.fill"
-                        case .album:
-                            "rectangle.stack.fill"
-                        }
-                        Label("home_toolbar_filter_option_title", systemImage: systemImage)
-                    }
+                    FilterOptionsButton
                 }
                 ToolbarItem {
-                    Button(action: {
-                        playMode = (playMode == .shuffle) ? .sequential : .shuffle
-                    }) {
-                        Label("home_toolbar_play_mode_title", systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
-                    }
+                    PlayModeButton
                 }
                 ToolbarItem {
-                    Button(action: { showSortOptions = true }) {
-                        Label("home_toolbar_sort_title", systemImage: "line.3.horizontal")
-                    }
+                    SortOptionsButton
                 }
                 ToolbarItem {
-                    Button(action: scanFolder) {
-                        Label("home_toolbar_scan_title", systemImage: "folder.fill.badge.plus")
-                    }
+                    ScanFolderButton
                 }
             }
         }
@@ -99,8 +85,6 @@ extension HomeView {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
                 selectedTrackIndex = index
-                scrollToSelectedTrack(proxy: proxy)
-                publish(event: .play)
             }, label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
@@ -112,6 +96,16 @@ extension HomeView {
     }
     
     @ViewBuilder
+    private var SeekBar: some View {
+        if selectedTrackIndex != -1 {
+            SeekbarView(audioPlayerService: audioPlayerService, playPreviousTrack: selectPreviousTrack, playNextTrack: selectNextTrack)
+        }
+    }
+}
+
+// MARK: - Buttons
+extension HomeView {
+    @ViewBuilder
     private var SortConfirmationButtons: some View {
         Button("home_sort_dialog_sort_by_title_a_z_title") {
             filteredTracks = filteredTracks.sortByTitleAZ()
@@ -121,14 +115,52 @@ extension HomeView {
         }
     }
     
-    @ViewBuilder
-    private var SeekBar: some View {
-        if selectedTrackIndex != -1 {
-            SeekbarView(audioPlayerService: audioPlayerService, playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, filteredTracks: $filteredTracks)
+    private var PlayModeButton: some View {
+        Button(action: {
+            playMode = (playMode == .shuffle) ? .sequential : .shuffle
+        }) {
+            Label("home_toolbar_play_mode_title", systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
         }
     }
     
-    var header: String {
+    private var FilterOptionsButton: some View {
+        Button(action: {
+            if selectedFilterOption == .title {
+                selectedFilterOption = .artist
+            } else if selectedFilterOption == .artist {
+                selectedFilterOption = .album
+            } else {
+                selectedFilterOption = .title
+            }
+        }) {
+            let systemImage = switch selectedFilterOption {
+            case .title:
+                "textformat.alt"
+            case .artist:
+                "person.fill"
+            case .album:
+                "rectangle.stack.fill"
+            }
+            Label("home_toolbar_filter_option_title", systemImage: systemImage)
+        }
+    }
+    
+    private var SortOptionsButton: some View {
+        Button(action: { showSortOptions = true }) {
+            Label("home_toolbar_sort_title", systemImage: "line.3.horizontal")
+        }
+    }
+    
+    private var ScanFolderButton: some View {
+        Button(action: scanFolder) {
+            Label("home_toolbar_scan_title", systemImage: "folder.fill.badge.plus")
+        }
+    }
+}
+
+// MARK: - Texts
+extension HomeView {
+    private var header: String {
         return switch selectedFilterOption {
         case .title:
             "home_filter_by_title_section_title".localized
@@ -139,7 +171,7 @@ extension HomeView {
         }
     }
     
-    var searchPrompt: String {
+    private var searchPrompt: String {
         return switch selectedFilterOption {
         case .title:
             "home_search_in_title_prompt".localized
@@ -153,6 +185,10 @@ extension HomeView {
 
 // MARK: - Private Methods
 extension HomeView {
+    private func playSelectedTrack() {
+        audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
+    }
+    
     private func scrollToSelectedTrack(proxy: ScrollViewProxy) {
         withAnimation {
             proxy.scrollTo(selectedTrackIndex, anchor: .center)
@@ -177,7 +213,7 @@ extension HomeView {
         }
     }
     
-    private func scanSavedFolderURL() {
+    private func scanPreviouslySelectedFolder() {
         guard let url = userService.readFolderURL() else {
             return
         }

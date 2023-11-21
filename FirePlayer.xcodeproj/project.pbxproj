@@ -14,10 +14,11 @@
 		922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA22C2B08F07A00AC94A3 /* StringExtensions.swift */; };
 		922BA22F2B08F53000AC94A3 /* MimeTypeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA22E2B08F53000AC94A3 /* MimeTypeUtil.swift */; };
 		922BA2312B08F94C00AC94A3 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2302B08F94C00AC94A3 /* URLExtensions.swift */; };
+		9236E9B92B0CE30A00FE0100 /* HomeMediaControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9236E9B82B0CE30A00FE0100 /* HomeMediaControlExtensions.swift */; };
 		92524CDB2B0A066E0091D50B /* FilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CDA2B0A066E0091D50B /* FilterOptions.swift */; };
 		92524CE02B0A19700091D50B /* MediaControlMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CDF2B0A19700091D50B /* MediaControlMenu.swift */; };
 		92524CE22B0A1B600091D50B /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE12B0A1B600091D50B /* ViewExtensions.swift */; };
-		92524CE42B0A1B9E0091D50B /* NotificationCenterEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE32B0A1B9E0091D50B /* NotificationCenterEvents.swift */; };
+		92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */; };
 		92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE52B0A64320091D50B /* CMTimeExtensions.swift */; };
 		92524CE82B0A660D0091D50B /* PlayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE72B0A660D0091D50B /* PlayMode.swift */; };
 		92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */; };
@@ -39,10 +40,11 @@
 		922BA22C2B08F07A00AC94A3 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		922BA22E2B08F53000AC94A3 /* MimeTypeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypeUtil.swift; sourceTree = "<group>"; };
 		922BA2302B08F94C00AC94A3 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
+		9236E9B82B0CE30A00FE0100 /* HomeMediaControlExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMediaControlExtensions.swift; sourceTree = "<group>"; };
 		92524CDA2B0A066E0091D50B /* FilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptions.swift; sourceTree = "<group>"; };
 		92524CDF2B0A19700091D50B /* MediaControlMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaControlMenu.swift; sourceTree = "<group>"; };
 		92524CE12B0A1B600091D50B /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
-		92524CE32B0A1B9E0091D50B /* NotificationCenterEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterEvents.swift; sourceTree = "<group>"; };
+		92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEvents.swift; sourceTree = "<group>"; };
 		92524CE52B0A64320091D50B /* CMTimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTimeExtensions.swift; sourceTree = "<group>"; };
 		92524CE72B0A660D0091D50B /* PlayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMode.swift; sourceTree = "<group>"; };
 		92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */,
+				9236E9B82B0CE30A00FE0100 /* HomeMediaControlExtensions.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -104,7 +107,7 @@
 				922BA22E2B08F53000AC94A3 /* MimeTypeUtil.swift */,
 				92BB99702AD552D800A13648 /* TrackMetaDataAnalyzer.swift */,
 				92BB99732AD5535100A13648 /* FolderAnalyzer.swift */,
-				92524CE32B0A1B9E0091D50B /* NotificationCenterEvents.swift */,
+				92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -272,7 +275,7 @@
 				92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */,
 				92BB99712AD552D800A13648 /* TrackMetaDataAnalyzer.swift in Sources */,
 				922BA2312B08F94C00AC94A3 /* URLExtensions.swift in Sources */,
-				92524CE42B0A1B9E0091D50B /* NotificationCenterEvents.swift in Sources */,
+				92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */,
 				92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */,
 				92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */,
 				922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */,
@@ -284,6 +287,7 @@
 				922BA2272B07B7A400AC94A3 /* TrackExtensions.swift in Sources */,
 				92524CE22B0A1B600091D50B /* ViewExtensions.swift in Sources */,
 				92524CE82B0A660D0091D50B /* PlayMode.swift in Sources */,
+				9236E9B92B0CE30A00FE0100 /* HomeMediaControlExtensions.swift in Sources */,
 				922BA2212B06102400AC94A3 /* SeekbarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

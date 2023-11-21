@@ -11,13 +11,9 @@ import AVFoundation
 struct SeekbarView: View {
     
     @ObservedObject var audioPlayerService: AudioPlayerService
-    @Binding var playMode: PlayMode
-    @Binding var selectedTrackIndex: Int
-    @Binding var filteredTracks: [Track]
-    
-    @State private var playerItemObserver: Any?
-    @State private var prevTrackIndexesStack: [Int] = []
-    
+    let playPreviousTrack: () -> ()
+    let playNextTrack: () -> ()
+
     var body: some View {
         HStack {
             if let currrentDurationRepresentation = audioPlayerService.player.currrentDurationRepresentation {
@@ -56,87 +52,10 @@ struct SeekbarView: View {
             Spacer()
                 .frame(width: 15)
         }
-        .onAppear {
-            play()
-            addPlayerObserver()
-            addMenuBarObservers()
-        }
-        .onDisappear {
-            removeObservers()
-        }
+        
         .focusable()
         .frame(maxWidth: .infinity)
         .frame(height: 50)
         .background(Color.gray.opacity(0.3))
-    }
-}
-
-// MARK: - Private Methods
-extension SeekbarView {
-    private func addMenuBarObservers() {
-        receive(event: .previous) {
-            playPreviousTrack()
-        }
-        
-        receive(event: .play) {
-            play()
-        }
-        
-        receive(event: .playerToggle) {
-            audioPlayerService.player.toggle()
-        }
-        
-        receive(event: .next) {
-            playNextTrack()
-        }
-    }
-    
-    private func playPreviousTrack() {
-        if let prevIndex = getPrevSelectedTrackIndex() {
-            selectedTrackIndex = prevIndex
-        }
-        
-        play()
-    }
-    
-    private func playNextTrack() {
-        if playMode == .shuffle {
-            selectedTrackIndex = filteredTracks.randomIndex
-        } else {
-            if selectedTrackIndex < filteredTracks.count {
-                selectedTrackIndex += 1
-            } else {
-                selectedTrackIndex = 0
-            }
-        }
-        
-        prevTrackIndexesStack.append(selectedTrackIndex)
-        play()
-    }
-    
-    private func addPlayerObserver() {
-        playerItemObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: audioPlayerService.player.currentItem,
-            queue: nil) { _ in
-                prevTrackIndexesStack.append(selectedTrackIndex)
-                playNextTrack()
-            }
-    }
-    
-    private func getPrevSelectedTrackIndex() -> Int? {
-        return prevTrackIndexesStack.popLast()
-    }
-    
-    private func removeObservers() {
-        if let observer = playerItemObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    private func play() {
-        audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
     }
 }
