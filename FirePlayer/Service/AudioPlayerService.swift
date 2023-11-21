@@ -22,9 +22,13 @@ final class AudioPlayerService: ObservableObject {
         player.volume = 1
         player.play()
         
-        
         updateDuration()
         updateCurrentTime()
+    }
+    
+    func seek(to time: Double) {
+        let timeCM = CMTime(seconds: time, preferredTimescale: 1)
+        player.seek(to: timeCM)
     }
     
     @MainActor
@@ -42,10 +46,5 @@ final class AudioPlayerService: ObservableObject {
             guard let self else { return }
             self.currentTime = CMTimeGetSeconds(self.player.currentTime())
         })
-    }
-    
-    func seek(to time: Double) {
-        let timeCM = CMTime(seconds: time, preferredTimescale: 1)
-        player.seek(to: timeCM)
     }
 }

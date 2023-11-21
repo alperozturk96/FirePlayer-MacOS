@@ -139,6 +139,4 @@ extension SeekbarView {
     private func play() {
         audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
     }
-    
-    // let url = filteredTracks.getSelectedTrack(index: selectedTrackIndex)
 }
