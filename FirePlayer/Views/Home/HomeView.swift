@@ -19,11 +19,12 @@ struct HomeView: View {
     @State var prevTrackIndexesStack: [Int] = []
     @State var filteredTracks = [Track]()
     @State var playMode: PlayMode = .shuffle
-    @State var selectedTrackIndex: Int = -1
+    @State var selectedTrackIndex: Int = 0
     
     @State private var searchTimer: Timer?
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
+    @State private var showSeekbar = false
     @State private var showSortOptions = false
     @State private var searchText = ""
     
@@ -88,6 +89,10 @@ extension HomeView {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button(action: {
                 selectedTrackIndex = index
+                
+                if !showSeekbar {
+                    showSeekbar = true
+                }
             }, label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
@@ -100,8 +105,8 @@ extension HomeView {
     
     @ViewBuilder
     private var SeekBar: some View {
-        if selectedTrackIndex != -1 {
-            SeekbarView(audioPlayerService: audioPlayerService, playPreviousTrack: selectPreviousTrack, playNextTrack: selectNextTrack)
+        if showSeekbar {
+            SeekbarView(audioPlayerService: audioPlayerService, selectPreviousTrack: selectPreviousTrack, selectNextTrack: selectNextTrack)
         }
     }
 }
@@ -128,13 +133,7 @@ extension HomeView {
     
     private var FilterOptionsButton: some View {
         Button(action: {
-            if selectedFilterOption == .title {
-                selectedFilterOption = .artist
-            } else if selectedFilterOption == .artist {
-                selectedFilterOption = .album
-            } else {
-                selectedFilterOption = .title
-            }
+            selectedFilterOption = (selectedFilterOption == .title) ? .artist : (selectedFilterOption == .artist) ? .album : .title
         }) {
             let systemImage = switch selectedFilterOption {
             case .title:
@@ -144,6 +143,7 @@ extension HomeView {
             case .album:
                 "rectangle.stack.fill"
             }
+            
             Label("home_toolbar_filter_option_title", systemImage: systemImage)
         }
     }
@@ -190,6 +190,7 @@ extension HomeView {
 extension HomeView {
     private func playSelectedTrack() {
         audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
+        prevTrackIndexesStack.append(selectedTrackIndex)
     }
     
     private func scrollToSelectedTrack(proxy: ScrollViewProxy) {

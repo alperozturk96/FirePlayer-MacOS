@@ -11,8 +11,8 @@ import AVFoundation
 struct SeekbarView: View {
     
     @ObservedObject var audioPlayerService: AudioPlayerService
-    let playPreviousTrack: () -> ()
-    let playNextTrack: () -> ()
+    let selectPreviousTrack: () -> ()
+    let selectNextTrack: () -> ()
 
     var body: some View {
         HStack {
@@ -38,7 +38,7 @@ struct SeekbarView: View {
             Spacer()
             
             ImageButton(icon: "arrowshape.backward.circle.fill") {
-                playPreviousTrack()
+                selectPreviousTrack()
             }
             
             ImageButton(icon: audioPlayerService.player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
@@ -46,7 +46,7 @@ struct SeekbarView: View {
             }
             
             ImageButton(icon: "arrowshape.forward.circle.fill") {
-                playNextTrack()
+                selectNextTrack()
             }
             
             Spacer()

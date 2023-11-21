@@ -40,7 +40,10 @@ extension HomeView {
     }
     
     func selectPreviousTrack() {
-        if let prevIndex = prevTrackIndexesStack.popLast() {
+        guard prevTrackIndexesStack.count > 1 else { return }
+        _ = prevTrackIndexesStack.popLast()
+        
+        if let prevIndex = prevTrackIndexesStack.last {
             selectedTrackIndex = prevIndex
         }
     }
@@ -48,6 +51,5 @@ extension HomeView {
     func selectNextTrack() {
         let nextIndex = (playMode == .shuffle) ? filteredTracks.randomIndex : (selectedTrackIndex < filteredTracks.count) ? selectedTrackIndex + 1 : 0
         selectedTrackIndex = nextIndex
-        prevTrackIndexesStack.append(selectedTrackIndex)
     }
 }
