@@ -21,7 +21,6 @@ struct HomeView: View {
     @State var playMode: PlayMode = .shuffle
     @State var selectedTrackIndex: Int = 0
     
-    @State private var searchTimer: Timer?
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSeekbar = false
@@ -31,13 +30,17 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
-                List {
-                    Section(header: Text(header)) {
-                        TrackList(data: filteredTracks, proxy: proxy)
+                if filteredTracks.isEmpty {
+                    ContentUnavailableView.search(text: searchText)
+                } else {
+                    List {
+                        Section(header: Text(header)) {
+                            TrackList(data: filteredTracks, proxy: proxy)
+                        }
                     }
-                }
-                .onChange(of: selectedTrackIndex) {
-                    scrollToSelectedTrack(proxy: proxy)
+                    .onChange(of: selectedTrackIndex) {
+                        scrollToSelectedTrack(proxy: proxy)
+                    }
                 }
             }
             .onAppear {
@@ -200,19 +203,16 @@ extension HomeView {
     }
     
     private func search() {
-        searchTimer?.invalidate()
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-            if searchText.isEmpty {
-                filteredTracks = tracks.sortByTitleAZ()
-            } else {
-                filteredTracks = switch selectedFilterOption {
-                case .title:
-                    tracks.filterByTitle(title: searchText).sortByTitleAZ()
-                case .artist:
-                    tracks.filterByArtist(artist: searchText).sortByTitleAZ()
-                case .album:
-                    tracks.filterByAlbum(album: searchText).sortByTitleAZ()
-                }
+        if searchText.isEmpty {
+            filteredTracks = tracks.sortByTitleAZ()
+        } else {
+            filteredTracks = switch selectedFilterOption {
+            case .title:
+                tracks.filterByTitle(title: searchText).sortByTitleAZ()
+            case .artist:
+                tracks.filterByArtist(artist: searchText).sortByTitleAZ()
+            case .album:
+                tracks.filterByAlbum(album: searchText).sortByTitleAZ()
             }
         }
     }
