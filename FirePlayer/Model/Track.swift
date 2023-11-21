@@ -14,4 +14,5 @@ struct Track {
     var album: String
     var path: URL
     var pathExtension: String
+    var playlist: String?
 }

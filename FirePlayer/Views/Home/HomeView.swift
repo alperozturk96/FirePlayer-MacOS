@@ -21,8 +21,13 @@ struct HomeView: View {
     @State var playMode: PlayMode = .shuffle
     @State var selectedTrackIndex: Int = 0
     
+    @State private var playlistText: String = ""
+    @State private var selectedPlaylistTrackIndex: Int = 0
+    @State private var playlists: [String: [Track]] = [:]
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
+    @State private var showAddPlaylist = false
+    @State private var showPlaylists = false
     @State private var showSeekbar = false
     @State private var showSortOptions = false
     @State private var searchText = ""
@@ -68,9 +73,15 @@ struct HomeView: View {
             .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
                 SortConfirmationButtons
             }
+            .confirmationDialog("home_playlist_confirmation_dialog_title", isPresented: $showAddPlaylist) {
+                AddPlaylistTextField
+            }
             .toolbar {
                 ToolbarItem {
                     FilterOptionsButton
+                }
+                ToolbarItem {
+                    AddPlaylistButton
                 }
                 ToolbarItem {
                     PlayModeButton
@@ -101,6 +112,12 @@ extension HomeView {
                 Text(item.title)
                     .font(.title)
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
+                    .swipeActions {
+                        Button("home_list_swipe_action_title".localized) {
+                            showPlaylists = true
+                        }
+                        .tint(.orange)
+                    }
             })
             .buttonStyle(.borderless)
         }
@@ -130,7 +147,7 @@ extension HomeView {
         Button(action: {
             playMode = (playMode == .shuffle) ? .sequential : .shuffle
         }) {
-            Label("home_toolbar_play_mode_title", systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
+            Label("home_toolbar_play_mode_title".localized, systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
         }
     }
     
@@ -147,20 +164,46 @@ extension HomeView {
                 "rectangle.stack.fill"
             }
             
-            Label("home_toolbar_filter_option_title", systemImage: systemImage)
+            Label("home_toolbar_filter_option_title".localized, systemImage: systemImage)
+        }
+    }
+    
+    private var AddPlaylistButton: some View {
+        Button(action: { showAddPlaylist = true }) {
+            Label("home_toolbar_add_playlist_title".localized, systemImage: "doc.fill.badge.plus")
         }
     }
     
     private var SortOptionsButton: some View {
         Button(action: { showSortOptions = true }) {
-            Label("home_toolbar_sort_title", systemImage: "line.3.horizontal")
+            Label("home_toolbar_sort_title".localized, systemImage: "line.3.horizontal")
         }
     }
     
     private var ScanFolderButton: some View {
         Button(action: scanFolder) {
-            Label("home_toolbar_scan_title", systemImage: "folder.fill.badge.plus")
+            Label("home_toolbar_scan_title".localized, systemImage: "folder.fill.badge.plus")
         }
+    }
+}
+
+// MARK: - TextFields
+extension HomeView {
+    private var AddPlaylistTextField: some View {
+        VStack {
+            TextField("home_add_playlist_placeholder".localized, text: $playlistText)
+            Button("common_ok".localized) {
+               
+            }
+        }
+        
+        /*
+         ForEach(Array(playlists.keys), id: \.self) { playlist in
+             Button(playlist) {
+                 addTrackToPlaylist(playlist)
+             }
+         }
+         */
     }
 }
 
@@ -200,6 +243,12 @@ extension HomeView {
         withAnimation {
             proxy.scrollTo(selectedTrackIndex, anchor: .center)
         }
+    }
+    
+    private func addTrackToPlaylist(_ playlist: String) {
+        let track = filteredTracks[selectedPlaylistTrackIndex]
+        playlists[playlist] = .init()
+        
     }
     
     private func search() {

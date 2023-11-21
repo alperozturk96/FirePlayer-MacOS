@@ -1,6 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "common_ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "home_add_playlist_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Playlist Title"
+          }
+        }
+      }
+    },
     "home_filter_by_album_section_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -34,6 +56,17 @@
         }
       }
     },
+    "home_list_swipe_action_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add To Playlist"
+          }
+        }
+      }
+    },
     "home_navigation_bar_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -41,6 +74,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FirePlayer"
+          }
+        }
+      }
+    },
+    "home_playlist_confirmation_dialog_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playlists"
           }
         }
       }
@@ -108,6 +152,17 @@
         }
       }
     },
+    "home_toolbar_add_playlist_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Playlist"
+          }
+        }
+      }
+    },
     "home_toolbar_filter_option_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -131,6 +186,7 @@
       }
     },
     "home_toolbar_scan_title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -141,6 +197,7 @@
       }
     },
     "home_toolbar_sort_title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
