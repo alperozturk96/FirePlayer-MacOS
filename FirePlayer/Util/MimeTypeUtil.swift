@@ -12,7 +12,7 @@ struct MimeTypeUtil {
     
     private init() {}
     
-    let unsupportedFormats = ["ape", "opus", "wv", ""]
+    let unsupportedFormats = ["ape", "opus", "wv", "dsf", ""]
 
     func isSupported(format: String) -> Bool {
         !unsupportedFormats.contains(format)

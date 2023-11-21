@@ -10,34 +10,32 @@ import AVFoundation
 
 struct SeekbarView: View {
     
+    @ObservedObject var audioPlayerService: AudioPlayerService
     @Binding var playMode: PlayMode
     @Binding var selectedTrackIndex: Int
     @Binding var filteredTracks: [Track]
     
     @State private var playerItemObserver: Any?
     @State private var prevTrackIndexesStack: [Int] = []
-    @State private var player = AVPlayer()
-    @State private var currentTime: Double = 0
-    @State private var totalTime: Double = 0
     
     var body: some View {
         HStack {
-            if let currrentDurationRepresentation = player.currrentDurationRepresentation {
+            if let currrentDurationRepresentation = audioPlayerService.player.currrentDurationRepresentation {
                 Text(currrentDurationRepresentation)
             }
             
             Slider(value: Binding(
-                get: { currentTime },
+                get: { audioPlayerService.currentTime },
                 set: { newValue in
-                    seek(to: newValue)
+                    audioPlayerService.seek(to: newValue)
                 }
-            ), in: 0...totalTime, onEditingChanged: { editingChanged in
+            ), in: 0...audioPlayerService.totalTime, onEditingChanged: { editingChanged in
                 if !editingChanged {
-                    seek(to: currentTime)
+                    audioPlayerService.seek(to: audioPlayerService.currentTime)
                 }
             })
             
-            if let durationRepresentation = player.durationRepresentation {
+            if let durationRepresentation = audioPlayerService.player.durationRepresentation {
                 Text(durationRepresentation)
             }
             
@@ -47,8 +45,8 @@ struct SeekbarView: View {
                 playPreviousTrack()
             }
             
-            ImageButton(icon: player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
-                player.toggle()
+            ImageButton(icon: audioPlayerService.player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
+                audioPlayerService.player.toggle()
             }
             
             ImageButton(icon: "arrowshape.forward.circle.fill") {
@@ -85,7 +83,7 @@ extension SeekbarView {
         }
         
         receive(event: .playerToggle) {
-            player.toggle()
+            audioPlayerService.player.toggle()
         }
         
         receive(event: .next) {
@@ -112,13 +110,14 @@ extension SeekbarView {
             }
         }
         
+        prevTrackIndexesStack.append(selectedTrackIndex)
         play()
     }
     
     private func addPlayerObserver() {
         playerItemObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
+            object: audioPlayerService.player.currentItem,
             queue: nil) { _ in
                 prevTrackIndexesStack.append(selectedTrackIndex)
                 playNextTrack()
@@ -138,37 +137,8 @@ extension SeekbarView {
     }
     
     private func play() {
-        Task {
-            prevTrackIndexesStack.append(selectedTrackIndex)
-            let url = filteredTracks.getSelectedTrack(index: selectedTrackIndex)
-            
-            print("Path: ", url)
-            
-            let playerItem = AVPlayerItem(url: url)
-            player.replaceCurrentItem(with: playerItem)
-            player.volume = 1
-            player.play()
-            
-            await updateDuration()
-            updateCurrentTime()
-        }
+        audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
     }
     
-    private func updateDuration() async {
-        guard let duration = try? await player.currentItem?.asset.load(.duration) else { return }
-        currentTime = 0
-        totalTime = CMTimeGetSeconds(duration)
-    }
-    
-    private func updateCurrentTime() {
-        let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
-            currentTime = CMTimeGetSeconds(player.currentTime())
-        })
-    }
-    
-    private func seek(to time: Double) {
-        let timeCM = CMTime(seconds: time, preferredTimescale: 1)
-        player.seek(to: timeCM)
-    }
+    // let url = filteredTracks.getSelectedTrack(index: selectedTrackIndex)
 }

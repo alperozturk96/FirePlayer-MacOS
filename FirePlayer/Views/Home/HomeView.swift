@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     private let userService = UserService()
     
+    @StateObject private var audioPlayerService = AudioPlayerService()
     @State private var searchTimer: Timer?
     @State private var tracks = [Track]()
     @State private var filteredTracks = [Track]()
@@ -123,7 +124,7 @@ extension HomeView {
     @ViewBuilder
     private var SeekBar: some View {
         if selectedTrackIndex != -1 {
-            SeekbarView(playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, filteredTracks: $filteredTracks)
+            SeekbarView(audioPlayerService: audioPlayerService, playMode: $playMode, selectedTrackIndex: $selectedTrackIndex, filteredTracks: $filteredTracks)
         }
     }
     

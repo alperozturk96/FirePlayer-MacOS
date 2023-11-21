@@ -28,6 +28,7 @@
 		92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */; };
 		92BB99712AD552D800A13648 /* TrackMetaDataAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99702AD552D800A13648 /* TrackMetaDataAnalyzer.swift */; };
 		92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99732AD5535100A13648 /* FolderAnalyzer.swift */; };
+		92CA9A802B0C9F7000113660 /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerExtensions.swift; sourceTree = "<group>"; };
 		92BB99702AD552D800A13648 /* TrackMetaDataAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMetaDataAnalyzer.swift; sourceTree = "<group>"; };
 		92BB99732AD5535100A13648 /* FolderAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderAnalyzer.swift; sourceTree = "<group>"; };
+		92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				922BA2232B07A9EB00AC94A3 /* UserService.swift */,
+				92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */,
 				922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */,
 				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
+				92CA9A802B0C9F7000113660 /* AudioPlayerService.swift in Sources */,
 				92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */,
 				92524CE02B0A19700091D50B /* MediaControlMenu.swift in Sources */,
 				922BA2272B07B7A400AC94A3 /* TrackExtensions.swift in Sources */,
