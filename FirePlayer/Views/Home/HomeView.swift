@@ -23,6 +23,7 @@ struct HomeView: View {
     
     @State private var playlistText: String = ""
     @State private var selectedPlaylistTrackIndex: Int = 0
+    @State private var playlistTitles = [String]()
     @State private var playlists: [String: [Track]] = [:]
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
@@ -39,8 +40,12 @@ struct HomeView: View {
                     ContentUnavailableView.search(text: searchText)
                 } else {
                     List {
-                        Section(header: Text(header)) {
-                            TrackList(data: filteredTracks, proxy: proxy)
+                        if showPlaylists {
+                            Playlists
+                        } else {
+                            Section(header: Text(header)) {
+                                TrackList(data: filteredTracks, proxy: proxy)
+                            }
                         }
                     }
                     .onChange(of: selectedTrackIndex) {
@@ -49,6 +54,7 @@ struct HomeView: View {
                 }
             }
             .onAppear {
+                readPreviouslySavedPlaylists()
                 scanPreviouslySelectedFolder()
                 observePlayerStatus()
                 setupPlayerEvents()
@@ -114,12 +120,21 @@ extension HomeView {
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
                     .swipeActions {
                         Button("home_list_swipe_action_title".localized) {
+                            selectedPlaylistTrackIndex = index
                             showPlaylists = true
                         }
                         .tint(.orange)
                     }
             })
             .buttonStyle(.borderless)
+        }
+    }
+    
+    private var Playlists: some View {
+        ForEach(playlistTitles, id: \.self) { title in
+            Button(title) {
+                addTrackToPlaylist(title)
+            }
         }
     }
     
@@ -193,17 +208,10 @@ extension HomeView {
         VStack {
             TextField("home_add_playlist_placeholder".localized, text: $playlistText)
             Button("common_ok".localized) {
-               
+                playlistTitles.append(playlistText)
+                userService.savePlaylist(playlists: playlistTitles)
             }
         }
-        
-        /*
-         ForEach(Array(playlists.keys), id: \.self) { playlist in
-             Button(playlist) {
-                 addTrackToPlaylist(playlist)
-             }
-         }
-         */
     }
 }
 
@@ -248,7 +256,7 @@ extension HomeView {
     private func addTrackToPlaylist(_ playlist: String) {
         let track = filteredTracks[selectedPlaylistTrackIndex]
         playlists[playlist] = .init()
-        
+        showPlaylists = false
     }
     
     private func search() {
@@ -272,6 +280,10 @@ extension HomeView {
         }
         
         addTracksFromGiven(folderURL: url)
+    }
+    
+    private func readPreviouslySavedPlaylists() {
+        playlistTitles = userService.readPlaylists()
     }
     
     private func scanFolder() {
