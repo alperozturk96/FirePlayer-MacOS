@@ -12,6 +12,9 @@
         }
       }
     },
+    "Hello, World!" : {
+
+    },
     "home_add_playlist_placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -192,6 +195,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scan"
+          }
+        }
+      }
+    },
+    "home_toolbar_show_playlists_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Playlists"
           }
         }
       }
