@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import OSLog
 
 struct HomeView: View {
+    private let trackMetaDataAnalyzer = TrackMetaDataAnalyzer()
+    private let folderAnalyzer = FolderAnalyzer()
     private let userService = UserService()
     
     @StateObject var audioPlayerService = AudioPlayerService()
@@ -222,7 +225,6 @@ extension HomeView {
     }
     
     private func scanFolder() {
-        let folderAnalyzer = FolderAnalyzer()
         folderAnalyzer.browse { url in
             addTracksFromGiven(folderURL: url)
             userService.saveFolderURL(url: url)
@@ -233,8 +235,6 @@ extension HomeView {
         guard let urls = try? FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: []) else {
             return
         }
-        
-        let trackMetaDataAnalyzer = TrackMetaDataAnalyzer()
         
         for url in urls.supportedUrls {
             let title = url.lastPathComponent
@@ -250,7 +250,7 @@ extension HomeView {
         }
         
         filteredTracks = tracks.sortByTitleAZ()
-        print("Total Track Counts: ", filteredTracks.count)
+        AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
     }
 }
 

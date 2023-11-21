@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import OSLog
 
 final class AudioPlayerService: ObservableObject {
     @Published var player = AVPlayer()
@@ -15,7 +16,7 @@ final class AudioPlayerService: ObservableObject {
     
     @MainActor 
     func play(url: URL) {
-        print("Path: ", url)
+        AppLogger.shared.info("SelectedTrack: \(url)")
         
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
