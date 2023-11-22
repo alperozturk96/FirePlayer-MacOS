@@ -111,6 +111,28 @@
         }
       }
     },
+    "home_sidebar_playlists_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playlists"
+          }
+        }
+      }
+    },
+    "home_sidebar_tracks_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tracks"
+          }
+        }
+      }
+    },
     "home_sort_confirmation_dialog_title" : {
       "localizations" : {
         "en" : {
@@ -172,17 +194,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Refresh"
-          }
-        }
-      }
-    },
-    "home_toolbar_show_playlists_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Playlists"
           }
         }
       }

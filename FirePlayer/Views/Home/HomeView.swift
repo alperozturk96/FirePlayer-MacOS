@@ -31,7 +31,8 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
-                ShowPlaylistsButton
+                TracksButton
+                PlaylistsButton
             }
             .listStyle(SidebarListStyle())
 
@@ -76,9 +77,6 @@ struct HomeView: View {
                 SortConfirmationButtons
             }
             .toolbar {
-                ToolbarItem {
-                    RefreshButton
-                }
                 ToolbarItem {
                     FilterOptionsButton
                 }
@@ -144,25 +142,17 @@ extension HomeView {
     }
     
     private var PlayModeButton: some View {
-        Button(action: {
+        Button {
             playMode = (playMode == .shuffle) ? .sequential : .shuffle
-        }) {
+        } label: {
             Label("home_toolbar_play_mode_title".localized, systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
         }
     }
     
-    private var RefreshButton: some View {
-        Button(action: {
-            filteredTracks = tracks.sortByTitleAZ()
-        }) {
-            Label("home_toolbar_refresh_title".localized, systemImage: "arrow.clockwise.circle.fill")
-        }
-    }
-    
     private var FilterOptionsButton: some View {
-        Button(action: {
+        Button {
             selectedFilterOption = (selectedFilterOption == .title) ? .artist : (selectedFilterOption == .artist) ? .album : .title
-        }) {
+        } label: {
             let systemImage = switch selectedFilterOption {
             case .title:
                 "textformat.alt"
@@ -176,11 +166,20 @@ extension HomeView {
         }
     }
     
-    private var ShowPlaylistsButton: some View {
+    private var TracksButton: some View {
+        Label("home_sidebar_tracks_title".localized, systemImage: "music.quarternote.3")
+            .onTapGesture {
+                withAnimation {
+                    resetFilteredTracks()
+                }
+            }
+    }
+    
+    private var PlaylistsButton: some View {
         NavigationLink {
             PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
         } label: {
-            Label("home_toolbar_show_playlists_title".localized, systemImage: "star.fill")
+            Label("home_sidebar_playlists_title".localized, systemImage: "star.fill")
         }
     }
     
@@ -233,6 +232,11 @@ extension HomeView {
         withAnimation {
             proxy.scrollTo(selectedTrackIndex, anchor: .center)
         }
+    }
+    
+    private func resetFilteredTracks() {
+        filteredTracks = tracks.sortByTitleAZ()
+        searchText = ""
     }
     
     private func search() {
