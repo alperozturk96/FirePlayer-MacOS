@@ -31,6 +31,7 @@ struct SeekbarView: View {
                 }
             })
             
+            // FIXME shows longer duration and autoplay gets broken
             if let durationRepresentation = audioPlayerService.player.durationRepresentation {
                 Text(durationRepresentation)
             }

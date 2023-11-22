@@ -8,16 +8,13 @@
 import Foundation
 
 struct UserService {
-    private let playlistsKey = "playlists"
-    private let folderPath = "folderPath"
-    
     func savePlaylist(playlists: [String: [Int]]) {
         let data = try? JSONSerialization.data(withJSONObject: playlists, options: [])
-        UserDefaults.standard.set(data, forKey: playlistsKey)
+        UserDefaults.standard.set(data, forKey: UserDefaultsKeys.playlists)
     }
     
     func readPlaylists() -> [String: [Int]] {
-        if let data = UserDefaults.standard.data(forKey: playlistsKey) {
+        if let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.playlists) {
             guard let result = try? JSONSerialization.jsonObject(with: data) as? [String: [Int]] else {
                 return .init()
             }
@@ -29,10 +26,10 @@ struct UserService {
     }
     
     func saveFolderURL(url: URL) {
-        UserDefaults.standard.set(url, forKey: folderPath)
+        UserDefaults.standard.set(url, forKey: UserDefaultsKeys.folderPath)
     }
     
     func readFolderURL() -> URL? {
-        UserDefaults.standard.url(forKey: folderPath)
+        UserDefaults.standard.url(forKey: UserDefaultsKeys.folderPath)
     }
 }

@@ -12,9 +12,6 @@
         }
       }
     },
-    "Hello, World!" : {
-
-    },
     "home_add_playlist_placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -222,6 +219,12 @@
       }
     },
     "MediaControlMenu" : {
+
+    },
+    "No playlists" : {
+
+    },
+    "You don't have any playlist yet." : {
 
     }
   },

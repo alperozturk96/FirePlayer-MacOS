@@ -21,17 +21,14 @@ struct HomeView: View {
     @State var playMode: PlayMode = .shuffle
     @State var selectedTrackIndex: Int = 0
     
-    @State private var playlistText: String = ""
-    @State private var selectedPlaylistTrackIndex: Int = 0
     @State private var playlists: [String: [Int]] = [:]
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
-    @State private var showAddPlaylist = false
-    @State private var showPlaylists = false
     @State private var showSeekbar = false
     @State private var showSortOptions = false
     @State private var searchText = ""
     
+    // TODO add clear filtered tracks for playlist
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
@@ -39,12 +36,8 @@ struct HomeView: View {
                     ContentUnavailableView.search(text: searchText)
                 } else {
                     List {
-                        if showPlaylists {
-                            Playlists
-                        } else {
-                            Section(header: Text(header)) {
-                                TrackList(data: filteredTracks, proxy: proxy)
-                            }
+                        Section(header: Text(header)) {
+                            TrackList(data: filteredTracks, proxy: proxy)
                         }
                     }
                     .onChange(of: selectedTrackIndex) {
@@ -78,18 +71,12 @@ struct HomeView: View {
             .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
                 SortConfirmationButtons
             }
-            .confirmationDialog("home_playlist_confirmation_dialog_title", isPresented: $showAddPlaylist) {
-                AddPlaylistTextField
-            }
             .toolbar {
                 ToolbarItem {
                     FilterOptionsButton
                 }
                 ToolbarItem {
                     ShowPlaylistsButton
-                }
-                ToolbarItem {
-                    AddPlaylistButton
                 }
                 ToolbarItem {
                     PlayModeButton
@@ -121,22 +108,15 @@ extension HomeView {
                     .font(.title)
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
                     .swipeActions {
-                        Button("home_list_swipe_action_title".localized) {
-                            selectedPlaylistTrackIndex = index
-                            showPlaylists = true
+                        NavigationLink {
+                            PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
+                        } label: {
+                            Text("home_list_swipe_action_title".localized)
+                                .tint(.orange)
                         }
-                        .tint(.orange)
                     }
             })
             .buttonStyle(.borderless)
-        }
-    }
-    
-    private var Playlists: some View {
-        ForEach(playlists.keys.sorted(), id: \.self) { title in
-            Button(title) {
-                addTrackToPlaylist(title)
-            }
         }
     }
     
@@ -185,15 +165,9 @@ extension HomeView {
         }
     }
     
-    private var AddPlaylistButton: some View {
-        Button(action: { showAddPlaylist = true }) {
-            Label("home_toolbar_add_playlist_title".localized, systemImage: "doc.fill.badge.plus")
-        }
-    }
-    
     private var ShowPlaylistsButton: some View {
         NavigationLink {
-            PlaylistsView()
+            PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
         } label: {
             Label("home_toolbar_show_playlists_title".localized, systemImage: "star.fill")
         }
@@ -208,19 +182,6 @@ extension HomeView {
     private var ScanFolderButton: some View {
         Button(action: scanFolder) {
             Label("home_toolbar_scan_title".localized, systemImage: "folder.fill.badge.plus")
-        }
-    }
-}
-
-// MARK: - TextFields
-extension HomeView {
-    private var AddPlaylistTextField: some View {
-        VStack {
-            TextField("home_add_playlist_placeholder".localized, text: $playlistText)
-            Button("common_ok".localized) {
-                playlists[playlistText] = .init()
-                userService.savePlaylist(playlists: playlists)
-            }
         }
     }
 }
@@ -261,11 +222,6 @@ extension HomeView {
         withAnimation {
             proxy.scrollTo(selectedTrackIndex, anchor: .center)
         }
-    }
-    
-    private func addTrackToPlaylist(_ playlist: String) {
-        playlists[playlist] = .init()
-        showPlaylists = false
     }
     
     private func search() {

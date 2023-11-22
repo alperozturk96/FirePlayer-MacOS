@@ -23,6 +23,8 @@
 		92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */; };
 		92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE52B0A64320091D50B /* CMTimeExtensions.swift */; };
 		92524CE82B0A660D0091D50B /* PlayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE72B0A660D0091D50B /* PlayMode.swift */; };
+		927157C02B0DF62500564B5F /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */; };
+		927157C22B0DFA3200564B5F /* PlaylistsViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */; };
 		92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */; };
 		92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */; };
 		92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AC0BFB2ACA841E00FB3CA9 /* Track.swift */; };
@@ -51,6 +53,8 @@
 		92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEvents.swift; sourceTree = "<group>"; };
 		92524CE52B0A64320091D50B /* CMTimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTimeExtensions.swift; sourceTree = "<group>"; };
 		92524CE72B0A660D0091D50B /* PlayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMode.swift; sourceTree = "<group>"; };
+		927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewMode.swift; sourceTree = "<group>"; };
 		92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92AC0BF72ACA841E00FB3CA9 /* FirePlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePlayerApp.swift; sourceTree = "<group>"; };
 		92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 				92BB99732AD5535100A13648 /* FolderAnalyzer.swift */,
 				92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */,
 				9236E9BA2B0CEAA500FE0100 /* AppLogger.swift */,
+				927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				92AC0BFB2ACA841E00FB3CA9 /* Track.swift */,
 				92524CDA2B0A066E0091D50B /* FilterOptions.swift */,
 				92524CE72B0A660D0091D50B /* PlayMode.swift */,
+				927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,6 +303,8 @@
 				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
 				9236E9BB2B0CEAA500FE0100 /* AppLogger.swift in Sources */,
 				92CA9A802B0C9F7000113660 /* AudioPlayerService.swift in Sources */,
+				927157C02B0DF62500564B5F /* UserDefaultsKeys.swift in Sources */,
+				927157C22B0DFA3200564B5F /* PlaylistsViewMode.swift in Sources */,
 				92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */,
 				92524CE02B0A19700091D50B /* MediaControlMenu.swift in Sources */,
 				9236E9C02B0D014F00FE0100 /* PlaylistsView.swift in Sources */,
