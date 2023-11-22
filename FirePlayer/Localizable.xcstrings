@@ -122,6 +122,7 @@
       }
     },
     "home_sort_dialog_sort_by_title_a_z_title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -132,6 +133,7 @@
       }
     },
     "home_sort_dialog_sort_by_title_z_a_title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

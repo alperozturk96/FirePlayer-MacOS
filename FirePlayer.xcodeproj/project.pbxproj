@@ -190,10 +190,10 @@
 		92AC0C092ACA845B00FB3CA9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9236E9BE2B0D014300FE0100 /* Playlists */,
-				92524CDE2B0A19650091D50B /* MediaControlMenu */,
 				922BA21F2B06101500AC94A3 /* Home */,
 				922BA21E2B06101100AC94A3 /* Seekbar */,
+				9236E9BE2B0D014300FE0100 /* Playlists */,
+				92524CDE2B0A19650091D50B /* MediaControlMenu */,
 			);
 			path = Views;
 			sourceTree = "<group>";

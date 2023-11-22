@@ -29,7 +29,12 @@ struct HomeView: View {
     @State private var searchText = ""
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
+            List {
+                ShowPlaylistsButton
+            }
+            .listStyle(SidebarListStyle())
+
             ScrollViewReader { proxy in
                 if filteredTracks.isEmpty {
                     ContentUnavailableView.search(text: searchText)
@@ -76,9 +81,6 @@ struct HomeView: View {
                 }
                 ToolbarItem {
                     FilterOptionsButton
-                }
-                ToolbarItem {
-                    ShowPlaylistsButton
                 }
                 ToolbarItem {
                     PlayModeButton
@@ -133,10 +135,10 @@ extension HomeView {
 extension HomeView {
     @ViewBuilder
     private var SortConfirmationButtons: some View {
-        Button("home_sort_dialog_sort_by_title_a_z_title") {
+        Button("home_sort_dialog_sort_by_title_a_z_title".localized) {
             filteredTracks = filteredTracks.sortByTitleAZ()
         }
-        Button("home_sort_dialog_sort_by_title_z_a_title") {
+        Button("home_sort_dialog_sort_by_title_z_a_title".localized) {
             filteredTracks = filteredTracks.sortByTitleZA()
         }
     }
@@ -153,7 +155,7 @@ extension HomeView {
         Button(action: {
             filteredTracks = tracks.sortByTitleAZ()
         }) {
-            Label("home_toolbar_play_mode_title".localized, systemImage: "arrow.clockwise.circle.fill")
+            Label("home_toolbar_refresh_title".localized, systemImage: "arrow.clockwise.circle.fill")
         }
     }
     
@@ -249,6 +251,8 @@ extension HomeView {
     }
     
     private func scanPreviouslySelectedFolder() {
+        guard tracks.isEmpty else { return }
+        
         guard let url = userService.readFolderURL() else {
             return
         }
