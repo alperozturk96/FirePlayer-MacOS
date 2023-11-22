@@ -12,17 +12,6 @@
         }
       }
     },
-    "home_add_playlist_placeholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Playlist Title"
-          }
-        }
-      }
-    },
     "home_filter_by_album_section_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -152,17 +141,6 @@
         }
       }
     },
-    "home_toolbar_add_playlist_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Playlist"
-          }
-        }
-      }
-    },
     "home_toolbar_filter_option_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -185,13 +163,13 @@
         }
       }
     },
-    "home_toolbar_scan_title" : {
-      "extractionState" : "stale",
+    "home_toolbar_refresh_title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan"
+            "value" : "Refresh"
           }
         }
       }
@@ -207,25 +185,63 @@
         }
       }
     },
-    "home_toolbar_sort_title" : {
-      "extractionState" : "stale",
+    "MediaControlMenu" : {
+
+    },
+    "playlist_add_playlist_placeholder" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sort"
+            "value" : "Add Playlist Title"
           }
         }
       }
     },
-    "MediaControlMenu" : {
-
+    "playlist_item_swipe_action_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
     },
-    "No playlists" : {
-
+    "playlist_toolbar_add_playlist_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Playlist"
+          }
+        }
+      }
     },
-    "You don't have any playlist yet." : {
-
+    "playlists_content_unavailable_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You don't have any playlist yet"
+          }
+        }
+      }
+    },
+    "playlists_content_unavailable_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No playlists"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

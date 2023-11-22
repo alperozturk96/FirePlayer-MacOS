@@ -73,6 +73,9 @@ struct HomeView: View {
             }
             .toolbar {
                 ToolbarItem {
+                    RefreshButton
+                }
+                ToolbarItem {
                     FilterOptionsButton
                 }
                 ToolbarItem {
@@ -112,7 +115,6 @@ extension HomeView {
                             PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
                         } label: {
                             Text("home_list_swipe_action_title".localized)
-                                .tint(.orange)
                         }
                     }
             })
@@ -145,6 +147,14 @@ extension HomeView {
             playMode = (playMode == .shuffle) ? .sequential : .shuffle
         }) {
             Label("home_toolbar_play_mode_title".localized, systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
+        }
+    }
+    
+    private var RefreshButton: some View {
+        Button(action: {
+            filteredTracks = tracks.sortByTitleAZ()
+        }) {
+            Label("home_toolbar_play_mode_title".localized, systemImage: "arrow.clockwise.circle.fill")
         }
     }
     

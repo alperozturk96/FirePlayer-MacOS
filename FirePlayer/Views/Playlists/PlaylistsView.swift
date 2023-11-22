@@ -22,13 +22,12 @@ struct PlaylistsView: View {
     var body: some View {
         Group {
             if playlists.isEmpty {
-                ContentUnavailableView("No playlists", systemImage: "star", description: Text("You don't have any playlist yet."))
+                ContentUnavailableView("playlists_content_unavailable_title".localized, systemImage: "star", description: Text("playlists_content_unavailable_text".localized))
                     .symbolVariant(.slash)
             } else {
                 List {
-                    // TODO add remove capability
                     ForEach(playlists.keys.sorted(), id: \.self) { title in
-                        Button(title) {
+                        Button(action: {
                             if mode == .add {
                                 if let selectedTrackIndex {
                                     playlists[title, default: []].append(selectedTrackIndex)
@@ -38,7 +37,21 @@ struct PlaylistsView: View {
                             }
                             
                             dismiss()
-                        }
+                        }, label: {
+                            Text(title)
+                                .font(.title)
+                                .swipeActions {
+                                    Button {
+                                        playlists[title] = nil
+                                        updatePlaylist()
+                                        dismiss()
+                                    } label: {
+                                        Text("playlist_item_swipe_action_title".localized)
+                                    }
+                                    .tint(.red)
+                                }
+                        })
+                        .buttonStyle(.borderless)
                     }
                 }
             }
@@ -81,7 +94,7 @@ extension PlaylistsView {
 extension PlaylistsView {
     private var AddPlaylistTextField: some View {
         VStack {
-            TextField("home_add_playlist_placeholder".localized, text: $playlistText)
+            TextField("playlist_add_playlist_placeholder".localized, text: $playlistText)
             Button("common_ok".localized) {
                 playlists[playlistText] = .init()
                 updatePlaylist()
@@ -91,7 +104,7 @@ extension PlaylistsView {
     
     private var AddPlaylistButton: some View {
         Button(action: { showAddPlaylist = true }) {
-            Label("home_toolbar_add_playlist_title".localized, systemImage: "doc.fill.badge.plus")
+            Label("playlist_toolbar_add_playlist_title".localized, systemImage: "doc.fill.badge.plus")
         }
     }
 }
