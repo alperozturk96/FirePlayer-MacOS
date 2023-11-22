@@ -28,7 +28,6 @@ struct HomeView: View {
     @State private var showSortOptions = false
     @State private var searchText = ""
     
-    // TODO add clear filtered tracks for playlist
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
