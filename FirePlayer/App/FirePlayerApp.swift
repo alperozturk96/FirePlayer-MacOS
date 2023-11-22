@@ -15,7 +15,7 @@ struct FirePlayerApp: App {
                 HomeView()
             }
         }
-        MenuBarExtra("MediaControlMenu", systemImage: "music.note.tv.fill") {
+        MenuBarExtra("MediaControlMenu", systemImage: "flame.circle.fill") {
             MediaControlMenu()
         }
     }

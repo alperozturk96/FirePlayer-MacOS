@@ -16,6 +16,9 @@ struct SeekbarView: View {
 
     var body: some View {
         HStack {
+            Spacer()
+                .frame(width: 15)
+            
             if let currrentDurationRepresentation = audioPlayerService.player.currrentDurationRepresentation {
                 Text(currrentDurationRepresentation)
             }
@@ -53,10 +56,9 @@ struct SeekbarView: View {
             Spacer()
                 .frame(width: 15)
         }
-        
         .focusable()
         .frame(maxWidth: .infinity)
         .frame(height: 50)
-        .background(Color.gray.opacity(0.3))
+        .background(Color(AppColors.Seekbar))
     }
 }

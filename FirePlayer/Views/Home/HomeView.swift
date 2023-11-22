@@ -35,18 +35,23 @@ struct HomeView: View {
                 PlaylistsButton
             }
             .listStyle(SidebarListStyle())
-
-            ScrollViewReader { proxy in
+            
+            Group {
                 if filteredTracks.isEmpty {
                     ContentUnavailableView.search(text: searchText)
                 } else {
-                    List {
-                        Section(header: Text(header)) {
-                            TrackList(data: filteredTracks, proxy: proxy)
+                    ScrollViewReader { proxy in
+                        List {
+                            Section(header: Text(header)) {
+                                TrackList(data: filteredTracks, proxy: proxy)
+                            }
+                        }
+                        .onChange(of: selectedTrackIndex) {
+                            scrollToSelectedTrack(proxy: proxy)
                         }
                     }
-                    .onChange(of: selectedTrackIndex) {
-                        scrollToSelectedTrack(proxy: proxy)
+                    .overlay(alignment: .bottom) {
+                        SeekBar
                     }
                 }
             }
@@ -61,9 +66,6 @@ struct HomeView: View {
             }
             .navigationTitle("home_navigation_bar_title")
             .searchable(text: $searchText, prompt: searchPrompt)
-            .overlay(alignment: .bottom) {
-                SeekBar
-            }
             .onChange(of: searchText) {
                 search()
             }
