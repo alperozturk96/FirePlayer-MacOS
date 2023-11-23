@@ -28,7 +28,6 @@ extension [Track] {
         self.filter { $0.album.localizedCaseInsensitiveContains(album) }
     }
     
-    // FIXME crashes for playlist
     var randomIndex: Int {
         Int.random(in: 0..<self.count)
     }

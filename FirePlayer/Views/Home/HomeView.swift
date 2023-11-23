@@ -15,7 +15,6 @@ struct HomeView: View {
     
     @StateObject var audioPlayerService = AudioPlayerService()
     
-    @State var playerItemObserver: Any?
     @State var prevTrackIndexesStack: [Int] = []
     @State var filteredTracks = [Track]()
     @State var playMode: PlayMode = .shuffle
@@ -58,7 +57,6 @@ struct HomeView: View {
             .onAppear {
                 readPreviouslySavedPlaylists()
                 scanPreviouslySelectedFolder()
-                observePlayerStatus()
                 setupPlayerEvents()
             }
             .onDisappear {

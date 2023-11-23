@@ -13,7 +13,9 @@ struct SeekbarView: View {
     @ObservedObject var audioPlayerService: AudioPlayerService
     let selectPreviousTrack: () -> ()
     let selectNextTrack: () -> ()
-
+    
+    @State private var isSeeking = false
+    
     var body: some View {
         HStack {
             Spacer()
@@ -23,18 +25,13 @@ struct SeekbarView: View {
                 Text(currrentDurationRepresentation)
             }
             
-            Slider(value: Binding(
-                get: { audioPlayerService.currentTime },
-                set: { newValue in
-                    audioPlayerService.seek(to: newValue)
+            Slider(value: $audioPlayerService.currentTime, in: 0...audioPlayerService.totalTime, onEditingChanged: sliderEditingChanged)
+                .onChange(of: audioPlayerService.currentTime) {
+                    if isSeeking {
+                        audioPlayerService.seek()
+                    }
                 }
-            ), in: 0...audioPlayerService.totalTime, onEditingChanged: { editingChanged in
-                if !editingChanged {
-                    audioPlayerService.seek(to: audioPlayerService.currentTime)
-                }
-            })
             
-            // FIXME shows longer duration and autoplay gets broken
             if let durationRepresentation = audioPlayerService.player.durationRepresentation {
                 Text(durationRepresentation)
             }
@@ -56,9 +53,24 @@ struct SeekbarView: View {
             Spacer()
                 .frame(width: 15)
         }
+        .onChange(of: audioPlayerService.isPlaying) {
+            if audioPlayerService.isTrackFinished {
+                selectNextTrack()
+            }
+        }
         .focusable()
         .frame(maxWidth: .infinity)
         .frame(height: 50)
         .background(Color(AppColors.Seekbar))
+    }
+}
+
+// MARK: - Private Methods
+extension SeekbarView {
+    private func sliderEditingChanged(_ editingStarted: Bool) {
+        isSeeking = editingStarted
+        if !editingStarted {
+            audioPlayerService.seek()
+        }
     }
 }

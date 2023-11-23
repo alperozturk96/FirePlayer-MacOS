@@ -8,15 +8,6 @@
 import Foundation
 
 extension HomeView {
-    func observePlayerStatus() {
-        playerItemObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: audioPlayerService.player.currentItem,
-            queue: nil) { _ in
-                selectNextTrack()
-            }
-    }
-    
     func setupPlayerEvents() {
         receive(event: .previous) {
             selectPreviousTrack()
@@ -32,10 +23,6 @@ extension HomeView {
     }
     
     func removeObservers() {
-        if let observer = playerItemObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        
         NotificationCenter.default.removeObserver(self)
     }
     
