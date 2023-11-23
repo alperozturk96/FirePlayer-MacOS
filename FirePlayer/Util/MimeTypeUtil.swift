@@ -6,15 +6,25 @@
 //
 
 import Foundation
+import AVFoundation
 
 struct MimeTypeUtil {
     static let shared = MimeTypeUtil()
     
     private init() {}
     
-    let unsupportedFormats = ["ape", "opus", "wv", "dsf", ""]
+    var allowedAVPlayerFileExtensions: [String] {
+        let avTypes: [AVFileType] = AVURLAsset.audiovisualTypes()
+        
+        let avExtensions: [String] =
+            avTypes
+                .compactMap({ UTType($0.rawValue)?.preferredFilenameExtension })
+                .sorted()
+
+        return avExtensions
+    }
 
     func isSupported(format: String) -> Bool {
-        !unsupportedFormats.contains(format)
+        allowedAVPlayerFileExtensions.contains(format)
     }
 }

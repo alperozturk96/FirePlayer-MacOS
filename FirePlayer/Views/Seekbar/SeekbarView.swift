@@ -41,14 +41,17 @@ struct SeekbarView: View {
             ImageButton(icon: "arrowshape.backward.circle.fill") {
                 selectPreviousTrack()
             }
+            .keyboardShortcut(.leftArrow, modifiers: [])
             
             ImageButton(icon: audioPlayerService.player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
                 audioPlayerService.player.toggle()
             }
+            .keyboardShortcut(.space, modifiers: [])
             
             ImageButton(icon: "arrowshape.forward.circle.fill") {
                 selectNextTrack()
             }
+            .keyboardShortcut(.rightArrow, modifiers: [])
             
             Spacer()
                 .frame(width: 15)

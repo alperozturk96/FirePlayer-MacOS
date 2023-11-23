@@ -54,6 +54,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .navigationTitle("home_navigation_bar_title")
             .onAppear {
                 readPreviouslySavedPlaylists()
                 scanPreviouslySelectedFolder()
@@ -62,7 +63,6 @@ struct HomeView: View {
             .onDisappear {
                 removeObservers()
             }
-            .navigationTitle("home_navigation_bar_title")
             .searchable(text: $searchText, prompt: searchPrompt)
             .onChange(of: searchText) {
                 search()
