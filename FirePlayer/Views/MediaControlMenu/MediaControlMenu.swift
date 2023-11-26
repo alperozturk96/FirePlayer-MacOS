@@ -12,13 +12,13 @@ struct MediaControlMenu: View {
     
     var body: some View {
         HStack {
-            ImageButtonWithText(title: "media_control_menu_previous".localized, icon: "arrowshape.backward.circle.fill") {
+            ImageButtonWithText(title: AppTexts.previous, icon: AppIcons.previous) {
                 publish(event: .previous)
             }
             ImageButtonWithText(title: audioPlayerService.toggleText.localized, icon: audioPlayerService.toggleIcon) {
                 publish(event: .toggle)
             }
-            ImageButtonWithText(title: "media_control_menu_next".localized, icon: "arrowshape.forward.circle.fill") {
+            ImageButtonWithText(title: AppTexts.next, icon: AppIcons.next) {
                 publish(event: .next)
             }
         }

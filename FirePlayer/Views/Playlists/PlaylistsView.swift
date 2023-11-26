@@ -18,12 +18,11 @@ struct PlaylistsView: View {
     
     @State private var showAddPlaylist = false
     @State private var playlistText: String = ""
-    private let swipeButtonTitle = "playlist_item_swipe_action_title".localized
     
     var body: some View {
         Group {
             if playlists.isEmpty {
-                ContentUnavailableView("playlists_content_unavailable_title".localized, systemImage: "star", description: Text("playlists_content_unavailable_text".localized))
+                ContentUnavailableView(AppTexts.playlistUnavailable, systemImage: AppIcons.star, description: Text(AppTexts.playlistContentUnavailable))
                     .symbolVariant(.slash)
             } else {
                 List {
@@ -37,7 +36,7 @@ struct PlaylistsView: View {
                                     Button {
                                         swipeAction(title)
                                     } label: {
-                                        Text(swipeButtonTitle)
+                                        Text(AppTexts.playlistTrackSwipeTitle)
                                     }
                                     .tint(.red)
                                 }
@@ -55,7 +54,7 @@ struct PlaylistsView: View {
                 AddPlaylistButton
             }
         }
-        .confirmationDialog("home_playlist_confirmation_dialog_title", isPresented: $showAddPlaylist) {
+        .confirmationDialog(AppTexts.addPlaylistTitle, isPresented: $showAddPlaylist) {
             AddPlaylistTextField
         }
     }
@@ -103,8 +102,8 @@ extension PlaylistsView {
 extension PlaylistsView {
     private var AddPlaylistTextField: some View {
         VStack {
-            TextField("playlist_add_playlist_placeholder".localized, text: $playlistText)
-            Button("common_ok".localized) {
+            TextField(AppTexts.addPlaylistPlaceholder, text: $playlistText)
+            Button(AppTexts.ok) {
                 playlists[playlistText] = .init()
                 updatePlaylist()
             }
@@ -113,7 +112,7 @@ extension PlaylistsView {
     
     private var AddPlaylistButton: some View {
         Button(action: { showAddPlaylist = true }) {
-            Label("playlist_toolbar_add_playlist_title".localized, systemImage: "doc.fill.badge.plus")
+            Label(AppTexts.addPlaylistButton, systemImage: AppIcons.addPlaylist)
         }
     }
 }

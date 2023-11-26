@@ -26,14 +26,6 @@ final class AudioPlayerService: ObservableObject {
         return !currentTime.isZero && !totalTime.isZero && currentTime >= totalTime
     }
     
-    var toggleText: String {
-        isPlaying ? "media_control_menu_pause" : "media_control_menu_play"
-    }
-    
-    var toggleIcon: String {
-        isPlaying ? "pause.circle.fill" : "play.circle.fill"
-    }
-    
     @MainActor
     func play(url: URL) {
         AppLogger.shared.info("SelectedTrack: \(url)")
@@ -82,5 +74,16 @@ final class AudioPlayerService: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - UI Helpers
+extension AudioPlayerService {
+    var toggleText: String {
+        isPlaying ? AppTexts.pause : AppTexts.play
+    }
+    
+    var toggleIcon: String {
+        isPlaying ? AppIcons.pause : AppIcons.play
     }
 }

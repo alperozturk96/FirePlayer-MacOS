@@ -38,7 +38,7 @@ struct SeekbarView: View {
             
             Spacer()
             
-            ImageButton(icon: "arrowshape.backward.circle.fill") {
+            ImageButton(icon: AppIcons.previous) {
                 selectPreviousTrack()
             }
             .keyboardShortcut(.leftArrow, modifiers: [])
@@ -48,7 +48,7 @@ struct SeekbarView: View {
             }
             .keyboardShortcut(.space, modifiers: [])
             
-            ImageButton(icon: "arrowshape.forward.circle.fill") {
+            ImageButton(icon: AppIcons.next) {
                 selectNextTrack()
             }
             .keyboardShortcut(.rightArrow, modifiers: [])

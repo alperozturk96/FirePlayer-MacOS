@@ -54,7 +54,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("home_navigation_bar_title")
+            .navigationTitle(AppTexts.homeNavBarTitle)
             .onAppear {
                 readPreviouslySavedPlaylists()
                 scanPreviouslySelectedFolder()
@@ -73,7 +73,7 @@ struct HomeView: View {
             .onChange(of: selectedTrackIndex) {
                 playSelectedTrack()
             }
-            .confirmationDialog("home_sort_confirmation_dialog_title", isPresented: $showSortOptions) {
+            .confirmationDialog(AppTexts.sortTitle, isPresented: $showSortOptions) {
                 SortConfirmationButtons
             }
             .toolbar {
@@ -109,7 +109,7 @@ extension HomeView {
                         NavigationLink {
                             PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
                         } label: {
-                            Text("home_list_swipe_action_title".localized)
+                            Text(AppTexts.homeTrackSwipeTitle)
                         }
                     }
             }
@@ -129,10 +129,10 @@ extension HomeView {
 extension HomeView {
     @ViewBuilder
     private var SortConfirmationButtons: some View {
-        Button("home_sort_dialog_sort_by_title_a_z_title".localized) {
+        Button(AppTexts.sortAToZTitle) {
             filteredTracks = filteredTracks.sort(.aToZ)
         }
-        Button("home_sort_dialog_sort_by_title_z_a_title".localized) {
+        Button(AppTexts.sortZToATitle) {
             filteredTracks = filteredTracks.sort(.zToA)
         }
     }
@@ -141,7 +141,7 @@ extension HomeView {
         Button {
             playMode = playMode.next
         } label: {
-            Label("home_toolbar_play_mode_title".localized, systemImage: playMode.icon)
+            Label(AppTexts.playModeTitle, systemImage: playMode.icon)
         }
     }
     
@@ -149,12 +149,12 @@ extension HomeView {
         Button {
             selectedFilterOption = selectedFilterOption.next
         } label: {
-            Label("home_toolbar_filter_option_title".localized, systemImage: selectedFilterOption.icon)
+            Label(AppTexts.filterOptionTitle, systemImage: selectedFilterOption.icon)
         }
     }
     
     private var TracksButton: some View {
-        Label("home_sidebar_tracks_title".localized, systemImage: "music.quarternote.3")
+        Label(AppTexts.tracks, systemImage: AppIcons.tracks)
             .onTapGesture {
                 withAnimation {
                     resetFilteredTracks()
@@ -166,19 +166,19 @@ extension HomeView {
         NavigationLink {
             PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
         } label: {
-            Label("home_sidebar_playlists_title".localized, systemImage: "star.fill")
+            Label(AppTexts.playlists, systemImage: AppIcons.playlists)
         }
     }
     
     private var SortOptionsButton: some View {
         Button(action: { showSortOptions = true }) {
-            Label("home_toolbar_sort_title".localized, systemImage: "line.3.horizontal")
+            Label(AppTexts.sortTitle, systemImage: AppIcons.sort)
         }
     }
     
     private var ScanFolderButton: some View {
         Button(action: scanFolder) {
-            Label("home_toolbar_scan_title".localized, systemImage: "folder.fill.badge.plus")
+            Label(AppTexts.scan, systemImage: AppIcons.folder)
         }
     }
 }

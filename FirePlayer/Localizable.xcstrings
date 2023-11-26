@@ -134,6 +134,7 @@
       }
     },
     "home_sort_confirmation_dialog_title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

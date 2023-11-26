@@ -17,33 +17,33 @@ enum FilterOptions {
     var header: String {
         return switch self {
         case .title:
-            "home_filter_by_title_section_title".localized
+            AppTexts.filterByTitle
         case .artist:
-            "home_filter_by_artist_section_title".localized
+            AppTexts.filterByArtist
         case .album:
-            "home_filter_by_album_section_title".localized
+            AppTexts.filterByAlbum
         }
     }
     
     var searchPrompt: String {
         return switch self {
         case .title:
-            "home_search_in_title_prompt".localized
+            AppTexts.filterByTitleSearchPrompt
         case .artist:
-            "home_search_in_artists_prompt".localized
+            AppTexts.filterByArtistSearchPrompt
         case .album:
-            "home_search_in_albums_prompt".localized
+            AppTexts.filterByAlbumSearchPrompt
         }
     }
     
     var icon: String {
         return switch self {
         case .title:
-            "textformat.alt"
+            AppIcons.title
         case .artist:
-            "person.fill"
+            AppIcons.artist
         case .album:
-            "rectangle.stack.fill"
+            AppIcons.album
         }
     }
 }

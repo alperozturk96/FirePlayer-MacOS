@@ -15,6 +15,6 @@ enum PlayMode {
     }
     
     var icon: String {
-        self == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill"
+        self == .shuffle ? AppIcons.shuffle : AppIcons.sequential
     }
 }
