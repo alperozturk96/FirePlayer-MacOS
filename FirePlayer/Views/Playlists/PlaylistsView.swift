@@ -18,6 +18,7 @@ struct PlaylistsView: View {
     
     @State private var showAddPlaylist = false
     @State private var playlistText: String = ""
+    private let swipeButtonTitle = "playlist_item_swipe_action_title".localized
     
     var body: some View {
         Group {
@@ -27,30 +28,20 @@ struct PlaylistsView: View {
             } else {
                 List {
                     ForEach(playlists.keys.sorted(), id: \.self) { title in
-                        Button(action: {
-                            if mode == .add {
-                                if let selectedTrackIndex {
-                                    playlists[title, default: []].append(selectedTrackIndex)
-                                }
-                            } else {
-                                filteredTracks = filterTracks(forPlaylist: title)
-                            }
-                            
-                            dismiss()
-                        }, label: {
+                        Button {
+                            trackButtonAction(title)
+                        } label: {
                             Text(title)
                                 .font(.title)
                                 .swipeActions {
                                     Button {
-                                        playlists[title] = nil
-                                        updatePlaylist()
-                                        dismiss()
+                                        swipeAction(title)
                                     } label: {
-                                        Text("playlist_item_swipe_action_title".localized)
+                                        Text(swipeButtonTitle)
                                     }
                                     .tint(.red)
                                 }
-                        })
+                        }
                         .buttonStyle(.borderless)
                     }
                 }
@@ -72,6 +63,24 @@ struct PlaylistsView: View {
 
 // MARK: - Private Methods
 extension PlaylistsView {
+    private func trackButtonAction(_ title: String) {
+        if mode == .add {
+            if let selectedTrackIndex {
+                playlists[title, default: []].append(selectedTrackIndex)
+            }
+        } else {
+            filteredTracks = filterTracks(forPlaylist: title)
+        }
+        
+        dismiss()
+    }
+    
+    private func swipeAction(_ title: String) {
+        playlists[title] = nil
+        updatePlaylist()
+        dismiss()
+    }
+    
     private func filterTracks(forPlaylist playlistName: String) -> [Track] {
         guard let trackIndexes = playlists[playlistName] else {
             return []

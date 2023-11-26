@@ -15,3 +15,18 @@ extension [URL] {
         }
     }
 }
+
+extension URL {
+    func toTrack(_ analyzer: TrackMetaDataAnalyzer) -> Track {
+        let title = self.lastPathComponent
+        
+        var track = Track(title: title, artist: "", album: "", path: self, pathExtension: self.pathExtension)
+        
+        if let metadata = analyzer.getMetadata(url: self) {
+            track.artist = metadata["artist"] as? String ?? "Unknown"
+            track.album = metadata["album"] as? String ?? "Unknown"
+        }
+        
+        return track
+    }
+}

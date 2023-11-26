@@ -41,7 +41,7 @@ struct HomeView: View {
                 } else {
                     ScrollViewReader { proxy in
                         List {
-                            Section(header: Text(header)) {
+                            Section(header: Text(selectedFilterOption.header)) {
                                 TrackList(data: filteredTracks, proxy: proxy)
                             }
                         }
@@ -63,7 +63,7 @@ struct HomeView: View {
             .onDisappear {
                 removeObservers()
             }
-            .searchable(text: $searchText, prompt: searchPrompt)
+            .searchable(text: $searchText, prompt: selectedFilterOption.searchPrompt)
             .onChange(of: searchText) {
                 search()
             }
@@ -98,13 +98,9 @@ struct HomeView: View {
 extension HomeView {
     private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
-            Button(action: {
-                selectedTrackIndex = index
-                
-                if !showSeekbar {
-                    showSeekbar = true
-                }
-            }, label: {
+            Button {
+                trackButtonAction(index)
+            } label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
                     .font(.title)
@@ -116,7 +112,7 @@ extension HomeView {
                             Text("home_list_swipe_action_title".localized)
                         }
                     }
-            })
+            }
             .buttonStyle(.borderless)
         }
     }
@@ -134,35 +130,26 @@ extension HomeView {
     @ViewBuilder
     private var SortConfirmationButtons: some View {
         Button("home_sort_dialog_sort_by_title_a_z_title".localized) {
-            filteredTracks = filteredTracks.sortByTitleAZ()
+            filteredTracks = filteredTracks.sort(.aToZ)
         }
         Button("home_sort_dialog_sort_by_title_z_a_title".localized) {
-            filteredTracks = filteredTracks.sortByTitleZA()
+            filteredTracks = filteredTracks.sort(.zToA)
         }
     }
     
     private var PlayModeButton: some View {
         Button {
-            playMode = (playMode == .shuffle) ? .sequential : .shuffle
+            playMode = playMode.next
         } label: {
-            Label("home_toolbar_play_mode_title".localized, systemImage: playMode == .shuffle ? "shuffle.circle.fill" : "arrow.forward.to.line.circle.fill")
+            Label("home_toolbar_play_mode_title".localized, systemImage: playMode.icon)
         }
     }
     
     private var FilterOptionsButton: some View {
         Button {
-            selectedFilterOption = (selectedFilterOption == .title) ? .artist : (selectedFilterOption == .artist) ? .album : .title
+            selectedFilterOption = selectedFilterOption.next
         } label: {
-            let systemImage = switch selectedFilterOption {
-            case .title:
-                "textformat.alt"
-            case .artist:
-                "person.fill"
-            case .album:
-                "rectangle.stack.fill"
-            }
-            
-            Label("home_toolbar_filter_option_title".localized, systemImage: systemImage)
+            Label("home_toolbar_filter_option_title".localized, systemImage: selectedFilterOption.icon)
         }
     }
     
@@ -196,33 +183,16 @@ extension HomeView {
     }
 }
 
-// MARK: - Texts
+// MARK: - Private Methods
 extension HomeView {
-    private var header: String {
-        return switch selectedFilterOption {
-        case .title:
-            "home_filter_by_title_section_title".localized
-        case .artist:
-            "home_filter_by_artist_section_title".localized
-        case .album:
-            "home_filter_by_album_section_title".localized
+    private func trackButtonAction(_ index: Int) {
+        selectedTrackIndex = index
+        
+        if !showSeekbar {
+            showSeekbar = true
         }
     }
     
-    private var searchPrompt: String {
-        return switch selectedFilterOption {
-        case .title:
-            "home_search_in_title_prompt".localized
-        case .artist:
-            "home_search_in_artists_prompt".localized
-        case .album:
-            "home_search_in_albums_prompt".localized
-        }
-    }
-}
-
-// MARK: - Private Methods
-extension HomeView {
     private func playSelectedTrack() {
         audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
         prevTrackIndexesStack.append(selectedTrackIndex)
@@ -235,22 +205,15 @@ extension HomeView {
     }
     
     private func resetFilteredTracks() {
-        filteredTracks = tracks.sortByTitleAZ()
+        filteredTracks = tracks.sort(.aToZ)
         searchText = ""
     }
     
     private func search() {
-        if searchText.isEmpty {
-            filteredTracks = tracks.sortByTitleAZ()
+        filteredTracks = if searchText.isEmpty {
+            tracks.sort(.aToZ)
         } else {
-            filteredTracks = switch selectedFilterOption {
-            case .title:
-                tracks.filterByTitle(title: searchText).sortByTitleAZ()
-            case .artist:
-                tracks.filterByArtist(artist: searchText).sortByTitleAZ()
-            case .album:
-                tracks.filterByAlbum(album: searchText).sortByTitleAZ()
-            }
+            filteredTracks.filter(selectedFilterOption, text: searchText).sort(.aToZ)
         }
     }
     
@@ -281,19 +244,10 @@ extension HomeView {
         }
         
         for url in urls.supportedUrls {
-            let title = url.lastPathComponent
-            
-            var track = Track(title: title, artist: "", album: "", path: url, pathExtension: url.pathExtension)
-            
-            if let metadata = trackMetaDataAnalyzer.getMetadata(url: url) {
-                track.artist = metadata["artist"] as? String ?? "Unknown"
-                track.album = metadata["album"] as? String ?? "Unknown"
-            }
-            
-            tracks.append(track)
+            tracks.append(url.toTrack(trackMetaDataAnalyzer))
         }
         
-        filteredTracks = tracks.sortByTitleAZ()
+        filteredTracks = tracks.sort(.aToZ)
         AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		922088372B13252200DD7018 /* SortOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922088362B13252200DD7018 /* SortOptions.swift */; };
 		922BA2212B06102400AC94A3 /* SeekbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2202B06102400AC94A3 /* SeekbarView.swift */; };
 		922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2232B07A9EB00AC94A3 /* UserService.swift */; };
 		922BA2272B07B7A400AC94A3 /* TrackExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922BA2262B07B7A400AC94A3 /* TrackExtensions.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		922088362B13252200DD7018 /* SortOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOptions.swift; sourceTree = "<group>"; };
 		922BA2202B06102400AC94A3 /* SeekbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeekbarView.swift; sourceTree = "<group>"; };
 		922BA2232B07A9EB00AC94A3 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		922BA2262B07B7A400AC94A3 /* TrackExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackExtensions.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				92524CE72B0A660D0091D50B /* PlayMode.swift */,
 				927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */,
 				9233A6B42B0E79BA0075C4FF /* AppColors.swift */,
+				922088362B13252200DD7018 /* SortOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				922BA2312B08F94C00AC94A3 /* URLExtensions.swift in Sources */,
 				92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */,
 				92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */,
+				922088372B13252200DD7018 /* SortOptions.swift in Sources */,
 				92AC0BFC2ACA841E00FB3CA9 /* Track.swift in Sources */,
 				922BA2242B07A9EB00AC94A3 /* UserService.swift in Sources */,
 				922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */,
