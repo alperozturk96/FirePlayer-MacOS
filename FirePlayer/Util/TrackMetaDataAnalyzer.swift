@@ -12,6 +12,7 @@ struct TrackMetaDataAnalyzer {
     
     func getMetadata(url: URL) -> NSDictionary? {
         var fileID: AudioFileID? = nil
+        
         var status: OSStatus = AudioFileOpenURL(url as CFURL, .readPermission, kAudioFileFLACType, &fileID)
         
         guard status == noErr else {

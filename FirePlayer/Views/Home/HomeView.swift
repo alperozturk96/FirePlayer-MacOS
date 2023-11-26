@@ -13,7 +13,7 @@ struct HomeView: View {
     private let folderAnalyzer = FolderAnalyzer()
     private let userService = UserService()
     
-    @StateObject var audioPlayerService = AudioPlayerService()
+    @StateObject var audioPlayerService = AudioPlayerService.shared
     
     @State var prevTrackIndexesStack: [Int] = []
     @State var filteredTracks = [Track]()

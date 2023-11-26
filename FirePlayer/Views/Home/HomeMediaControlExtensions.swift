@@ -13,7 +13,7 @@ extension HomeView {
             selectPreviousTrack()
         }
         
-        receive(event: .playerToggle) {
+        receive(event: .toggle) {
             audioPlayerService.player.toggle()
         }
         

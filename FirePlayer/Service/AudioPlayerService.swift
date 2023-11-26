@@ -9,18 +9,29 @@ import AVFoundation
 import Combine
 
 final class AudioPlayerService: ObservableObject {
+    static let shared = AudioPlayerService()
+    
+    private init() {
+        observePlayerStatus()
+    }
+    
     @Published var player = AVPlayer()
     @Published var isPlaying = false
     @Published var currentTime: Double = 0
     @Published var totalTime: Double = 0
     private var cancellables: Set<AnyCancellable> = []
-    
-    init() {
-        observePlayerStatus()
-    }
-    
+        
+    // FIXME
     var isTrackFinished: Bool {
         return !currentTime.isZero && !totalTime.isZero && currentTime >= totalTime
+    }
+    
+    var toggleText: String {
+        isPlaying ? "media_control_menu_pause" : "media_control_menu_play"
+    }
+    
+    var toggleIcon: String {
+        isPlaying ? "pause.circle.fill" : "play.circle.fill"
     }
     
     @MainActor

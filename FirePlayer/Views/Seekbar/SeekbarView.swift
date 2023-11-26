@@ -43,7 +43,7 @@ struct SeekbarView: View {
             }
             .keyboardShortcut(.leftArrow, modifiers: [])
             
-            ImageButton(icon: audioPlayerService.player.isPlaying ? "pause.circle.fill" : "play.circle.fill") {
+            ImageButton(icon: audioPlayerService.toggleIcon) {
                 audioPlayerService.player.toggle()
             }
             .keyboardShortcut(.space, modifiers: [])

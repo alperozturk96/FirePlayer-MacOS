@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct MediaControlMenu: View {
+    @StateObject private var audioPlayerService = AudioPlayerService.shared
+    
     var body: some View {
         HStack {
-            ImageButtonWithText(title: "Previous", icon: "arrowshape.backward.circle.fill") {
+            ImageButtonWithText(title: "media_control_menu_previous".localized, icon: "arrowshape.backward.circle.fill") {
                 publish(event: .previous)
             }
-            ImageButtonWithText(title: "Play | Pause", icon: "playpause.fill") {
-                publish(event: .playerToggle)
+            ImageButtonWithText(title: audioPlayerService.toggleText.localized, icon: audioPlayerService.toggleIcon) {
+                publish(event: .toggle)
             }
-            ImageButtonWithText(title: "Next", icon: "arrowshape.forward.circle.fill") {
+            ImageButtonWithText(title: "media_control_menu_next".localized, icon: "arrowshape.forward.circle.fill") {
                 publish(event: .next)
             }
         }
