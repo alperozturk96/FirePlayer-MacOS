@@ -213,7 +213,7 @@ extension HomeView {
         filteredTracks = if searchText.isEmpty {
             tracks.sort(.aToZ)
         } else {
-            filteredTracks.filter(selectedFilterOption, text: searchText).sort(.aToZ)
+            tracks.filter(selectedFilterOption, text: searchText).sort(.aToZ)
         }
     }
     

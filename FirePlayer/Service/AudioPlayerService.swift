@@ -18,12 +18,12 @@ final class AudioPlayerService: ObservableObject {
     @Published var player = AVPlayer()
     @Published var isPlaying = false
     @Published var currentTime: Double = 0
-    @Published var totalTime: Double = 0
+    @Published var totalTime: Double = 1
     private var cancellables: Set<AnyCancellable> = []
         
     // FIXME
     var isTrackFinished: Bool {
-        return !currentTime.isZero && !totalTime.isZero && currentTime >= totalTime
+        return currentTime >= totalTime
     }
     
     @MainActor
@@ -49,6 +49,7 @@ final class AudioPlayerService: ObservableObject {
             guard let duration = try? await player.currentItem?.asset.load(.duration) else { return }
             currentTime = 0
             totalTime = CMTimeGetSeconds(duration)
+            AppLogger.shared.info("SelectedTrack TotalTime: " + totalTime.description)
         }
     }
     
