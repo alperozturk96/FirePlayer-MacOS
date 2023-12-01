@@ -9,4 +9,8 @@ import Foundation
 
 enum SortOptions {
     case aToZ, zToA
+    
+    var next: SortOptions {
+        self == .aToZ ? .zToA : .aToZ
+    }
 }

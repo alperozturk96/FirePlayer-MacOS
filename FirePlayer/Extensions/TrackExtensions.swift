@@ -19,14 +19,14 @@ extension [Track] {
     func filter(_ filterOption: FilterOptions, text: String) -> Self {
         return switch filterOption {
         case .title:
-            filter { $0.title.localizedCaseInsensitiveContains(text) }
+            filter { $0.title.normalize.localizedCaseInsensitiveContains(text.normalize) }
         case .artist:
-            filter { $0.artist.localizedCaseInsensitiveContains(text) }
+            filter { $0.artist.normalize.localizedCaseInsensitiveContains(text.normalize) }
         case .album:
-            filter { $0.album.localizedCaseInsensitiveContains(text) }
+            filter { $0.album.normalize.localizedCaseInsensitiveContains(text.normalize) }
         }
     }
-
+    
     var randomIndex: Int {
         Int.random(in: 0..<self.count)
     }

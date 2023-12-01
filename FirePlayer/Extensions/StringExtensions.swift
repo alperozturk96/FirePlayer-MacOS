@@ -8,6 +8,13 @@
 import Foundation
 
 extension String {
+    var normalize: String {
+        return self.folding(options: .diacriticInsensitive, locale: .current)
+    }
+}
+
+// MARK: - Localization
+extension String {
     var localized: String {
         NSLocalizedString(self, comment: "\(self)_doesntExists")
     }

@@ -133,39 +133,6 @@
         }
       }
     },
-    "home_sort_confirmation_dialog_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sort"
-          }
-        }
-      }
-    },
-    "home_sort_dialog_sort_by_title_a_z_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sort By Title A-Z"
-          }
-        }
-      }
-    },
-    "home_sort_dialog_sort_by_title_z_a_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sort By Title Z-A"
-          }
-        }
-      }
-    },
     "home_toolbar_filter_option_title" : {
       "extractionState" : "manual",
       "localizations" : {

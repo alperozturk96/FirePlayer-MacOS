@@ -14,7 +14,6 @@ enum AppIcons {
     static let next = "arrowshape.forward.circle.fill"
     static let tracks = "music.quarternote.3"
     static let playlists = "star.fill"
-    static let sort = "line.3.horizontal"
     static let folder = "folder.fill.badge.plus"
     static let star = "star"
     static let addPlaylist = "doc.fill.badge.plus"
@@ -23,6 +22,8 @@ enum AppIcons {
     static let title = "textformat.alt"
     static let artist = "person.fill"
     static let album = "rectangle.stack.fill"
+    static let letterA = "a.circle.fill"
+    static let letterZ = "z.circle.fill"
 }
 
 enum AppTexts {
@@ -34,9 +35,6 @@ enum AppTexts {
     
     static let homeNavBarTitle = "home_navigation_bar_title".localized
     static let homeTrackSwipeTitle = "home_list_swipe_action_title".localized
-    static let sortTitle = "home_sort_confirmation_dialog_title".localized
-    static let sortAToZTitle = "home_sort_dialog_sort_by_title_a_z_title".localized
-    static let sortZToATitle = "home_sort_dialog_sort_by_title_z_a_title".localized
     static let playModeTitle = "home_toolbar_play_mode_title".localized
     static let filterOptionTitle = "home_toolbar_filter_option_title".localized
     static let tracks = "home_sidebar_tracks_title".localized

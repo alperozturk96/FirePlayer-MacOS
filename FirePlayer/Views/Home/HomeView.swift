@@ -23,8 +23,8 @@ struct HomeView: View {
     @State private var playlists: [String: [Int]] = [:]
     @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
+    @State private var sortOption: SortOptions = .aToZ
     @State private var showSeekbar = false
-    @State private var showSortOptions = false
     @State private var searchText = ""
     
     var body: some View {
@@ -41,7 +41,7 @@ struct HomeView: View {
                 } else {
                     ScrollViewReader { proxy in
                         List {
-                            Section(header: Text(selectedFilterOption.header)) {
+                            Section(header: Header) {
                                 TrackList(data: filteredTracks, proxy: proxy)
                             }
                         }
@@ -70,11 +70,11 @@ struct HomeView: View {
             .onChange(of: selectedFilterOption) {
                 search()
             }
+            .onChange(of: sortOption) {
+                filteredTracks = filteredTracks.sort(sortOption)
+            }
             .onChange(of: selectedTrackIndex) {
                 playSelectedTrack()
-            }
-            .confirmationDialog(AppTexts.sortTitle, isPresented: $showSortOptions) {
-                SortConfirmationButtons
             }
             .toolbar {
                 ToolbarItem {
@@ -82,9 +82,6 @@ struct HomeView: View {
                 }
                 ToolbarItem {
                     PlayModeButton
-                }
-                ToolbarItem {
-                    SortOptionsButton
                 }
                 ToolbarItem {
                     ScanFolderButton
@@ -96,6 +93,17 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
+    private var Header: some View {
+        HStack {
+            Text(selectedFilterOption.header)
+            Spacer()
+            Image(systemName: sortOption == .aToZ ? AppIcons.letterA : AppIcons.letterZ)
+                .onTapGesture {
+                    sortOption = sortOption.next
+                }
+        }
+    }
+    
     private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button {
@@ -127,16 +135,6 @@ extension HomeView {
 
 // MARK: - Buttons
 extension HomeView {
-    @ViewBuilder
-    private var SortConfirmationButtons: some View {
-        Button(AppTexts.sortAToZTitle) {
-            filteredTracks = filteredTracks.sort(.aToZ)
-        }
-        Button(AppTexts.sortZToATitle) {
-            filteredTracks = filteredTracks.sort(.zToA)
-        }
-    }
-    
     private var PlayModeButton: some View {
         Button {
             playMode = playMode.next
@@ -170,12 +168,6 @@ extension HomeView {
         }
     }
     
-    private var SortOptionsButton: some View {
-        Button(action: { showSortOptions = true }) {
-            Label(AppTexts.sortTitle, systemImage: AppIcons.sort)
-        }
-    }
-    
     private var ScanFolderButton: some View {
         Button(action: scanFolder) {
             Label(AppTexts.scan, systemImage: AppIcons.folder)
@@ -186,7 +178,11 @@ extension HomeView {
 // MARK: - Private Methods
 extension HomeView {
     private func trackButtonAction(_ index: Int) {
-        selectedTrackIndex = index
+        if index == selectedTrackIndex {
+            playSelectedTrack()
+        } else {
+            selectedTrackIndex = index
+        }
         
         if !showSeekbar {
             showSeekbar = true
@@ -205,13 +201,13 @@ extension HomeView {
     }
     
     private func resetFilteredTracks() {
-        filteredTracks = tracks.sort(.aToZ)
+        filteredTracks = tracks
         searchText = ""
     }
     
     private func search() {
         filteredTracks = if searchText.isEmpty {
-            tracks.sort(.aToZ)
+            tracks
         } else {
             tracks.filter(selectedFilterOption, text: searchText).sort(.aToZ)
         }
@@ -247,7 +243,8 @@ extension HomeView {
             tracks.append(url.toTrack(trackMetaDataAnalyzer))
         }
         
-        filteredTracks = tracks.sort(.aToZ)
+        tracks = tracks.sort(.aToZ)
+        filteredTracks = tracks
         AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
     }
 }
