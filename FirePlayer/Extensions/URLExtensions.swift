@@ -25,6 +25,11 @@ extension URL {
         if let metadata = analyzer.getMetadata(url: self) {
             track.artist = metadata["artist"] as? String ?? "Unknown"
             track.album = metadata["album"] as? String ?? "Unknown"
+            
+            // FIX ME
+            if let dateModified = metadata[kMDItemContentModificationDate as String] as? Date {
+                track.dateModified = dateModified
+            }
         }
         
         return track

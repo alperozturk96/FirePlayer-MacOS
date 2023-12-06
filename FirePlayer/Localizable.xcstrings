@@ -166,6 +166,17 @@
         }
       }
     },
+    "home_toolbar_sort_options_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort"
+          }
+        }
+      }
+    },
     "media_control_menu_next" : {
       "extractionState" : "manual",
       "localizations" : {

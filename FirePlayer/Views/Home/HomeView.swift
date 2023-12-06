@@ -84,6 +84,9 @@ struct HomeView: View {
                     PlayModeButton
                 }
                 ToolbarItem {
+                    SortButton
+                }
+                ToolbarItem {
                     ScanFolderButton
                 }
             }
@@ -94,14 +97,7 @@ struct HomeView: View {
 // MARK: - ChildViews
 extension HomeView {
     private var Header: some View {
-        HStack {
-            Text(selectedFilterOption.header)
-            Spacer()
-            Image(systemName: sortOption == .aToZ ? AppIcons.letterA : AppIcons.letterZ)
-                .onTapGesture {
-                    sortOption = sortOption.next
-                }
-        }
+        Text(selectedFilterOption.header)
     }
     
     private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
@@ -140,6 +136,14 @@ extension HomeView {
             playMode = playMode.next
         } label: {
             Label(AppTexts.playModeTitle, systemImage: playMode.icon)
+        }
+    }
+    
+    private var SortButton: some View {
+        Button {
+            sortOption = sortOption.next
+        } label: {
+            Label(AppTexts.playModeTitle, systemImage: sortOption.icon)
         }
     }
     

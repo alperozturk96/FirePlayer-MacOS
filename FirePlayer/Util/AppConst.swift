@@ -24,6 +24,8 @@ enum AppIcons {
     static let album = "rectangle.stack.fill"
     static let letterA = "a.circle.fill"
     static let letterZ = "z.circle.fill"
+    static let newToOld = "arrow.down"
+    static let oldToNew = "arrow.up"
 }
 
 enum AppTexts {
@@ -36,6 +38,7 @@ enum AppTexts {
     static let homeNavBarTitle = "home_navigation_bar_title".localized
     static let homeTrackSwipeTitle = "home_list_swipe_action_title".localized
     static let playModeTitle = "home_toolbar_play_mode_title".localized
+    static let sortOptionsTitle = "home_toolbar_sort_options_title".localized
     static let filterOptionTitle = "home_toolbar_filter_option_title".localized
     static let tracks = "home_sidebar_tracks_title".localized
     static let playlists = "home_sidebar_playlists_title".localized

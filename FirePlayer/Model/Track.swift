@@ -15,4 +15,5 @@ struct Track {
     var path: URL
     var pathExtension: String
     var playlist: String?
+    var dateModified: Date?
 }
