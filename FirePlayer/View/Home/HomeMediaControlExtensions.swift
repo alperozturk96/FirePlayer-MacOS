@@ -14,7 +14,7 @@ extension HomeView {
         }
         
         receive(event: .toggle) {
-            audioPlayerService.player.toggle()
+            audioPlayer.player.toggle()
         }
         
         receive(event: .next) {

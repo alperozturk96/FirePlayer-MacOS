@@ -10,15 +10,19 @@ import Foundation
 enum SortOptions {
     case aToZ, zToA, newToOld, oldToNew
     
-    var next: Self {
-        return if self == .aToZ {
+    func sortByTitle() -> Self {
+        return if (self == .aToZ) {
             .zToA
-        } else if self == .zToA {
-            .newToOld
-        } else if self == .newToOld {
-            .oldToNew
         } else {
             .aToZ
+        }
+    }
+    
+    func sortByDate() -> Self {
+        return if (self == .newToOld) {
+            .oldToNew
+        } else {
+            .newToOld
         }
     }
     

@@ -13,7 +13,7 @@ struct HomeView: View {
     private let folderAnalyzer = FolderAnalyzer()
     private let userService = UserService()
     
-    @StateObject var audioPlayerService = AudioPlayerService.shared
+    @StateObject var audioPlayer = AudioPlayer.shared
     
     @State var prevTrackIndexesStack: [Int] = []
     @State var filteredTracks = [Track]()
@@ -25,6 +25,7 @@ struct HomeView: View {
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var sortOption: SortOptions = .aToZ
     @State private var showSeekbar = false
+    @State private var showSortOptions = false
     @State private var searchText = ""
     
     var body: some View {
@@ -64,6 +65,15 @@ struct HomeView: View {
                 removeObservers()
             }
             .searchable(text: $searchText, prompt: selectedFilterOption.searchPrompt)
+            .confirmationDialog(AppTexts.sortOptionsTitle, isPresented: $showSortOptions) {
+                Button(AppTexts.sortByTitle) { 
+                    sortOption = sortOption.sortByTitle()
+                }
+                Button(AppTexts.sortByDate) { 
+                    sortOption = sortOption.sortByDate()
+                }
+                Button(AppTexts.cancel, role: .cancel) { showSortOptions = false }
+            }
             .onChange(of: searchText) {
                 search()
             }
@@ -124,7 +134,7 @@ extension HomeView {
     @ViewBuilder
     private var SeekBar: some View {
         if showSeekbar {
-            SeekbarView(audioPlayerService: audioPlayerService, selectPreviousTrack: selectPreviousTrack, selectNextTrack: selectNextTrack)
+            SeekbarView(audioPlayer: audioPlayer, selectPreviousTrack: selectPreviousTrack, selectNextTrack: selectNextTrack)
         }
     }
 }
@@ -141,9 +151,9 @@ extension HomeView {
     
     private var SortButton: some View {
         Button {
-            sortOption = sortOption.next
+            showSortOptions = true
         } label: {
-            Label(AppTexts.playModeTitle, systemImage: sortOption.icon)
+            Label(AppTexts.playModeTitle, systemImage: AppIcons.sort)
         }
     }
     
@@ -194,7 +204,7 @@ extension HomeView {
     }
     
     private func playSelectedTrack() {
-        audioPlayerService.play(url: filteredTracks[selectedTrackIndex].path)
+        audioPlayer.play(url: filteredTracks[selectedTrackIndex].path)
         prevTrackIndexesStack.append(selectedTrackIndex)
     }
     

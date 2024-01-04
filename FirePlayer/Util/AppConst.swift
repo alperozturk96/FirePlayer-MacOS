@@ -11,6 +11,7 @@ enum AppIcons {
     static let previous = "arrowshape.backward.circle.fill"
     static let pause = "pause.circle.fill"
     static let play = "play.circle.fill"
+    static let sort = "line.3.horizontal.decrease.circle.fill"
     static let next = "arrowshape.forward.circle.fill"
     static let tracks = "music.quarternote.3"
     static let playlists = "star.fill"
@@ -30,11 +31,16 @@ enum AppIcons {
 
 enum AppTexts {
     static let ok = "common_ok".localized
+    static let cancel = "common_cancel".localized
+
     static let previous = "media_control_menu_previous".localized
     static let pause = "media_control_menu_pause".localized
     static let play = "media_control_menu_play".localized
     static let next = "media_control_menu_next".localized
     
+    static let sortByTitle = "home_sort_confirmation_dialog_by_title".localized
+    static let sortByDate = "home_sort_confirmation_dialog_by_date".localized
+
     static let homeNavBarTitle = "home_navigation_bar_title".localized
     static let homeTrackSwipeTitle = "home_list_swipe_action_title".localized
     static let playModeTitle = "home_toolbar_play_mode_title".localized

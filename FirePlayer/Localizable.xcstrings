@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "common_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
     "common_ok" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129,6 +140,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tracks"
+          }
+        }
+      }
+    },
+    "home_sort_confirmation_dialog_by_date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort By Date"
+          }
+        }
+      }
+    },
+    "home_sort_confirmation_dialog_by_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort By Title"
           }
         }
       }

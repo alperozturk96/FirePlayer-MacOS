@@ -35,7 +35,7 @@
 		92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */; };
 		92BB99712AD552D800A13648 /* TrackMetaDataAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99702AD552D800A13648 /* TrackMetaDataAnalyzer.swift */; };
 		92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99732AD5535100A13648 /* FolderAnalyzer.swift */; };
-		92CA9A802B0C9F7000113660 /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */; };
+		92CA9A802B0C9F7000113660 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA9A7F2B0C9F7000113660 /* AudioPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,7 +69,7 @@
 		92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerExtensions.swift; sourceTree = "<group>"; };
 		92BB99702AD552D800A13648 /* TrackMetaDataAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMetaDataAnalyzer.swift; sourceTree = "<group>"; };
 		92BB99732AD5535100A13648 /* FolderAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderAnalyzer.swift; sourceTree = "<group>"; };
-		92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
+		92CA9A7F2B0C9F7000113660 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +164,7 @@
 			children = (
 				92AC0C082ACA845500FB3CA9 /* App */,
 				92AC0C0A2ACA846200FB3CA9 /* Model */,
-				92AC0C092ACA845B00FB3CA9 /* Views */,
+				92AC0C092ACA845B00FB3CA9 /* View */,
 				92BB996D2AD5526800A13648 /* Service */,
 				922BA2252B07AF0300AC94A3 /* Util */,
 				922BA2222B07713B00AC94A3 /* Extensions */,
@@ -192,7 +192,7 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		92AC0C092ACA845B00FB3CA9 /* Views */ = {
+		92AC0C092ACA845B00FB3CA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				922BA21F2B06101500AC94A3 /* Home */,
@@ -200,7 +200,7 @@
 				9236E9BE2B0D014300FE0100 /* Playlists */,
 				92524CDE2B0A19650091D50B /* MediaControlMenu */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		92AC0C0A2ACA846200FB3CA9 /* Model */ = {
@@ -219,7 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				922BA2232B07A9EB00AC94A3 /* UserService.swift */,
-				92CA9A7F2B0C9F7000113660 /* AudioPlayerService.swift */,
+				92CA9A7F2B0C9F7000113660 /* AudioPlayer.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -309,7 +309,7 @@
 				922BA22D2B08F07A00AC94A3 /* StringExtensions.swift in Sources */,
 				92AC0BF82ACA841E00FB3CA9 /* FirePlayerApp.swift in Sources */,
 				9236E9BB2B0CEAA500FE0100 /* AppLogger.swift in Sources */,
-				92CA9A802B0C9F7000113660 /* AudioPlayerService.swift in Sources */,
+				92CA9A802B0C9F7000113660 /* AudioPlayer.swift in Sources */,
 				9220883B2B13301900DD7018 /* AppConst.swift in Sources */,
 				927157C02B0DF62500564B5F /* UserDefaultsKeys.swift in Sources */,
 				927157C22B0DFA3200564B5F /* PlaylistsViewMode.swift in Sources */,

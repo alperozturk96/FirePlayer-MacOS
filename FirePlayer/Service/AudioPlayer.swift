@@ -1,5 +1,5 @@
 //
-//  AudioPlayerService.swift
+//  AudioPlayer.swift
 //  FirePlayer
 //
 //  Created by Alper Ozturk on 21.11.2023.
@@ -8,8 +8,8 @@
 import AVFoundation
 import Combine
 
-final class AudioPlayerService: ObservableObject {
-    static let shared = AudioPlayerService()
+final class AudioPlayer: ObservableObject {
+    static let shared = AudioPlayer()
     
     private init() {
         observePlayerStatus()
@@ -79,7 +79,7 @@ final class AudioPlayerService: ObservableObject {
 }
 
 // MARK: - UI Helpers
-extension AudioPlayerService {
+extension AudioPlayer {
     var toggleText: String {
         isPlaying ? AppTexts.pause : AppTexts.play
     }

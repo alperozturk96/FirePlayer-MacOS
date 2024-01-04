@@ -10,7 +10,7 @@ import AVFoundation
 
 struct SeekbarView: View {
     
-    @ObservedObject var audioPlayerService: AudioPlayerService
+    @ObservedObject var audioPlayer: AudioPlayer
     let selectPreviousTrack: () -> ()
     let selectNextTrack: () -> ()
     
@@ -21,18 +21,18 @@ struct SeekbarView: View {
             Spacer()
                 .frame(width: 15)
             
-            if let currrentDurationRepresentation = audioPlayerService.player.currrentDurationRepresentation {
+            if let currrentDurationRepresentation = audioPlayer.player.currrentDurationRepresentation {
                 Text(currrentDurationRepresentation)
             }
             
-            Slider(value: $audioPlayerService.currentTime, in: 0...audioPlayerService.totalTime, onEditingChanged: sliderEditingChanged)
-                .onChange(of: audioPlayerService.currentTime) {
+            Slider(value: $audioPlayer.currentTime, in: 0...audioPlayer.totalTime, onEditingChanged: sliderEditingChanged)
+                .onChange(of: audioPlayer.currentTime) {
                     if isSeeking {
-                        audioPlayerService.seek()
+                        audioPlayer.seek()
                     }
                 }
             
-            if let durationRepresentation = audioPlayerService.player.durationRepresentation {
+            if let durationRepresentation = audioPlayer.player.durationRepresentation {
                 Text(durationRepresentation)
             }
             
@@ -43,8 +43,8 @@ struct SeekbarView: View {
             }
             .keyboardShortcut(.leftArrow, modifiers: [])
             
-            ImageButton(icon: audioPlayerService.toggleIcon) {
-                audioPlayerService.player.toggle()
+            ImageButton(icon: audioPlayer.toggleIcon) {
+                audioPlayer.player.toggle()
             }
             .keyboardShortcut(.space, modifiers: [])
             
@@ -56,8 +56,8 @@ struct SeekbarView: View {
             Spacer()
                 .frame(width: 15)
         }
-        .onChange(of: audioPlayerService.isPlaying) {
-            if audioPlayerService.isTrackFinished {
+        .onChange(of: audioPlayer.isPlaying) {
+            if audioPlayer.isTrackFinished {
                 selectNextTrack()
             }
         }
@@ -73,7 +73,7 @@ extension SeekbarView {
     private func sliderEditingChanged(_ editingStarted: Bool) {
         isSeeking = editingStarted
         if !editingStarted {
-            audioPlayerService.seek()
+            audioPlayer.seek()
         }
     }
 }

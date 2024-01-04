@@ -11,8 +11,12 @@ extension [Track] {
     func sort(_ sortOption: SortOptions) -> Self {
         return if sortOption == .aToZ {
             sorted { $0.title < $1.title }
-        } else {
+        } else if sortOption == .zToA {
             sorted { $0.title > $1.title }
+        } else if sortOption == .newToOld {
+            sorted { $0.dateModified ?? .now > $1.dateModified ?? .now }
+        } else {
+            sorted { $0.dateModified ?? .now < $1.dateModified ?? .now }
         }
     }
     
