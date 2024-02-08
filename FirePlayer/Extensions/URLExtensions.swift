@@ -25,7 +25,9 @@ extension URL {
         
         let artist: String? = await extractMetadata(metadata, .commonKeyArtist)
         let album: String? = await extractMetadata(metadata, .commonKeyAlbumName)
-        let dateModified: Date? = await extractMetadata(metadata, .commonKeyCreationDate)
+        
+        let resourceValues = try? self.resourceValues(forKeys: [.contentModificationDateKey])
+        let dateModified: Date? = resourceValues?.contentModificationDate
         
         return Track(title: lastPathComponent, artist: artist ?? "", album: album ?? "", path: self, pathExtension: pathExtension, dateModified: dateModified)
     }
