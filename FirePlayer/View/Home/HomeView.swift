@@ -65,10 +65,10 @@ struct HomeView: View {
             }
             .searchable(text: $searchText, prompt: selectedFilterOption.searchPrompt)
             .confirmationDialog(AppTexts.sortOptionsTitle, isPresented: $showSortOptions) {
-                Button(AppTexts.sortByTitle) { 
+                Button(AppTexts.sortByTitle) {
                     sortOption = sortOption.sortByTitle()
                 }
-                Button(AppTexts.sortByDate) { 
+                Button(AppTexts.sortByDate) {
                     sortOption = sortOption.sortByDate()
                 }
                 Button(AppTexts.cancel, role: .cancel) { showSortOptions = false }
@@ -127,6 +127,21 @@ extension HomeView {
                     }
             }
             .buttonStyle(.borderless)
+            .contextMenu {
+                // TODO 
+                Button("Add to Playlist") {
+                    
+                }
+                Button("Save Track Position") {
+                    
+                }
+                Button("Reset Track Position") {
+                    
+                }
+                Button("Delete") {
+                    
+                }
+            }
         }
     }
     
