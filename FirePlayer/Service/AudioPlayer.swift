@@ -13,6 +13,7 @@ final class AudioPlayer: ObservableObject {
     
     private init() {
         observePlayerStatus()
+        addSelectNextTrackObserver()
     }
     
     @Published var player = AVPlayer()
@@ -20,7 +21,7 @@ final class AudioPlayer: ObservableObject {
     @Published var currentTime: Double = 0
     @Published var totalTime: Double = 1
     private var cancellables: Set<AnyCancellable> = []
-        
+    
     // FIXME
     var isTrackFinished: Bool {
         return currentTime >= totalTime
@@ -61,6 +62,20 @@ final class AudioPlayer: ObservableObject {
         })
     }
     
+    private func addSelectNextTrackObserver() {
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(triggerSelectNextTrackEvent),
+                         name: .AVPlayerItemDidPlayToEndTime,
+                         object: player.currentItem)
+    }
+    
+    @objc
+    private func triggerSelectNextTrackEvent() {
+        publish(event: .next)
+    }
+
     private func observePlayerStatus() {
         player.publisher(for: \.timeControlStatus)
             .receive(on: RunLoop.main)

@@ -25,7 +25,7 @@ struct SeekbarView: View {
                 Text(currrentDurationRepresentation)
             }
             
-            Slider(value: $audioPlayer.currentTime, in: 0...audioPlayer.totalTime, onEditingChanged: sliderEditingChanged)
+            Slider(value: $audioPlayer.currentTime, in: 0.0...audioPlayer.totalTime, onEditingChanged: sliderEditingChanged)
                 .onChange(of: audioPlayer.currentTime) {
                     if isSeeking {
                         audioPlayer.seek()
@@ -55,11 +55,6 @@ struct SeekbarView: View {
             
             Spacer()
                 .frame(width: 15)
-        }
-        .onChange(of: audioPlayer.isPlaying) {
-            if audioPlayer.isTrackFinished {
-                selectNextTrack()
-            }
         }
         .focusable()
         .frame(maxWidth: .infinity)
