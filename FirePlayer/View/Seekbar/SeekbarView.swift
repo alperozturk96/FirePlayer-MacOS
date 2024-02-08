@@ -14,8 +14,6 @@ struct SeekbarView: View {
     let selectPreviousTrack: () -> ()
     let selectNextTrack: () -> ()
     
-    @State private var isSeeking = false
-    
     var body: some View {
         HStack {
             Spacer()
@@ -25,12 +23,16 @@ struct SeekbarView: View {
                 Text(currrentDurationRepresentation)
             }
             
-            Slider(value: $audioPlayer.currentTime, in: 0.0...audioPlayer.totalTime, onEditingChanged: sliderEditingChanged)
-                .onChange(of: audioPlayer.currentTime) {
-                    if isSeeking {
-                        audioPlayer.seek()
+            if let duration = audioPlayer.player.duration {
+                Slider(value: Binding(
+                    get: {
+                        audioPlayer.currentTime
+                    },
+                    set: { seekedTime in
+                        audioPlayer.seek(to: seekedTime)
                     }
-                }
+                ), in: 0.0...duration)
+            }
             
             if let durationRepresentation = audioPlayer.player.durationRepresentation {
                 Text(durationRepresentation)
@@ -60,15 +62,5 @@ struct SeekbarView: View {
         .frame(maxWidth: .infinity)
         .frame(height: 50)
         .background(Color(AppColors.Seekbar))
-    }
-}
-
-// MARK: - Private Methods
-extension SeekbarView {
-    private func sliderEditingChanged(_ editingStarted: Bool) {
-        isSeeking = editingStarted
-        if !editingStarted {
-            audioPlayer.seek()
-        }
     }
 }

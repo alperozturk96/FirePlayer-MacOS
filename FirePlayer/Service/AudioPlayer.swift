@@ -13,19 +13,19 @@ final class AudioPlayer: ObservableObject {
     
     private init() {
         observePlayerStatus()
+        observeCurrentTime()
         addSelectNextTrackObserver()
     }
     
-    @Published var player = AVPlayer()
+    @Published var player: AVPlayer = {
+        let player = AVPlayer()
+        player.volume = 1.0
+        return player
+    }()
+    
     @Published var isPlaying = false
     @Published var currentTime: Double = 0
-    @Published var totalTime: Double = 1
     private var cancellables: Set<AnyCancellable> = []
-    
-    // FIXME
-    var isTrackFinished: Bool {
-        return currentTime >= totalTime
-    }
     
     @MainActor
     func play(url: URL) {
@@ -33,33 +33,25 @@ final class AudioPlayer: ObservableObject {
         
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
-        player.volume = 1
         player.play()
-        
-        updateDuration()
-        updateCurrentTime()
+        resetDurations()
     }
     
-    func seek() {
-        player.seek(to: CMTime(seconds: currentTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), toleranceBefore: .zero, toleranceAfter: .zero)
+    func seek(to seconds: Double) {
+        let timeCM = CMTime(seconds: seconds, preferredTimescale: 100)
+        player.seek(to: timeCM)
     }
     
     @MainActor
-    private func updateDuration() {
-        Task {
-            guard let duration = try? await player.currentItem?.asset.load(.duration) else { return }
-            currentTime = 0
-            totalTime = CMTimeGetSeconds(duration)
-            AppLogger.shared.info("SelectedTrack TotalTime: " + totalTime.description)
-        }
+    private func resetDurations() {
+        currentTime = 0
     }
     
-    private func updateCurrentTime() {
-        let interval = CMTime(seconds: 0.1, preferredTimescale: 600)
-        player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] elapsed in
-            guard let self else { return }
-            self.currentTime = CMTimeGetSeconds(self.player.currentTime())
-        })
+    private func observeCurrentTime() {
+        player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 100), queue: DispatchQueue.main) { [weak self] time in
+            guard let self = self else { return }
+            self.currentTime = CMTimeGetSeconds(time)
+        }
     }
     
     private func addSelectNextTrackObserver() {

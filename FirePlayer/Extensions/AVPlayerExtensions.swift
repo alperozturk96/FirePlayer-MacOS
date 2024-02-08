@@ -25,8 +25,19 @@ extension AVPlayer {
         }
     }
     
+    var duration: Double? {
+        guard let currentItemDuration = currentItem?.duration else { return nil }
+        
+        let durationInSeconds = CMTimeGetSeconds(currentItemDuration)
+        
+        return if durationInSeconds.isFinite {
+            durationInSeconds
+        } else {
+            nil
+        }
+    }
+    
     var durationRepresentation: String? {
-        guard let duration = currentItem?.duration else { return nil }
-        return duration.positionalTime
+        return currentItem?.duration.positionalTime
     }
 }
