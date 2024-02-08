@@ -9,7 +9,6 @@ import SwiftUI
 import OSLog
 
 struct HomeView: View {
-    private let trackMetaDataAnalyzer = TrackMetaDataAnalyzer()
     private let folderAnalyzer = FolderAnalyzer()
     private let userService = UserService()
     
@@ -253,13 +252,18 @@ extension HomeView {
             return
         }
         
-        for url in urls.supportedUrls {
-            tracks.append(url.toTrack(trackMetaDataAnalyzer))
+        Task(priority: .high) {
+            for url in urls.supportedUrls {
+                await tracks.append(url.toTrack())
+            }
+            
+            await MainActor.run {
+                tracks = tracks.sort(.aToZ)
+                filteredTracks = tracks
+            }
+            
+            AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
         }
-        
-        tracks = tracks.sort(.aToZ)
-        filteredTracks = tracks
-        AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
     }
 }
 

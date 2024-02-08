@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 extension [URL] {
     var supportedUrls: [URL] {
@@ -17,21 +18,19 @@ extension [URL] {
 }
 
 extension URL {
-    func toTrack(_ analyzer: TrackMetaDataAnalyzer) -> Track {
-        let title = self.lastPathComponent
+    func toTrack() async -> Track {
+        let asset = AVAsset(url: self)
         
-        var track = Track(title: title, artist: "", album: "", path: self, pathExtension: self.pathExtension)
+        let metadata = try? await asset.load(.metadata)
         
-        if let metadata = analyzer.getMetadata(url: self) {
-            track.artist = metadata["artist"] as? String ?? "Unknown"
-            track.album = metadata["album"] as? String ?? "Unknown"
-            
-            // FIXME
-            if let dateModified = metadata[kMDItemContentModificationDate as String] as? Date {
-                track.dateModified = dateModified
-            }
-        }
+        let artist: String? = await extractMetadata(metadata, .commonKeyArtist)
+        let album: String? = await extractMetadata(metadata, .commonKeyAlbumName)
+        let dateModified: Date? = await extractMetadata(metadata, .commonKeyCreationDate)
         
-        return track
+        return Track(title: lastPathComponent, artist: artist ?? "", album: album ?? "", path: self, pathExtension: pathExtension, dateModified: dateModified)
+    }
+    
+    private func extractMetadata<Value>(_ metadata: [AVMetadataItem]?, _ key: AVMetadataKey) async -> Value? {
+        return try? await metadata?.first(where: { $0.commonKey == key })?.load(.value) as? Value
     }
 }

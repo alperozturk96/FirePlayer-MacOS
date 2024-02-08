@@ -36,7 +36,11 @@ extension HomeView {
     }
     
     func selectNextTrack() {
-        let nextIndex = (playMode == .shuffle) ? filteredTracks.randomIndex : (selectedTrackIndex < filteredTracks.count) ? selectedTrackIndex + 1 : 0
-        selectedTrackIndex = nextIndex
+        if playMode == .loop {
+            audioPlayer.play(url: filteredTracks[selectedTrackIndex].path)
+        } else {
+            let nextIndex = (playMode == .shuffle) ? filteredTracks.randomIndex : (selectedTrackIndex < filteredTracks.count) ? selectedTrackIndex + 1 : 0
+            selectedTrackIndex = nextIndex
+        }
     }
 }

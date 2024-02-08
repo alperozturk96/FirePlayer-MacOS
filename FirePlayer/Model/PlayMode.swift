@@ -8,13 +8,21 @@
 import Foundation
 
 enum PlayMode {
-    case shuffle, sequential
+    case shuffle, sequential, loop
     
     var next: Self {
-        (self == .shuffle) ? .sequential : .shuffle
+        return switch(self) {
+            case .shuffle: .sequential
+            case .sequential: .loop
+            case .loop: .shuffle
+        }
     }
     
     var icon: String {
-        self == .shuffle ? AppIcons.shuffle : AppIcons.sequential
+        return switch(self) {
+            case .shuffle: AppIcons.shuffle
+            case .sequential: AppIcons.sequential
+            case .loop: AppIcons.loop
+        }
     }
 }

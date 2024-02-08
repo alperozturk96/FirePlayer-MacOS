@@ -20,6 +20,7 @@ enum AppIcons {
     static let addPlaylist = "doc.fill.badge.plus"
     static let shuffle = "shuffle.circle.fill"
     static let sequential = "arrow.forward.to.line.circle.fill"
+    static let loop = "point.forward.to.point.capsulepath.fill"
     static let title = "textformat.alt"
     static let artist = "person.fill"
     static let album = "rectangle.stack.fill"
