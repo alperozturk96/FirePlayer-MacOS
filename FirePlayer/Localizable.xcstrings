@@ -67,6 +67,28 @@
         }
       }
     },
+    "home_delete_alert_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete this file?"
+          }
+        }
+      }
+    },
+    "home_delete_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Track"
+          }
+        }
+      }
+    },
     "home_filter_by_album_section_title" : {
       "extractionState" : "manual",
       "localizations" : {

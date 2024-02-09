@@ -9,7 +9,7 @@ import SwiftUI
 import OSLog
 
 struct HomeView: View {
-    private let folderAnalyzer = FolderAnalyzer()
+    private let fileUtil = FileUtil()
     let userService = UserService()
     
     @StateObject var audioPlayer = AudioPlayer.shared
@@ -26,6 +26,8 @@ struct HomeView: View {
     @State private var showSeekbar = false
     @State private var showSortOptions = false
     @State private var searchText = ""
+    @State private var selectedTrackForFileActions: Track?
+    @State private var showDeleteAlert = false
     
     var body: some View {
         NavigationView {
@@ -99,6 +101,20 @@ struct HomeView: View {
                     ScanFolderButton
                 }
             }
+            .alert(isPresented: $showDeleteAlert) {
+                Alert(
+                    title: Text(AppTexts.deleteAlertTitle),
+                    message: Text(AppTexts.deleteAlertDescription),
+                    primaryButton: .destructive(Text(AppTexts.ok)) {
+                        if let selectedTrackForFileActions {
+                            fileUtil.deleteFile(url: selectedTrackForFileActions.path) {
+                                filteredTracks.remove(selectedTrackForFileActions)
+                            }
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
     }
 }
@@ -129,7 +145,8 @@ extension HomeView {
                     userService.removeTrackPlaybackPosition(id: item.id)
                 }
                 Button(AppTexts.deleteTrack) {
-                    // TODO
+                    selectedTrackForFileActions = item
+                    showDeleteAlert = true
                 }
             }
         }
@@ -248,7 +265,7 @@ extension HomeView {
     }
     
     private func scanFolder() {
-        folderAnalyzer.browse { url in
+        fileUtil.browse { url in
             addTracksFromGiven(folderURL: url)
             userService.saveFolderURL(url: url)
         }

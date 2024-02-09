@@ -33,7 +33,7 @@
 		92AC0BFE2ACA841F00FB3CA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92AC0BFD2ACA841F00FB3CA9 /* Assets.xcassets */; };
 		92AC0C012ACA841F00FB3CA9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92AC0C002ACA841F00FB3CA9 /* Preview Assets.xcassets */; };
 		92BB996F2AD5528000A13648 /* AVPlayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */; };
-		92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99732AD5535100A13648 /* FolderAnalyzer.swift */; };
+		92BB99742AD5535100A13648 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BB99732AD5535100A13648 /* FileUtil.swift */; };
 		92CA9A802B0C9F7000113660 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA9A7F2B0C9F7000113660 /* AudioPlayer.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,7 +66,7 @@
 		92AC0C002ACA841F00FB3CA9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		92AC0C022ACA841F00FB3CA9 /* FirePlayer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirePlayer.entitlements; sourceTree = "<group>"; };
 		92BB996E2AD5528000A13648 /* AVPlayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerExtensions.swift; sourceTree = "<group>"; };
-		92BB99732AD5535100A13648 /* FolderAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderAnalyzer.swift; sourceTree = "<group>"; };
+		92BB99732AD5535100A13648 /* FileUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtil.swift; sourceTree = "<group>"; };
 		92CA9A7F2B0C9F7000113660 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				922BA22E2B08F53000AC94A3 /* MimeTypeUtil.swift */,
-				92BB99732AD5535100A13648 /* FolderAnalyzer.swift */,
+				92BB99732AD5535100A13648 /* FileUtil.swift */,
 				92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */,
 				9236E9BA2B0CEAA500FE0100 /* AppLogger.swift */,
 				927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */,
@@ -249,7 +249,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					92AC0BF32ACA841E00FB3CA9 = {
 						CreatedOnToolsVersion = 15.0;
@@ -295,7 +295,7 @@
 				922BA22F2B08F53000AC94A3 /* MimeTypeUtil.swift in Sources */,
 				92524CDB2B0A066E0091D50B /* FilterOptions.swift in Sources */,
 				92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */,
-				92BB99742AD5535100A13648 /* FolderAnalyzer.swift in Sources */,
+				92BB99742AD5535100A13648 /* FileUtil.swift in Sources */,
 				922BA2312B08F94C00AC94A3 /* URLExtensions.swift in Sources */,
 				92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */,
 				92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */,
@@ -357,6 +357,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -421,6 +422,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -453,6 +455,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"FirePlayer/Preview Content\"";
 				DEVELOPMENT_TEAM = 38ST782M8X;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -484,6 +487,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"FirePlayer/Preview Content\"";
 				DEVELOPMENT_TEAM = 38ST782M8X;
 				ENABLE_HARDENED_RUNTIME = YES;

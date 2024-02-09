@@ -8,6 +8,15 @@
 import Foundation
 
 extension [Track] {
+    mutating func remove(_ track: Track) {
+        for (index,item) in self.enumerated() {
+            if item.id == track.id {
+                self.remove(at: index)
+                return
+            }
+        }
+    }
+    
     func sort(_ sortOption: SortOptions) -> Self {
         return if sortOption == .aToZ {
             sorted { $0.title < $1.title }

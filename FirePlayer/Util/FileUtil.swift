@@ -8,7 +8,7 @@
 import Foundation
 import AppKit
 
-struct FolderAnalyzer {
+struct FileUtil {
     
     func browse(onComplete: @escaping (URL) -> ()) {
         let openPanel = NSOpenPanel()
@@ -26,6 +26,18 @@ struct FolderAnalyzer {
                 
                 onComplete(selectedPath)
             }
+        }
+    }
+    
+    
+    func deleteFile(url: URL, onComplete: @escaping () -> ()) {
+        let fileManager = FileManager.default
+        do {
+            try fileManager.removeItem(at: url)
+            AppLogger.shared.info("File deleted successfully")
+            onComplete()
+        } catch {
+            AppLogger.shared.info("Error deleting file: \(error.localizedDescription)")
         }
     }
 }
