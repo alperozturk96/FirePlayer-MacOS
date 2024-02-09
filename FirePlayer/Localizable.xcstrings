@@ -23,11 +23,49 @@
         }
       }
     },
-    "Delete" : {
-
+    "home_context_menu_add_to_playlist_button_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add To Playlist"
+          }
+        }
+      }
     },
-    "Edit" : {
-
+    "home_context_menu_delete_track_position_button_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Track"
+          }
+        }
+      }
+    },
+    "home_context_menu_reset_track_position_button_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Track Position"
+          }
+        }
+      }
+    },
+    "home_context_menu_save_track_position_button_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Track Position"
+          }
+        }
+      }
     },
     "home_filter_by_album_section_title" : {
       "extractionState" : "manual",

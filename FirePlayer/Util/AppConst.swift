@@ -42,6 +42,11 @@ enum AppTexts {
     static let sortByTitle = "home_sort_confirmation_dialog_by_title".localized
     static let sortByDate = "home_sort_confirmation_dialog_by_date".localized
 
+    static let addToPlaylist = "home_context_menu_add_to_playlist_button_text".localized
+    static let saveTrackPosition = "home_context_menu_save_track_position_button_text".localized
+    static let resetTrackPosition = "home_context_menu_reset_track_position_button_text".localized
+    static let deleteTrack = "home_context_menu_delete_track_position_button_text".localized
+
     static let homeNavBarTitle = "home_navigation_bar_title".localized
     static let homeTrackSwipeTitle = "home_list_swipe_action_title".localized
     static let playModeTitle = "home_toolbar_play_mode_title".localized

@@ -37,7 +37,7 @@ extension HomeView {
     
     func selectNextTrack() {
         if playMode == .loop {
-            audioPlayer.play(url: filteredTracks[selectedTrackIndex].path)
+            playSelectedTrack()
         } else {
             let nextIndex = (playMode == .shuffle) ? filteredTracks.randomIndex : (selectedTrackIndex < filteredTracks.count) ? selectedTrackIndex + 1 : 0
             selectedTrackIndex = nextIndex

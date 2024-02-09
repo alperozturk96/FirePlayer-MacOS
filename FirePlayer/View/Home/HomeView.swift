@@ -10,7 +10,7 @@ import OSLog
 
 struct HomeView: View {
     private let folderAnalyzer = FolderAnalyzer()
-    private let userService = UserService()
+    let userService = UserService()
     
     @StateObject var audioPlayer = AudioPlayer.shared
     
@@ -41,7 +41,7 @@ struct HomeView: View {
                 } else {
                     ScrollViewReader { proxy in
                         List {
-                            Section(header: Header) {
+                            Section(header: Text(selectedFilterOption.header)) {
                                 TrackList(data: filteredTracks, proxy: proxy)
                             }
                         }
@@ -105,10 +105,6 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
-    private var Header: some View {
-        Text(selectedFilterOption.header)
-    }
-    
     private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
         ForEach(Array(data.enumerated()), id: \.offset) { index, item in
             Button {
@@ -118,28 +114,22 @@ extension HomeView {
                 Text(item.title)
                     .font(.title)
                     .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
-                    .swipeActions {
-                        NavigationLink {
-                            PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
-                        } label: {
-                            Text(AppTexts.homeTrackSwipeTitle)
-                        }
-                    }
             }
             .buttonStyle(.borderless)
             .contextMenu {
-                // TODO 
-                Button("Add to Playlist") {
-                    
+                NavigationLink {
+                    PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
+                } label: {
+                    Text(AppTexts.addToPlaylist)
                 }
-                Button("Save Track Position") {
-                    
+                Button(AppTexts.saveTrackPosition) {
+                    userService.saveTrackPlaybackPosition(id: item.id, position: audioPlayer.currentTime)
                 }
-                Button("Reset Track Position") {
-                    
+                Button(AppTexts.resetTrackPosition) {
+                    userService.removeTrackPlaybackPosition(id: item.id)
                 }
-                Button("Delete") {
-                    
+                Button(AppTexts.deleteTrack) {
+                    // TODO
                 }
             }
         }
@@ -217,8 +207,10 @@ extension HomeView {
         }
     }
     
-    private func playSelectedTrack() {
-        audioPlayer.play(url: filteredTracks[selectedTrackIndex].path)
+    func playSelectedTrack() {
+        let track = filteredTracks[selectedTrackIndex]
+        let savedTrackPosition = userService.readTrackPlaybackPosition(id: track.id)
+        audioPlayer.play(track: track, savedTrackPosition: savedTrackPosition)
         prevTrackIndexesStack.append(selectedTrackIndex)
     }
     

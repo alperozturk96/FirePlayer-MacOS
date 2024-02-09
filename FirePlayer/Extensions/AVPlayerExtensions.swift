@@ -9,6 +9,12 @@ import Foundation
 import AVFoundation
 
 extension AVPlayer {
+    func play(url: URL) {
+        let playerItem = AVPlayerItem(url: url)
+        replaceCurrentItem(with: playerItem)
+        play()
+    }
+    
     func toggle() {
         isPlaying ? pause() : play()
     }

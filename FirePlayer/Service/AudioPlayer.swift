@@ -28,13 +28,15 @@ final class AudioPlayer: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     
     @MainActor
-    func play(url: URL) {
-        AppLogger.shared.info("SelectedTrack: \(url)")
+    func play(track: Track, savedTrackPosition: Double?) {
+        AppLogger.shared.info("SelectedTrack: \(track.path)")
         
-        let playerItem = AVPlayerItem(url: url)
-        player.replaceCurrentItem(with: playerItem)
-        player.play()
+        player.play(url: track.path)
         resetDurations()
+        
+        if let savedTrackPosition {
+            seek(to: savedTrackPosition)
+        }
     }
     
     func seek(to seconds: Double) {
