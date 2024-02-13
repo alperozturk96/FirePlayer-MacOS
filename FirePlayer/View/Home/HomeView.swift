@@ -280,11 +280,8 @@ extension HomeView {
             let firstPageTrackCount = 30
             
             if urls.count >= firstPageTrackCount {
-                let firstTwentyTrack = Array(urls.prefix(firstPageTrackCount))
-                await addTracks(firstTwentyTrack)
-                
-                let restOfTracks = Array(urls.suffix(from: firstPageTrackCount))
-                await addTracks(restOfTracks)
+                await addTracks(Array(urls.prefix(firstPageTrackCount)))
+                await addTracks(Array(urls.suffix(from: firstPageTrackCount)))
             } else {
                 await addTracks(urls)
             }
