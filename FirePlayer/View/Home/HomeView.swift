@@ -277,16 +277,30 @@ extension HomeView {
         }
         
         Task(priority: .high) {
-            for url in urls.supportedUrls {
-                await tracks.append(url.toTrack())
-            }
+            let firstPageTrackCount = 30
             
-            await MainActor.run {
-                tracks = tracks.sort(.aToZ)
-                filteredTracks = tracks
+            if urls.count >= firstPageTrackCount {
+                let firstTwentyTrack = Array(urls.prefix(firstPageTrackCount))
+                await addTracks(firstTwentyTrack)
+                
+                let restOfTracks = Array(urls.suffix(from: firstPageTrackCount))
+                await addTracks(restOfTracks)
+            } else {
+                await addTracks(urls)
             }
             
             AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
+        }
+    }
+    
+    private func addTracks(_ urls: [URL]) async {
+        for url in urls.supportedUrls {
+            await tracks.append(url.toTrack())
+        }
+        
+        await MainActor.run {
+            tracks = tracks.sort(.aToZ)
+            filteredTracks = tracks
         }
     }
 }
