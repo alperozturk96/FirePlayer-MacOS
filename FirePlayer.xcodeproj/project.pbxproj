@@ -237,6 +237,8 @@
 			dependencies = (
 			);
 			name = FirePlayer;
+			packageProductDependencies = (
+			);
 			productName = FirePlayer;
 			productReference = 92AC0BF42ACA841E00FB3CA9 /* FirePlayer.app */;
 			productType = "com.apple.product-type.application";
@@ -265,6 +267,8 @@
 				Base,
 			);
 			mainGroup = 92AC0BEB2ACA841E00FB3CA9;
+			packageReferences = (
+			);
 			productRefGroup = 92AC0BF52ACA841E00FB3CA9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

@@ -21,7 +21,7 @@ extension URL {
     func toTrack() async -> Track {
         let asset = AVAsset(url: self)
         
-        let metadata = try? await asset.load(.metadata)
+        let metadata = try? await asset.load(.commonMetadata)
         
         let artist: String? = await extractMetadata(metadata, .commonKeyArtist)
         let album: String? = await extractMetadata(metadata, .commonKeyAlbumName)
