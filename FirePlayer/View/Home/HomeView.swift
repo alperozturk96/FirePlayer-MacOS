@@ -28,6 +28,7 @@ struct HomeView: View {
     @State private var searchText = ""
     @State private var selectedTrackForFileActions: Track?
     @State private var showDeleteAlert = false
+    @State private var showLoadingIndicator = true
     
     var body: some View {
         NavigationView {
@@ -88,6 +89,12 @@ struct HomeView: View {
                 playSelectedTrack()
             }
             .toolbar {
+                ToolbarItem {
+                    if showLoadingIndicator {
+                        ProgressView()
+                            .controlSize(.small)
+                    }
+                }
                 ToolbarItem {
                     FilterOptionsButton
                 }
@@ -284,6 +291,10 @@ extension HomeView {
                 await addTracks(Array(urls.suffix(from: firstPageTrackCount)))
             } else {
                 await addTracks(urls)
+            }
+            
+            await MainActor.run {
+                showLoadingIndicator = false
             }
             
             AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
