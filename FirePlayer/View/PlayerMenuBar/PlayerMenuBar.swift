@@ -1,5 +1,5 @@
 //
-//  MediaControlMenu.swift
+//  PlayerMenuBar.swift
 //  FirePlayer
 //
 //  Created by Alper Ozturk on 19.11.2023.
@@ -7,11 +7,14 @@
 
 import SwiftUI
 
-struct MediaControlMenu: View {
+struct PlayerMenuBar: View {
     @StateObject private var audioPlayer = AudioPlayer.shared
     
     var body: some View {
         HStack {
+            ImageButtonWithText(title: AppTexts.quit, icon: AppIcons.quit) {
+                NSApplication.shared.terminate(self)
+            }
             ImageButtonWithText(title: AppTexts.previous, icon: AppIcons.previous) {
                 publish(event: .previous)
             }
@@ -26,5 +29,5 @@ struct MediaControlMenu: View {
 }
 
 #Preview {
-    MediaControlMenu()
+    PlayerMenuBar()
 }

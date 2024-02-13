@@ -9,6 +9,7 @@ import Foundation
 
 enum AppIcons {
     static let previous = "arrowshape.backward.circle.fill"
+    static let quit = "xmark.circle.fill"
     static let pause = "pause.circle.fill"
     static let play = "play.circle.fill"
     static let sort = "line.3.horizontal.decrease.circle.fill"
@@ -38,7 +39,8 @@ enum AppTexts {
     static let pause = "media_control_menu_pause".localized
     static let play = "media_control_menu_play".localized
     static let next = "media_control_menu_next".localized
-    
+    static let quit = "quit".localized
+
     static let sortByTitle = "home_sort_confirmation_dialog_by_title".localized
     static let sortByDate = "home_sort_confirmation_dialog_by_date".localized
 

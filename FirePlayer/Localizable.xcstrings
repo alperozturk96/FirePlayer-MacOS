@@ -377,6 +377,9 @@
           }
         }
       }
+    },
+    "quit" : {
+      "extractionState" : "manual"
     }
   },
   "version" : "1.0"

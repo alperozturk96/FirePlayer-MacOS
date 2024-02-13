@@ -16,7 +16,7 @@ struct FirePlayerApp: App {
             }
         }
         MenuBarExtra("MediaControlMenu", systemImage: "flame.circle.fill") {
-            MediaControlMenu()
+            PlayerMenuBar()
         }
     }
 }
