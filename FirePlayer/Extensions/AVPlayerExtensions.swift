@@ -16,11 +16,7 @@ extension AVPlayer {
     }
     
     func toggle() {
-        isPlaying ? pause() : play()
-    }
-    
-    var isPlaying: Bool {
-        rate != 0 && error == nil
+        AudioPlayer.shared.isPlaying ? pause() : play()
     }
     
     var currrentDurationRepresentation: String? {
