@@ -16,13 +16,13 @@ struct PlayerMenuBar: View {
                 NSApplication.shared.terminate(self)
             }
             ImageButtonWithText(title: AppTexts.previous, icon: AppIcons.previous) {
-                publish(event: .previous)
+                audioPlayer.selectPreviousTrack()
             }
             ImageButtonWithText(title: audioPlayer.toggleText.localized, icon: audioPlayer.toggleIcon) {
-                publish(event: .toggle)
+                audioPlayer.player.toggle()
             }
             ImageButtonWithText(title: AppTexts.next, icon: AppIcons.next) {
-                publish(event: .next)
+                audioPlayer.selectNextTrack()
             }
         }
     }

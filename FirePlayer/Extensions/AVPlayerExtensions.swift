@@ -15,6 +15,7 @@ extension AVPlayer {
         play()
     }
     
+    @MainActor 
     func toggle() {
         AudioPlayer.shared.isPlaying ? pause() : play()
     }

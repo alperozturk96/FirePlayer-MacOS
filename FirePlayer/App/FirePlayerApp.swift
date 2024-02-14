@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct FirePlayerApp: App {
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {

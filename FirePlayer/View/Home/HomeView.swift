@@ -6,30 +6,22 @@
 //
 
 import SwiftUI
-import OSLog
 
 struct HomeView: View {
     private let fileUtil = FileUtil()
-    let userService = UserService()
     
     @StateObject var audioPlayer = AudioPlayer.shared
     
-    @State var prevTrackIndexesStack: [Int] = []
-    @State var filteredTracks = [Track]()
-    @State var playMode: PlayMode = .shuffle
-    @State var selectedTrackIndex: Int = 0
-    
-    @State private var playlists: [String: [Int]] = [:]
-    @State private var tracks = [Track]()
     @State private var selectedFilterOption: FilterOptions = .title
-    @State private var sortOption: SortOptions = .aToZ
+    @State private var playlists: [String: [Int]] = [:]
+    @State private var selectedTrackForFileActions: Track?
     @State private var showSeekbar = false
     @State private var showSortOptions = false
-    @State private var searchText = ""
-    @State private var selectedTrackForFileActions: Track?
     @State private var showDeleteAlert = false
     @State private var showLoadingIndicator = true
-    
+    @State private var searchText = ""
+    @State private var sortOption: SortOptions = .aToZ
+
     var body: some View {
         NavigationView {
             List {
@@ -39,16 +31,16 @@ struct HomeView: View {
             .listStyle(SidebarListStyle())
             
             Group {
-                if filteredTracks.isEmpty {
+                if audioPlayer.filteredTracks.isEmpty {
                     ContentUnavailableView.search(text: searchText)
                 } else {
                     ScrollViewReader { proxy in
                         List {
                             Section(header: Text(selectedFilterOption.header)) {
-                                TrackList(data: filteredTracks, proxy: proxy)
+                                TrackList(proxy: proxy)
                             }
                         }
-                        .onChange(of: selectedTrackIndex) {
+                        .onChange(of: audioPlayer.selectedTrackIndex) {
                             scrollToSelectedTrack(proxy: proxy)
                         }
                     }
@@ -60,11 +52,9 @@ struct HomeView: View {
             .navigationTitle(AppTexts.homeNavBarTitle)
             .onAppear {
                 readPreviouslySavedPlaylists()
-                scanPreviouslySelectedFolder()
-                setupPlayerEvents()
-            }
-            .onDisappear {
-                removeObservers()
+                fileUtil.scanPreviouslySelectedFolder(audioPlayer) {
+                    showLoadingIndicator = false
+                }
             }
             .searchable(text: $searchText, prompt: selectedFilterOption.searchPrompt)
             .confirmationDialog(AppTexts.sortOptionsTitle, isPresented: $showSortOptions) {
@@ -83,10 +73,10 @@ struct HomeView: View {
                 search()
             }
             .onChange(of: sortOption) {
-                filteredTracks = filteredTracks.sort(sortOption)
+                audioPlayer.filteredTracks = audioPlayer.filteredTracks.sort(sortOption)
             }
-            .onChange(of: selectedTrackIndex) {
-                playSelectedTrack()
+            .onChange(of: audioPlayer.selectedTrackIndex) {
+                audioPlayer.playSelectedTrack()
             }
             .toolbar {
                 ToolbarItem {
@@ -115,7 +105,7 @@ struct HomeView: View {
                     primaryButton: .destructive(Text(AppTexts.ok)) {
                         if let selectedTrackForFileActions {
                             fileUtil.deleteFile(url: selectedTrackForFileActions.path) {
-                                filteredTracks.remove(selectedTrackForFileActions)
+                                audioPlayer.filteredTracks.remove(selectedTrackForFileActions)
                             }
                         }
                     },
@@ -128,28 +118,28 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
-    private func TrackList(data: [Track], proxy: ScrollViewProxy) -> some View {
-        ForEach(Array(data.enumerated()), id: \.offset) { index, item in
+    private func TrackList(proxy: ScrollViewProxy) -> some View {
+        ForEach(Array(audioPlayer.filteredTracks.enumerated()), id: \.offset) { index, item in
             Button {
                 trackButtonAction(index)
             } label: {
                 // FIXME highlight is broken when user have result more than one section
                 Text(item.title)
                     .font(.title)
-                    .foregroundStyle(index == selectedTrackIndex ? .yellow.opacity(0.8) : .white)
+                    .foregroundStyle(index == audioPlayer.selectedTrackIndex ? .yellow.opacity(0.8) : .white)
             }
             .buttonStyle(.borderless)
             .contextMenu {
                 NavigationLink {
-                    PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
+                    PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $audioPlayer.filteredTracks, userService: audioPlayer.userService)
                 } label: {
                     Text(AppTexts.addToPlaylist)
                 }
                 Button(AppTexts.saveTrackPosition) {
-                    userService.saveTrackPlaybackPosition(id: item.id, position: audioPlayer.currentTime)
+                    audioPlayer.userService.saveTrackPlaybackPosition(id: item.id, position: audioPlayer.currentTime)
                 }
                 Button(AppTexts.resetTrackPosition) {
-                    userService.removeTrackPlaybackPosition(id: item.id)
+                    audioPlayer.userService.removeTrackPlaybackPosition(id: item.id)
                 }
                 Button(AppTexts.deleteTrack) {
                     selectedTrackForFileActions = item
@@ -162,7 +152,7 @@ extension HomeView {
     @ViewBuilder
     private var SeekBar: some View {
         if showSeekbar {
-            SeekbarView(audioPlayer: audioPlayer, selectPreviousTrack: selectPreviousTrack, selectNextTrack: selectNextTrack)
+            SeekbarView(audioPlayer)
         }
     }
 }
@@ -171,9 +161,9 @@ extension HomeView {
 extension HomeView {
     private var PlayModeButton: some View {
         Button {
-            playMode = playMode.next
+            audioPlayer.playMode = audioPlayer.playMode.next
         } label: {
-            Label(AppTexts.playModeTitle, systemImage: playMode.icon)
+            Label(AppTexts.playModeTitle, systemImage: audioPlayer.playMode.icon)
         }
     }
     
@@ -204,14 +194,18 @@ extension HomeView {
     
     private var PlaylistsButton: some View {
         NavigationLink {
-            PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $filteredTracks, userService: userService)
+            PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $audioPlayer.filteredTracks, userService: audioPlayer.userService)
         } label: {
             Label(AppTexts.playlists, systemImage: AppIcons.playlists)
         }
     }
     
     private var ScanFolderButton: some View {
-        Button(action: scanFolder) {
+        Button(action: {
+            fileUtil.scanFolder(audioPlayer) {
+                showLoadingIndicator = false
+            }
+        }) {
             Label(AppTexts.scan, systemImage: AppIcons.folder)
         }
     }
@@ -220,10 +214,10 @@ extension HomeView {
 // MARK: - Private Methods
 extension HomeView {
     private func trackButtonAction(_ index: Int) {
-        if index == selectedTrackIndex {
-            playSelectedTrack()
+        if index == audioPlayer.selectedTrackIndex {
+            audioPlayer.playSelectedTrack()
         } else {
-            selectedTrackIndex = index
+            audioPlayer.selectedTrackIndex = index
         }
         
         if !showSeekbar {
@@ -231,85 +225,23 @@ extension HomeView {
         }
     }
     
-    func playSelectedTrack() {
-        let track = filteredTracks[selectedTrackIndex]
-        let savedTrackPosition = userService.readTrackPlaybackPosition(id: track.id)
-        audioPlayer.play(track: track, savedTrackPosition: savedTrackPosition)
-        prevTrackIndexesStack.append(selectedTrackIndex)
-    }
-    
     private func scrollToSelectedTrack(proxy: ScrollViewProxy) {
         withAnimation {
-            proxy.scrollTo(selectedTrackIndex, anchor: .center)
+            proxy.scrollTo(audioPlayer.selectedTrackIndex, anchor: .center)
         }
     }
     
     private func resetFilteredTracks() {
-        filteredTracks = tracks
+        audioPlayer.filteredTracks = audioPlayer.tracks
         searchText = ""
     }
     
-    private func search() {
-        filteredTracks = if searchText.isEmpty {
-            tracks
-        } else {
-            tracks.filter(selectedFilterOption, text: searchText).sort(.aToZ)
-        }
-    }
-    
-    private func scanPreviouslySelectedFolder() {
-        guard tracks.isEmpty else { return }
-        
-        guard let url = userService.readFolderURL() else {
-            return
-        }
-        
-        addTracksFromGiven(folderURL: url)
-    }
-    
     private func readPreviouslySavedPlaylists() {
-        playlists = userService.readPlaylists()
+        playlists = audioPlayer.userService.readPlaylists()
     }
     
-    private func scanFolder() {
-        fileUtil.browse { url in
-            addTracksFromGiven(folderURL: url)
-            userService.saveFolderURL(url: url)
-        }
-    }
-    
-    private func addTracksFromGiven(folderURL: URL) {
-        guard let urls = try? FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: []) else {
-            return
-        }
-        
-        Task(priority: .high) {
-            let firstPageTrackCount = 30
-            
-            if urls.count >= firstPageTrackCount {
-                await addTracks(Array(urls.prefix(firstPageTrackCount)))
-                await addTracks(Array(urls.suffix(from: firstPageTrackCount)))
-            } else {
-                await addTracks(urls)
-            }
-            
-            await MainActor.run {
-                showLoadingIndicator = false
-            }
-            
-            AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
-        }
-    }
-    
-    private func addTracks(_ urls: [URL]) async {
-        for url in urls.supportedUrls {
-            await tracks.append(url.toTrack())
-        }
-        
-        await MainActor.run {
-            tracks = tracks.sort(.aToZ)
-            filteredTracks = tracks
-        }
+    private func search() {
+        audioPlayer.search(selectedFilterOption, searchText: searchText)
     }
 }
 

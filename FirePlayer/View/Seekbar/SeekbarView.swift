@@ -11,8 +11,10 @@ import AVFoundation
 struct SeekbarView: View {
     
     @ObservedObject var audioPlayer: AudioPlayer
-    let selectPreviousTrack: () -> ()
-    let selectNextTrack: () -> ()
+    
+    init(_ audioPlayer: AudioPlayer) {
+        self.audioPlayer = audioPlayer
+    }
     
     var body: some View {
         HStack {
@@ -41,7 +43,7 @@ struct SeekbarView: View {
             Spacer()
             
             ImageButton(icon: AppIcons.previous) {
-                selectPreviousTrack()
+                audioPlayer.selectPreviousTrack()
             }
             .keyboardShortcut(.leftArrow, modifiers: [])
             
@@ -51,7 +53,7 @@ struct SeekbarView: View {
             .keyboardShortcut(.space, modifiers: [])
             
             ImageButton(icon: AppIcons.next) {
-                selectNextTrack()
+                audioPlayer.selectNextTrack()
             }
             .keyboardShortcut(.rightArrow, modifiers: [])
             

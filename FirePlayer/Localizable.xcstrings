@@ -379,7 +379,15 @@
       }
     },
     "quit" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
