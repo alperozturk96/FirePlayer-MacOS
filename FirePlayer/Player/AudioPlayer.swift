@@ -105,7 +105,7 @@ final class AudioPlayer: ObservableObject {
     }
 }
 
-// MARK: - Public Functions
+// MARK: - Public Methods
 extension AudioPlayer {
     func addTracksFromGiven(folderURL: URL, onComplete: @escaping () -> ()) {
         guard let urls = try? FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: []) else {
@@ -165,6 +165,45 @@ extension AudioPlayer {
         } else {
             let nextIndex = (playMode == .shuffle) ? filteredTracks.randomIndex : (selectedTrackIndex < filteredTracks.count) ? selectedTrackIndex + 1 : 0
             selectedTrackIndex = nextIndex
+        }
+    }
+    
+    func changeIndex(_ index: Int) {
+        if index == selectedTrackIndex {
+            playSelectedTrack()
+        } else {
+            selectedTrackIndex = index
+        }
+    }
+    
+    func saveTrackPlaybackPosition(id: UUID) {
+        userService.saveTrackPlaybackPosition(id: id, position: currentTime)
+    }
+    
+    func removeTrackPlaybackPosition(id: UUID) {
+        userService.removeTrackPlaybackPosition(id: id)
+    }
+    
+    @MainActor
+    func scanPreviouslySelectedFolder(onComplete: @escaping () -> ()) {
+        guard tracks.isEmpty else { return }
+        
+        guard let url = userService.readFolderURL() else {
+            return
+        }
+        
+        addTracksFromGiven(folderURL: url) {
+            onComplete()
+        }
+    }
+    
+    @MainActor
+    func scanFolder(_ fileUtil: FileUtil, onComplete: @escaping () -> ()) {
+        fileUtil.browse { url in
+            self.addTracksFromGiven(folderURL: url) {
+               onComplete()
+            }
+            self.userService.saveFolderURL(url: url)
         }
     }
 }

@@ -52,7 +52,7 @@ struct HomeView: View {
             .navigationTitle(AppTexts.homeNavBarTitle)
             .onAppear {
                 readPreviouslySavedPlaylists()
-                fileUtil.scanPreviouslySelectedFolder(audioPlayer) {
+                audioPlayer.scanPreviouslySelectedFolder {
                     showLoadingIndicator = false
                 }
             }
@@ -136,10 +136,10 @@ extension HomeView {
                     Text(AppTexts.addToPlaylist)
                 }
                 Button(AppTexts.saveTrackPosition) {
-                    audioPlayer.userService.saveTrackPlaybackPosition(id: item.id, position: audioPlayer.currentTime)
+                    audioPlayer.saveTrackPlaybackPosition(id: item.id)
                 }
                 Button(AppTexts.resetTrackPosition) {
-                    audioPlayer.userService.removeTrackPlaybackPosition(id: item.id)
+                    audioPlayer.removeTrackPlaybackPosition(id: item.id)
                 }
                 Button(AppTexts.deleteTrack) {
                     selectedTrackForFileActions = item
@@ -201,11 +201,9 @@ extension HomeView {
     }
     
     private var ScanFolderButton: some View {
-        Button(action: {
-            fileUtil.scanFolder(audioPlayer) {
-                showLoadingIndicator = false
-            }
-        }) {
+        Button {
+            audioPlayer.scanFolder(fileUtil) { showLoadingIndicator = false }
+        } label: {
             Label(AppTexts.scan, systemImage: AppIcons.folder)
         }
     }
@@ -214,11 +212,7 @@ extension HomeView {
 // MARK: - Private Methods
 extension HomeView {
     private func trackButtonAction(_ index: Int) {
-        if index == audioPlayer.selectedTrackIndex {
-            audioPlayer.playSelectedTrack()
-        } else {
-            audioPlayer.selectedTrackIndex = index
-        }
+        audioPlayer.changeIndex(index)
         
         if !showSeekbar {
             showSeekbar = true
