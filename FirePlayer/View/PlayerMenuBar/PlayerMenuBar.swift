@@ -11,7 +11,11 @@ struct PlayerMenuBar: View {
     @StateObject private var audioPlayer = AudioPlayer.shared
     
     var body: some View {
-        HStack {
+        VStack {
+            if let trackTitle = audioPlayer.currentTrackTitle {
+                Text(trackTitle)
+            }
+            
             ImageButtonWithText(title: AppTexts.quit, icon: AppIcons.quit) {
                 NSApplication.shared.terminate(self)
             }

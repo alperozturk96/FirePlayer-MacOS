@@ -34,6 +34,7 @@ final class AudioPlayer: ObservableObject {
     
     @Published var isPlaying = false
     @Published var currentTime: Double = 0
+    var currentTrackTitle: String?
     private var cancellables: Set<AnyCancellable> = []
     
     @MainActor 
@@ -47,6 +48,7 @@ final class AudioPlayer: ObservableObject {
     @MainActor
     func play(track: Track, savedTrackPosition: Double?) {
         AppLogger.shared.info("SelectedTrack: \(track.path)")
+        currentTrackTitle = track.title
         
         player.play(url: track.path)
         resetDurations()
