@@ -21,7 +21,7 @@ struct HomeView: View {
     @State private var showLoadingIndicator = true
     @State private var searchText = ""
     @State private var sortOption: SortOptions = .aToZ
-
+    
     var body: some View {
         NavigationView {
             List {
@@ -111,6 +111,12 @@ struct HomeView: View {
                     },
                     secondaryButton: .cancel()
                 )
+            }
+            .onDrop(of: ["public.file-url"], isTargeted: nil) { providers -> Bool in
+                providers.handleDroppedFile(audioPlayer: audioPlayer) { droppedFileIndex in
+                    trackButtonAction(droppedFileIndex)
+                }
+                return true
             }
         }
     }
