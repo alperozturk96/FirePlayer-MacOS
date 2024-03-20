@@ -114,32 +114,31 @@ extension AudioPlayer {
             return
         }
         
-        Task(priority: .high) {
-            let firstPageTrackCount = 30
-            
-            if urls.count >= firstPageTrackCount {
-                await addTracks(Array(urls.prefix(firstPageTrackCount)))
-                await addTracks(Array(urls.suffix(from: firstPageTrackCount)))
-            } else {
-                await addTracks(urls)
-            }
-            
-            await MainActor.run {
-                onComplete()
-            }
-            
-            AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
-        }
-    }
-    
-    func addTracks(_ urls: [URL]) async {
-        for url in urls.supportedUrls {
-            await tracks.append(url.toTrack())
+        let firstPageTrackCount = 30
+        
+        if urls.count >= firstPageTrackCount {
+            addTracks(Array(urls.prefix(firstPageTrackCount)))
+            addTracks(Array(urls.suffix(from: firstPageTrackCount)))
+        } else {
+            addTracks(urls)
         }
         
-        await MainActor.run {
-            tracks = tracks.sort(.aToZ)
-            filteredTracks = tracks
+        DispatchQueue.main.async {
+            onComplete()
+        }
+        
+        AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
+    }
+    
+    func addTracks(_ urls: [URL]) {
+        for url in urls.supportedUrls {
+            tracks.append(url.toTrack())
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.tracks = self.tracks.sort(.aToZ)
+            self.filteredTracks = self.tracks
         }
     }
     
