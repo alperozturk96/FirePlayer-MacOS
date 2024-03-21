@@ -11,7 +11,7 @@ import SwiftUI
 struct FirePlayerApp: App {
     
     var body: some Scene {
-        WindowGroup {
+        Window("FirePlayer", id: "FirePlayerId") {
             NavigationStack {
                 HomeView()
             }
