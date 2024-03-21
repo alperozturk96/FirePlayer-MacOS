@@ -6,6 +6,7 @@ FirePlayer is a free, fast, and minimalistic music player app. It focuses on sim
 
 + **No 3rd Party Library**
 + **Latest Technology:** Built using the latest technologies to ensure optimal performance and user experience. SwiftUI
++ **Save Track Position:** You can save track position, allowing you to resume listening right where you left off. Best for listening podcasts.
 + **No Ads:** Enjoy uninterrupted listening experience without any distracting advertisements.
 + **Minimal Design:** The interface is designed to be clutter-free and easy to navigate. Only two screen
 + **Filter Tracks:** Easily filter all your tracks using a single search box. Just type the artist or album name to find related tracks.
