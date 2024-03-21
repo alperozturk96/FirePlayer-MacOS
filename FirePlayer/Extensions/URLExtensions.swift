@@ -62,8 +62,14 @@ extension URL {
         
         guard let audioFile = fileID else { return nil }
         
-        status = AudioFileGetProperty(audioFile, kAudioFilePropertyInfoDictionary, &dataSize, &dict)
         
+        let (unsafeDataSize, unsafeDict) = withUnsafeMutablePointer(to: &dataSize) { unsafeDataSize in
+            withUnsafeMutablePointer(to: &dict) { unsafeDict in
+                return (unsafeDataSize, unsafeDict)
+            }
+        }
+        
+        status = AudioFileGetProperty(audioFile, kAudioFilePropertyInfoDictionary, unsafeDataSize, unsafeDict)
         guard status == noErr else { return nil }
         
         AudioFileClose(audioFile)
