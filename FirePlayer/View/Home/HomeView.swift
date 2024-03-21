@@ -112,6 +112,13 @@ struct HomeView: View {
                     secondaryButton: .cancel()
                 )
             }
+            .onOpenURL { url in
+                guard let openURLIndex = audioPlayer.filteredTracks.getTrackIndex(url: url) else {
+                    return
+                }
+                
+                trackButtonAction(openURLIndex)
+            }
             .onDrop(of: ["public.file-url"], isTargeted: nil) { providers -> Bool in
                 providers.handleDroppedFile(audioPlayer: audioPlayer) { droppedFileIndex in
                     trackButtonAction(droppedFileIndex)
@@ -222,6 +229,10 @@ extension HomeView {
         
         if !showSeekbar {
             showSeekbar = true
+        }
+        
+        if showLoadingIndicator {
+            showLoadingIndicator = false
         }
     }
     

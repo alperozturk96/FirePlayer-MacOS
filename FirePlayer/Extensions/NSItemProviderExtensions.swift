@@ -19,16 +19,7 @@ extension [NSItemProvider] {
                 return
             }
             
-            var droppedTrackIndex: Int? = nil
-            
-            for (index, track) in audioPlayer.filteredTracks.enumerated() {
-                if url == track.path {
-                    droppedTrackIndex = index
-                }
-            }
-            
-            guard let droppedTrackIndex else {
-                audioPlayer.player.play(url: url)
+            guard let droppedTrackIndex = audioPlayer.filteredTracks.getTrackIndex(url: url) else {
                 return
             }
             

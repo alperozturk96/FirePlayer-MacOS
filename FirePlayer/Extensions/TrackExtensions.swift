@@ -17,6 +17,16 @@ extension [Track] {
         }
     }
     
+    func getTrackIndex(url: URL) -> Int? {
+        for (index, track) in self.enumerated() {
+            if url == track.path {
+                return index
+            }
+        }
+        
+        return nil
+    }
+    
     func sort(_ sortOption: SortOptions) -> Self {
         return if sortOption == .aToZ {
             sorted { $0.title < $1.title }
