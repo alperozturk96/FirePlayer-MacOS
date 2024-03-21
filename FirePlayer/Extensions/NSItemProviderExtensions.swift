@@ -19,12 +19,14 @@ extension [NSItemProvider] {
                 return
             }
             
-            guard let droppedTrackIndex = audioPlayer.filteredTracks.getTrackIndex(url: url) else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                whenDroppedFileIsInTrackList(droppedTrackIndex)
+            Task {
+                guard let droppedTrackIndex = await audioPlayer.filteredTracks.getTrackIndex(url: url) else {
+                    return
+                }
+                
+                await MainActor.run {
+                    whenDroppedFileIsInTrackList(droppedTrackIndex)
+                }
             }
         }
     }

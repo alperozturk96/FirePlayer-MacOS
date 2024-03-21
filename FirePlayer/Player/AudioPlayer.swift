@@ -72,7 +72,12 @@ final class AudioPlayer: ObservableObject {
     private func observeCurrentTime() {
         player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 100), queue: DispatchQueue.main) { [weak self] time in
             guard let self = self else { return }
-            self.currentTime = CMTimeGetSeconds(time)
+            
+            Task {
+                await MainActor.run {
+                    self.currentTime = CMTimeGetSeconds(time)
+                }
+            }
         }
     }
     
