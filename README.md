@@ -4,6 +4,7 @@ FirePlayer is a free, fast, and minimalistic music player app. It focuses on sim
 
 ## Features
 
++ **No 3rd Party Library**
 + **Latest Technology:** Built using the latest technologies to ensure optimal performance and user experience. SwiftUI
 + **No Ads:** Enjoy uninterrupted listening experience without any distracting advertisements.
 + **Minimal Design:** The interface is designed to be clutter-free and easy to navigate. Only two screen
