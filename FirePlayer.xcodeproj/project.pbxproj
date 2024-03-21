@@ -56,6 +56,7 @@
 		92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEvents.swift; sourceTree = "<group>"; };
 		92524CE52B0A64320091D50B /* CMTimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTimeExtensions.swift; sourceTree = "<group>"; };
 		92524CE72B0A660D0091D50B /* PlayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMode.swift; sourceTree = "<group>"; };
+		925D60EF2BACD3A900815871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewMode.swift; sourceTree = "<group>"; };
 		929D3C702B826B770032AD45 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
@@ -162,6 +163,7 @@
 		92AC0BF62ACA841E00FB3CA9 /* FirePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				925D60EF2BACD3A900815871 /* Info.plist */,
 				92AC0C082ACA845500FB3CA9 /* App */,
 				92AC0C0A2ACA846200FB3CA9 /* Model */,
 				92AC0C092ACA845B00FB3CA9 /* View */,
@@ -477,6 +479,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FirePlayer/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FirePlayer;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -509,6 +512,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FirePlayer/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FirePlayer;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
