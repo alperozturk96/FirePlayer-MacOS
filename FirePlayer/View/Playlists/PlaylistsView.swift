@@ -12,9 +12,8 @@ struct PlaylistsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
-    var audioPlayer: AudioPlayer
-    
     @Query private var playlists: [Playlist]
+    let filterTrackListByPlaylist: ([Track]) -> ()
     
     @State private var showAddPlaylist = false
     @State private var playlistText: String = ""
@@ -27,8 +26,9 @@ struct PlaylistsView: View {
             } else {
                 List {
                     ForEach(playlists) { playlist in
-                        NavigationLink {
-                            PlaylistView(audioPlayer: audioPlayer, tracks: playlist.tracks)
+                        Button {
+                            filterTrackListByPlaylist(playlist.tracks)
+                            dismiss()
                         } label: {
                             Text(playlist.name)
                                 .font(.title)
@@ -41,6 +41,7 @@ struct PlaylistsView: View {
                                     .tint(.red)
                                 }
                         }
+                        .buttonStyle(.borderless)
                         .contextMenu {
                             Button(AppTexts.deletePlaylist) {
                                 modelContext.delete(playlist)

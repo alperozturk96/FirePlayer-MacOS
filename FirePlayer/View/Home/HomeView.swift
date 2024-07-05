@@ -179,7 +179,9 @@ extension HomeView {
     
     private var PlaylistsButton: some View {
         NavigationLink {
-            PlaylistsView(audioPlayer: audioPlayer)
+            PlaylistsView { tracks in
+                audioPlayer.filteredTracks = tracks
+            }
         } label: {
             Label(AppTexts.playlists, systemImage: AppIcons.playlists)
         }
