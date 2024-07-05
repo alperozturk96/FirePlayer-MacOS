@@ -19,5 +19,6 @@ struct FirePlayerApp: App {
         MenuBarExtra("MediaControlMenu", systemImage: "flame.circle.fill") {
             PlayerMenuBar()
         }
+        .modelContainer(for: [Playlist.self])
     }
 }

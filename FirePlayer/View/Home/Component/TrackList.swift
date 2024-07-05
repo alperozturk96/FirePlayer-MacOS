@@ -25,10 +25,8 @@ extension HomeView {
         }
         .buttonStyle(.borderless)
         .contextMenu {
-            NavigationLink {
-                PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $audioPlayer.filteredTracks, userService: audioPlayer.userService)
-            } label: {
-                Text(AppTexts.addToPlaylist)
+            Button(AppTexts.addToPlaylist) {
+                showAddToPlaylistSheet = true
             }
             Button(AppTexts.saveTrackPosition) {
                 audioPlayer.saveTrackPlaybackPosition(id: item.id)

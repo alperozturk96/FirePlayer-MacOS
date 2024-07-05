@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PlaylistsView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
     
-    var mode: PlaylistsViewMode
-    var selectedTrackIndex: Int?
-    @Binding var playlists: [String: [Int]]
-    @Binding var filteredTracks: [Track]
-    let userService: UserService
+    @Query
+    private var playlists: [Playlist]
     
     @State private var showAddPlaylist = false
     @State private var playlistText: String = ""
@@ -26,28 +25,24 @@ struct PlaylistsView: View {
                     .symbolVariant(.slash)
             } else {
                 List {
-                    ForEach(playlists.keys.sorted(), id: \.self) { title in
-                        Button {
-                            trackButtonAction(title)
+                    ForEach(playlists) { playlist in
+                        NavigationLink {
+                            // PlaylistView(tracks: playlist.tracks)
                         } label: {
-                            Text(title)
+                            Text(playlist.name)
                                 .font(.title)
                                 .swipeActions {
                                     Button {
-                                        swipeAction(title)
+                                        modelContext.delete(playlist)
                                     } label: {
                                         Text(AppTexts.playlistTrackSwipeTitle)
                                     }
                                     .tint(.red)
                                 }
                         }
-                        .buttonStyle(.borderless)
                     }
                 }
             }
-        }
-        .onDisappear {
-            updatePlaylist()
         }
         .toolbar {
             ToolbarItem {
@@ -60,52 +55,15 @@ struct PlaylistsView: View {
     }
 }
 
-// MARK: - Private Methods
-extension PlaylistsView {
-    private func trackButtonAction(_ title: String) {
-        if mode == .add {
-            if let selectedTrackIndex {
-                playlists[title, default: []].append(selectedTrackIndex)
-            }
-        } else {
-            filteredTracks = filterTracks(forPlaylist: title)
-        }
-        
-        dismiss()
-    }
-    
-    private func swipeAction(_ title: String) {
-        playlists[title] = nil
-        updatePlaylist()
-        dismiss()
-    }
-    
-    private func filterTracks(forPlaylist playlistName: String) -> [Track] {
-        guard let trackIndexes = playlists[playlistName] else {
-            return []
-        }
-        
-        let result = trackIndexes.compactMap { index -> Track? in
-            guard filteredTracks.indices.contains(index) else { return nil }
-            return filteredTracks[index]
-        }
-        
-        return result
-    }
-    
-    private func updatePlaylist() {
-        userService.savePlaylist(playlists: playlists)
-    }
-}
-
 // MARK: - ChildViews
 extension PlaylistsView {
     private var AddPlaylistTextField: some View {
         VStack {
             TextField(AppTexts.addPlaylistPlaceholder, text: $playlistText)
             Button(AppTexts.ok) {
-                playlists[playlistText] = .init()
-                updatePlaylist()
+                let newPlaylist = Playlist(name: playlistText, tracks: .init())
+                modelContext.insert(newPlaylist)
+                showAddPlaylist = false
             }
         }
     }
@@ -115,4 +73,17 @@ extension PlaylistsView {
             Label(AppTexts.addPlaylistButton, systemImage: AppIcons.addPlaylist)
         }
     }
+}
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+      let container = try! ModelContainer(for: Playlist.self, configurations: config)
+
+    let playlists: [Playlist] = .init(arrayLiteral: Playlist(name: "Rock", tracks: .init()),
+                                      Playlist(name: "Slow", tracks: .init()),
+                                      Playlist(name: "Romance", tracks: .init()))
+    
+    
+    return PlaylistsView()
+        .modelContainer(container)
 }

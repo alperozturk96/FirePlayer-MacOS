@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
     private let fileUtil = FileUtil()
     
+    @Environment(\.modelContext) private var modelContext
+    
     @StateObject var audioPlayer = AudioPlayer.shared
     
-    @State var playlists: [String: [Int]] = [:]
+    @Query
+    private var playlists: [Playlist]
+    
     @State var selectedTrackForFileActions: Track?
     @State var showSeekbar = false
     @State var showDeleteAlert = false
     @State var showLoadingIndicator = true
+    @State var showAddToPlaylistSheet = false
     
     @State private var selectedFilterOption: FilterOptions = .title
     @State private var showSortOptions = false
@@ -52,7 +58,6 @@ struct HomeView: View {
             }
             .navigationTitle(AppTexts.homeNavBarTitle)
             .onAppear {
-                readPreviouslySavedPlaylists()
                 audioPlayer.scanPreviouslySelectedFolder {
                     showLoadingIndicator = false
                 }
@@ -121,6 +126,14 @@ struct HomeView: View {
                 }
                 return true
             }
+            .sheet(isPresented: $showAddToPlaylistSheet) {
+                List {
+                    ForEach(playlists) { playlist in
+                        Button(playlist.name) {
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -172,7 +185,7 @@ extension HomeView {
     
     private var PlaylistsButton: some View {
         NavigationLink {
-            PlaylistsView(mode: .select, selectedTrackIndex: nil, playlists: $playlists, filteredTracks: $audioPlayer.filteredTracks, userService: audioPlayer.userService)
+            PlaylistsView()
         } label: {
             Label(AppTexts.playlists, systemImage: AppIcons.playlists)
         }
@@ -198,10 +211,6 @@ extension HomeView {
     private func resetFilteredTracks() {
         audioPlayer.filteredTracks = audioPlayer.tracks
         searchText = ""
-    }
-    
-    private func readPreviouslySavedPlaylists() {
-        playlists = audioPlayer.userService.readPlaylists()
     }
     
     private func search() {
