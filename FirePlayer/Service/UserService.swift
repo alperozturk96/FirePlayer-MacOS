@@ -8,17 +8,17 @@
 import Foundation
 
 struct UserService {
-    func removeTrackPlaybackPosition(id: UUID) {
-        UserDefaults.standard.removeObject(forKey: id.uuidString)
+    func removeTrackPlaybackPosition(id: String) {
+        UserDefaults.standard.removeObject(forKey: id)
     }
     
-    func saveTrackPlaybackPosition(id: UUID?, position: Double?) {
+    func saveTrackPlaybackPosition(id: String?, position: Double?) {
         guard let id = id, let position = position else { return }
-        UserDefaults.standard.setValue(position, forKey: id.uuidString)
+        UserDefaults.standard.setValue(position, forKey: id)
     }
     
-    func readTrackPlaybackPosition(id: UUID) -> Double? {
-        return UserDefaults.standard.double(forKey: id.uuidString)
+    func readTrackPlaybackPosition(id: String) -> Double? {
+        return UserDefaults.standard.double(forKey: id)
     }
     
     func saveFolderURL(url: URL) {

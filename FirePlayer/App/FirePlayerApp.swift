@@ -9,16 +9,16 @@ import SwiftUI
 
 @main
 struct FirePlayerApp: App {
-    
     var body: some Scene {
         Window("FirePlayer", id: "FirePlayerId") {
             NavigationStack {
                 HomeView()
             }
         }
+        .modelContainer(for: [Playlist.self, Track.self])
+        
         MenuBarExtra("MediaControlMenu", systemImage: "flame.circle.fill") {
             PlayerMenuBar()
         }
-        .modelContainer(for: [Playlist.self])
     }
 }

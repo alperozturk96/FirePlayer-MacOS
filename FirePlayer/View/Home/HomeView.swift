@@ -11,12 +11,11 @@ import SwiftData
 struct HomeView: View {
     private let fileUtil = FileUtil()
     
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) var modelContext
     
     @StateObject var audioPlayer = AudioPlayer.shared
     
-    @Query
-    private var playlists: [Playlist]
+    @Query var playlists: [Playlist]
     
     @State var selectedTrackForFileActions: Track?
     @State var showSeekbar = false
@@ -127,12 +126,7 @@ struct HomeView: View {
                 return true
             }
             .sheet(isPresented: $showAddToPlaylistSheet) {
-                List {
-                    ForEach(playlists) { playlist in
-                        Button(playlist.name) {
-                        }
-                    }
-                }
+                AddToPlaylistSheet()
             }
         }
     }
@@ -185,7 +179,7 @@ extension HomeView {
     
     private var PlaylistsButton: some View {
         NavigationLink {
-            PlaylistsView()
+            PlaylistsView(audioPlayer: audioPlayer)
         } label: {
             Label(AppTexts.playlists, systemImage: AppIcons.playlists)
         }

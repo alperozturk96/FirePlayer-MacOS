@@ -381,6 +381,17 @@
         }
       }
     },
+    "playlists_delete_playlist" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Playlist"
+          }
+        }
+      }
+    },
     "quit" : {
       "extractionState" : "manual",
       "localizations" : {

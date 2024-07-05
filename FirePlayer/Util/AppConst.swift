@@ -66,6 +66,8 @@ enum AppTexts {
     static let addPlaylistTitle = "home_playlist_confirmation_dialog_title".localized
     static let addPlaylistButton = "playlist_toolbar_add_playlist_title".localized
     static let addPlaylistPlaceholder = "playlist_add_playlist_placeholder".localized
+    static let deletePlaylist = "playlists_delete_playlist".localized
+
     
     static let filterByTitle = "home_filter_by_title_section_title".localized
     static let filterByArtist = "home_filter_by_artist_section_title".localized

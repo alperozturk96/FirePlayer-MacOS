@@ -182,11 +182,11 @@ extension AudioPlayer {
         }
     }
     
-    func saveTrackPlaybackPosition(id: UUID) {
+    func saveTrackPlaybackPosition(id: String) {
         userService.saveTrackPlaybackPosition(id: id, position: currentTime)
     }
     
-    func removeTrackPlaybackPosition(id: UUID) {
+    func removeTrackPlaybackPosition(id: String) {
         userService.removeTrackPlaybackPosition(id: id)
     }
     

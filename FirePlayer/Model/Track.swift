@@ -9,8 +9,8 @@ import Foundation
 import SwiftData
 
 @Model
-final class Track {
-    let id = UUID()
+final class Track: Identifiable {
+    let id: String
     var title: String
     var artist: String
     var album: String
@@ -20,6 +20,7 @@ final class Track {
     @Relationship(inverse: \Playlist.tracks) var playlist: [Playlist]?
 
     init(title: String, artist: String, album: String, path: URL, pathExtension: String, dateModified: Date? = nil, playlist: [Playlist]? = nil) {
+        self.id = UUID().uuidString
         self.title = title
         self.artist = artist
         self.album = album

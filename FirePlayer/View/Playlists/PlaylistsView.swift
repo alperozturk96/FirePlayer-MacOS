@@ -12,8 +12,9 @@ struct PlaylistsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
-    @Query
-    private var playlists: [Playlist]
+    var audioPlayer: AudioPlayer
+    
+    @Query private var playlists: [Playlist]
     
     @State private var showAddPlaylist = false
     @State private var playlistText: String = ""
@@ -27,7 +28,7 @@ struct PlaylistsView: View {
                 List {
                     ForEach(playlists) { playlist in
                         NavigationLink {
-                            // PlaylistView(tracks: playlist.tracks)
+                            PlaylistView(audioPlayer: audioPlayer, tracks: playlist.tracks)
                         } label: {
                             Text(playlist.name)
                                 .font(.title)
@@ -39,6 +40,11 @@ struct PlaylistsView: View {
                                     }
                                     .tint(.red)
                                 }
+                        }
+                        .contextMenu {
+                            Button(AppTexts.deletePlaylist) {
+                                modelContext.delete(playlist)
+                            }
                         }
                     }
                 }
@@ -73,17 +79,4 @@ extension PlaylistsView {
             Label(AppTexts.addPlaylistButton, systemImage: AppIcons.addPlaylist)
         }
     }
-}
-
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-      let container = try! ModelContainer(for: Playlist.self, configurations: config)
-
-    let playlists: [Playlist] = .init(arrayLiteral: Playlist(name: "Rock", tracks: .init()),
-                                      Playlist(name: "Slow", tracks: .init()),
-                                      Playlist(name: "Romance", tracks: .init()))
-    
-    
-    return PlaylistsView()
-        .modelContainer(container)
 }

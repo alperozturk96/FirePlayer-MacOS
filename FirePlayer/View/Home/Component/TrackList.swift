@@ -26,6 +26,7 @@ extension HomeView {
         .buttonStyle(.borderless)
         .contextMenu {
             Button(AppTexts.addToPlaylist) {
+                selectedTrackForFileActions = item
                 showAddToPlaylistSheet = true
             }
             Button(AppTexts.saveTrackPosition) {
