@@ -205,7 +205,7 @@ extension HomeView {
     }
     
     private func resetFilteredTracks() {
-        audioPlayer.filteredTracks = audioPlayer.tracks
+        audioPlayer.reset()
         searchText = ""
     }
     

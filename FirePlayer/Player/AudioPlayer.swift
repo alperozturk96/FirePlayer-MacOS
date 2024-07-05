@@ -12,13 +12,13 @@ import Combine
 final class AudioPlayer: ObservableObject {
     static let shared = AudioPlayer()
     
-    let userService = UserService()
+    private let userService = UserService()
     
+    private var tracks = [Track]()
     @Published var prevTrackIndexesStack: [Int] = []
     @Published var filteredTracks = [Track]()
     @Published var playMode: PlayMode = .shuffle
     @Published var selectedTrackIndex: Int = 0
-    @Published var tracks = [Track]()
     
     private init() {
         observePlayerStatus()
@@ -119,23 +119,6 @@ extension AudioPlayer {
             return
         }
         
-        let firstPageTrackCount = 30
-        
-        if urls.count >= firstPageTrackCount {
-            addTracks(Array(urls.prefix(firstPageTrackCount)))
-            addTracks(Array(urls.suffix(from: firstPageTrackCount)))
-        } else {
-            addTracks(urls)
-        }
-        
-        DispatchQueue.main.async {
-            onComplete()
-        }
-        
-        AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
-    }
-    
-    func addTracks(_ urls: [URL]) {
         for url in urls.supportedUrls {
             tracks.append(url.toTrack())
         }
@@ -144,7 +127,10 @@ extension AudioPlayer {
             guard let self else { return }
             self.tracks = self.tracks.sort(.aToZ)
             self.filteredTracks = self.tracks
+            onComplete()
         }
+        
+        AppLogger.shared.info("Total Track Counts: \(filteredTracks.count)")
     }
     
     func search(_ filterOption: FilterOptions, searchText: String) {
@@ -162,6 +148,10 @@ extension AudioPlayer {
         if let prevIndex = prevTrackIndexesStack.last {
             selectedTrackIndex = prevIndex
         }
+    }
+    
+    func reset() {
+        filteredTracks = tracks
     }
     
     @MainActor
