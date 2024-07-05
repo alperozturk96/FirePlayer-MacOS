@@ -24,6 +24,8 @@
 		92524CE42B0A1B9E0091D50B /* PlayerEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE32B0A1B9E0091D50B /* PlayerEvents.swift */; };
 		92524CE62B0A64320091D50B /* CMTimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE52B0A64320091D50B /* CMTimeExtensions.swift */; };
 		92524CE82B0A660D0091D50B /* PlayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92524CE72B0A660D0091D50B /* PlayMode.swift */; };
+		926831EB2C37E4F8009C7E50 /* DeleteAlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926831EA2C37E4F8009C7E50 /* DeleteAlertDialog.swift */; };
+		926831ED2C37E5FA009C7E50 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926831EC2C37E5FA009C7E50 /* TrackList.swift */; };
 		927157C02B0DF62500564B5F /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */; };
 		927157C22B0DFA3200564B5F /* PlaylistsViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */; };
 		929D3C712B826B770032AD45 /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929D3C702B826B770032AD45 /* DataExtensions.swift */; };
@@ -57,6 +59,8 @@
 		92524CE52B0A64320091D50B /* CMTimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTimeExtensions.swift; sourceTree = "<group>"; };
 		92524CE72B0A660D0091D50B /* PlayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayMode.swift; sourceTree = "<group>"; };
 		925D60EF2BACD3A900815871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		926831EA2C37E4F8009C7E50 /* DeleteAlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAlertDialog.swift; sourceTree = "<group>"; };
+		926831EC2C37E5FA009C7E50 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		927157BF2B0DF62500564B5F /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		927157C12B0DFA3200564B5F /* PlaylistsViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewMode.swift; sourceTree = "<group>"; };
 		929D3C702B826B770032AD45 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 		922BA21F2B06101500AC94A3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				926831E92C37E4C7009C7E50 /* Component */,
 				92AC0BF92ACA841E00FB3CA9 /* HomeView.swift */,
 			);
 			path = Home;
@@ -142,6 +147,15 @@
 				92524CDF2B0A19700091D50B /* PlayerMenuBar.swift */,
 			);
 			path = PlayerMenuBar;
+			sourceTree = "<group>";
+		};
+		926831E92C37E4C7009C7E50 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				926831EA2C37E4F8009C7E50 /* DeleteAlertDialog.swift */,
+				926831EC2C37E5FA009C7E50 /* TrackList.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		92AC0BEB2ACA841E00FB3CA9 = {
@@ -312,6 +326,7 @@
 				922BA22F2B08F53000AC94A3 /* MimeTypeUtil.swift in Sources */,
 				92524CDB2B0A066E0091D50B /* FilterOptions.swift in Sources */,
 				92AC0BFA2ACA841E00FB3CA9 /* HomeView.swift in Sources */,
+				926831EB2C37E4F8009C7E50 /* DeleteAlertDialog.swift in Sources */,
 				929D3C712B826B770032AD45 /* DataExtensions.swift in Sources */,
 				92BB99742AD5535100A13648 /* FileUtil.swift in Sources */,
 				922BA2312B08F94C00AC94A3 /* URLExtensions.swift in Sources */,
@@ -335,6 +350,7 @@
 				92524CE22B0A1B600091D50B /* ViewExtensions.swift in Sources */,
 				92524CE82B0A660D0091D50B /* PlayMode.swift in Sources */,
 				922BA2212B06102400AC94A3 /* SeekbarView.swift in Sources */,
+				926831ED2C37E5FA009C7E50 /* TrackList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,13 +12,14 @@ struct HomeView: View {
     
     @StateObject var audioPlayer = AudioPlayer.shared
     
+    @State var playlists: [String: [Int]] = [:]
+    @State var selectedTrackForFileActions: Track?
+    @State var showSeekbar = false
+    @State var showDeleteAlert = false
+    @State var showLoadingIndicator = true
+    
     @State private var selectedFilterOption: FilterOptions = .title
-    @State private var playlists: [String: [Int]] = [:]
-    @State private var selectedTrackForFileActions: Track?
-    @State private var showSeekbar = false
     @State private var showSortOptions = false
-    @State private var showDeleteAlert = false
-    @State private var showLoadingIndicator = true
     @State private var searchText = ""
     @State private var sortOption: SortOptions = .aToZ
     
@@ -99,18 +100,13 @@ struct HomeView: View {
                 }
             }
             .alert(isPresented: $showDeleteAlert) {
-                Alert(
-                    title: Text(AppTexts.deleteAlertTitle),
-                    message: Text(AppTexts.deleteAlertDescription),
-                    primaryButton: .destructive(Text(AppTexts.ok)) {
-                        if let selectedTrackForFileActions {
-                            fileUtil.deleteFile(url: selectedTrackForFileActions.path) {
-                                audioPlayer.filteredTracks.remove(selectedTrackForFileActions)
-                            }
+                DeleteAlertDialog {
+                    if let selectedTrackForFileActions {
+                        fileUtil.deleteFile(url: selectedTrackForFileActions.path) {
+                            audioPlayer.filteredTracks.remove(selectedTrackForFileActions)
                         }
-                    },
-                    secondaryButton: .cancel()
-                )
+                    }
+                }
             }
             .onOpenURL { url in
                 guard let openURLIndex = audioPlayer.filteredTracks.getTrackIndex(url: url) else {
@@ -131,37 +127,6 @@ struct HomeView: View {
 
 // MARK: - ChildViews
 extension HomeView {
-    private func TrackList(proxy: ScrollViewProxy) -> some View {
-        ForEach(Array(audioPlayer.filteredTracks.enumerated()), id: \.offset) { index, item in
-            Button {
-                trackButtonAction(index)
-            } label: {
-                // FIXME highlight is broken when user have result more than one section
-                Text(item.title)
-                    .font(.title)
-                    .foregroundStyle(index == audioPlayer.selectedTrackIndex ? .yellow.opacity(0.8) : .white)
-            }
-            .buttonStyle(.borderless)
-            .contextMenu {
-                NavigationLink {
-                    PlaylistsView(mode: .add, selectedTrackIndex: index, playlists: $playlists, filteredTracks: $audioPlayer.filteredTracks, userService: audioPlayer.userService)
-                } label: {
-                    Text(AppTexts.addToPlaylist)
-                }
-                Button(AppTexts.saveTrackPosition) {
-                    audioPlayer.saveTrackPlaybackPosition(id: item.id)
-                }
-                Button(AppTexts.resetTrackPosition) {
-                    audioPlayer.removeTrackPlaybackPosition(id: item.id)
-                }
-                Button(AppTexts.deleteTrack) {
-                    selectedTrackForFileActions = item
-                    showDeleteAlert = true
-                }
-            }
-        }
-    }
-    
     @ViewBuilder
     private var SeekBar: some View {
         if showSeekbar {
@@ -224,18 +189,6 @@ extension HomeView {
 
 // MARK: - Private Methods
 extension HomeView {
-    private func trackButtonAction(_ index: Int) {
-        audioPlayer.changeIndex(index)
-        
-        if !showSeekbar {
-            showSeekbar = true
-        }
-        
-        if showLoadingIndicator {
-            showLoadingIndicator = false
-        }
-    }
-    
     private func scrollToSelectedTrack(proxy: ScrollViewProxy) {
         withAnimation {
             proxy.scrollTo(audioPlayer.selectedTrackIndex, anchor: .center)
